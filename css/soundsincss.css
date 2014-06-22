@@ -42,12 +42,8 @@ li.dies {
 .a { background-color: #1bc2ff; }
 .b { background-color: #ddaadd; }
 .pressed {
-	background-color: red !important;
-	outline: 1px solid red;
+	background-color: #fff !important;
 }
-/* 7*(7*23) = 1127
-	3*23 = 69
-	1127 + 69 = 1196*/
 label {
 	display: inline-block;
 }
@@ -58,6 +54,7 @@ label {
 .chord {
 	width: 28px;
 	height: 28px;
+	border-radius: 50%;
 	display: inline-block;
 	background: #fcfff4;
 	background: linear-gradient(to top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
@@ -72,6 +69,7 @@ label {
 	padding: 0;
 	width: 20px;
 	height: 20px;
+	border-radius: 50%;
 	left: 4px;
 	top: 4px;
 	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
@@ -81,6 +79,7 @@ label {
 	opacity: 0;
 	content: '';
 	position: absolute;
+	border-radius: 50%;
 	width: 20px;
 	height: 20px;
 	background: #00bf00;
@@ -92,7 +91,7 @@ label {
 .chord input[type=checkbox]:checked + label:after {
 	opacity: 1;
 }
-/*
+
 input[type=range] {
 	-webkit-appearance: none;
 	appearance: none;
@@ -117,82 +116,6 @@ input[type=range]::-webkit-slider-thumb {
 	width: 24px;
 	height: 24px;
 }
-*/
-
-#volumeSlider {
-	width: 400px;
-	height: 30px;
-	position: relative;
-	margin: 100px auto;
-	background: #eee;
-	border-radius: 40px;
-	box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.4);
-}
-
-#volumeSlider .bar {
-	width: 388px;
-	height: 5px;
-	position: relative;
-	top: 4px;
-	left: 4px;
-	background: #456;
-	border-radius: 3px;
-}
-
-input[type="range"] {
-	-webkit-appearance: none;
-	appearance: none;
-	background-color: black;
-	height: 5px;
-	border-radius: 3px;
-	background: #456;
-} 
-input[type="range"]:focus { outline: none; }
-
-input[type="range"]::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	appearance: none;
-	position: relative;
-	top: -2px;
-	width: 24px;
-	height: 24px;
-	cursor: pointer;
-	box-shadow: 0px 4px 5px rgba(0,0,0,0.6);
-	border-radius: 40px;
-	background: linear-gradient(to top, #aab 50%, #eee 100%);
-}
-
-input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue {
-	opacity: 1;
-	top: -75px;
-}
-
-/* Tool Tip */
-#rangevalue {
-	color: white;
-	font-size: 10px;
-	text-align: center;
-	font-family:  Arial, sans-serif;
-	display: block;
-	color: #fff;
-	margin: 20px 0;
-	position: relative;
-	left: 44.5%;
-	padding: 6px 12px;
-	border: 1px solid black;
-	box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 0.2), 0px 2px 4px 0px rgba(0,0,0,0.4);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#222931), color-stop(100%,#181D21));
-
-	border-radius: 20px;
-	width: 18px;
-	opacity: 0;
-	transition: all 0.5s ease;
-	top: -95px;
-}
-
-
-
-
 
 #frequencyRange {
     width: 90%;
@@ -200,6 +123,14 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 
 #frequencyDisplay {
     width: 70px;
+    border-radius: 1em;
+    text-align: center;
+}
+
+button {
+	background: #eee;
+	border: 1px solid #ccc;
+    border-radius: 1em;	
 }
 
 summary {
