@@ -1,0 +1,212 @@
+body, ol, li{
+	margin: 0;
+	padding: 0;
+}
+#keyboard {
+	width: 1198px;
+	margin: 0 auto;
+}
+#wraper {
+	width: 100%;
+	overflow: auto;
+	text-align: center;
+}
+ol {
+	margin:0;
+	padding:0;
+	display: inline-block;
+	position: relative;
+	-webkit-user-select: none;
+	user-select: none;
+}
+li {
+	display: inline-block;
+	margin:0;
+	padding: 120px 0 0 0;
+	list-style-type: none;
+	width: 23px;
+}
+li.dies {
+	width: 7px;
+	box-shadow: -7px 0 black;
+	background-color: black;
+	position: absolute;
+	top: -50PX;
+	color: white;
+}
+.c { background-color: #ffaabb; }
+.d { background-color: #f8d3b2; }
+.e { background-color: #e6d690; }
+.f { background-color: #b9e5b6; }
+.g { background-color: #b6effb; }
+.a { background-color: #1bc2ff; }
+.b { background-color: #ddaadd; }
+.pressed {
+	background-color: red !important;
+	outline: 1px solid red;
+}
+/* 7*(7*23) = 1127
+	3*23 = 69
+	1127 + 69 = 1196*/
+label {
+	display: inline-block;
+}
+#majorThird, #perfectFifth, #minorChord {
+	display: none;
+}
+
+.chord {
+	width: 28px;
+	height: 28px;
+	display: inline-block;
+	background: #fcfff4;
+	background: linear-gradient(to top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	margin: 5px;
+	box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	position: relative;
+}
+.chord label {
+	cursor: pointer;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	width: 20px;
+	height: 20px;
+	left: 4px;
+	top: 4px;
+	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+	background: linear-gradient(to top, #fff 0%, #b5b8bd 100%);
+}
+.chord label:after {
+	opacity: 0;
+	content: '';
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background: #00bf00;
+	background: linear-gradient(to top, #10bf20 0%, #109420 100%);
+}
+.chord label:hover::after {
+	opacity: 0.3;
+}
+.chord input[type=checkbox]:checked + label:after {
+	opacity: 1;
+}
+/*
+input[type=range] {
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: silver;
+	border-top-left-radius: 50%;
+	border-bottom-left-radius: 50%;
+	width: 200px;
+	height:8px;
+}
+input[type="range"]:focus {
+	outline: none;
+	background-color: #999;
+}
+
+input[type=range]::-webkit-slider-thumb {
+	 -webkit-appearance: none;
+	appearance: none;
+	border-radius: 50%;
+	box-shadow:0 3px 5px #000;
+	background-color: #aaa;
+	background: linear-gradient(to top, #aab 0%, #eee 100%);
+	width: 24px;
+	height: 24px;
+}
+*/
+
+#volumeSlider {
+	width: 400px;
+	height: 30px;
+	position: relative;
+	margin: 100px auto;
+	background: #eee;
+	border-radius: 40px;
+	box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+#volumeSlider .bar {
+	width: 388px;
+	height: 5px;
+	position: relative;
+	top: 4px;
+	left: 4px;
+	background: #456;
+	border-radius: 3px;
+}
+
+input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: black;
+	height: 5px;
+	border-radius: 3px;
+	background: #456;
+} 
+input[type="range"]:focus { outline: none; }
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	position: relative;
+	top: -2px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	box-shadow: 0px 4px 5px rgba(0,0,0,0.6);
+	border-radius: 40px;
+	background: linear-gradient(to top, #aab 50%, #eee 100%);
+}
+
+input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue {
+	opacity: 1;
+	top: -75px;
+}
+
+/* Tool Tip */
+#rangevalue {
+	color: white;
+	font-size: 10px;
+	text-align: center;
+	font-family:  Arial, sans-serif;
+	display: block;
+	color: #fff;
+	margin: 20px 0;
+	position: relative;
+	left: 44.5%;
+	padding: 6px 12px;
+	border: 1px solid black;
+	box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 0.2), 0px 2px 4px 0px rgba(0,0,0,0.4);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#222931), color-stop(100%,#181D21));
+
+	border-radius: 20px;
+	width: 18px;
+	opacity: 0;
+	transition: all 0.5s ease;
+	top: -95px;
+}
+
+
+
+
+
+#frequencyRange {
+    width: 90%;
+}
+
+#frequencyDisplay {
+    width: 70px;
+}
+
+summary {
+	cursor: pointer;
+}
+
+#cnv {
+	margin: 0 auto;
+	display: block;
+}
