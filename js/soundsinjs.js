@@ -201,10 +201,6 @@ function drawSin(freq, freq2, freq3) {
 		if (fifth) result += Math.sin(r3 * i);
 		ctx.lineTo(i, (1- result / divider) * amplitude);
 	}
-
-	for (i = 0; i <= cnv.width; i += 1) {
-		
-	}
 	ctx.stroke();
 
 	if (third || fifth) {
@@ -262,6 +258,8 @@ function stopRange(event) {
 
 cnv.width = document.body.clientWidth - 20;
 cnv.height = 256;
+duration = cnv.width*0.00003;
+
 
 
 keyboard.addEventListener('mousedown', play, false);
