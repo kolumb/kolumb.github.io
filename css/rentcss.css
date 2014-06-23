@@ -1,0 +1,49 @@
+input {
+  text-align: right;
+}
+input:hover {
+    background-color: #eee;
+}
+
+input:focus {
+    background-color: #ddf;
+}
+input:invalid {
+    outline: 2px solid #f98;
+    color: white;
+    background: maroon;
+}
+
+table {
+    width: 100%;
+}
+
+tr:hover {
+    background-color: #fdf5fd;  
+}
+
+td, th {
+    text-align: center;
+    /*width: 33%;*/
+    padding: 5px;
+}
+
+.toUpdate {
+    outline: 4px solid #b9b;
+}
+
+.hot {
+    background: #fee;
+}
+.cold {
+    background: #eef;
+
+}
+.electr {
+    background: #ffd;
+
+}
+
+.total {    
+    background: #f5fbf5;
+}
