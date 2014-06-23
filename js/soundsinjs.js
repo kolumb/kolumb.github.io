@@ -243,7 +243,7 @@ function playRange(event) {
 	}
 	if (event.target.type === "range"){
 		rangeOscillator.frequency.value = frequencyRange.value;
-		frequencyDisplay.value = frequencyRange.value + " Гц";
+		frequencyDisplay.value = frequencyRange.value + " Р“С†";
 	} else {
 		rangeOscillator.frequency.value = parseFloat(frequencyDisplay.value);
 		frequencyRange.value = parseFloat(frequencyDisplay.value);
