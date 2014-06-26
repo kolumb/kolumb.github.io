@@ -3,8 +3,8 @@ var oscillator;
 var oscillator2;
 var oscillator3;
 var gainNode = context.createGain();
-		gainNode.connect(context.destination);
-		gainNode.gain.value = 0.04;
+gainNode.connect(context.destination);
+gainNode.gain.value = 0.04;
 var rangeOscillator;
 
 var keyboard = document.getElementById('keyboard');
@@ -54,9 +54,9 @@ var nodes = [];
 var waveTable = [];
 
 var buttons = [];
-		for (var i = 1; i <= 88; i++) {
-			buttons[i] = document.getElementById(i);
-		};
+for (var i = 1; i <= 88; i++) {
+	buttons[i] = document.getElementById(i);
+};
 
 window.addEventListener('load', function(e) {
 	var decodeMessage, midiMessageReceived, synth;
@@ -66,6 +66,13 @@ window.addEventListener('load', function(e) {
 		channel = msg.data[0] & 0xf;
 		note = msg.data[1];
 		vel = msg.data[2];
+		if (msg.shiftKey) {
+			minorChord.checked = true;
+			minor = -1;
+		} else {
+			minorChord.checked = false;
+			minor = 0;
+		}
 		if (cmd === 9) {
 			play(null, note - 20);
 		}
@@ -95,14 +102,6 @@ function play(event, keynumber) {
 	}
 	third = false;
 	fifth = false;
-	minor = 0;
-	if (window.event.shiftKey) {
-		minorChord.checked = true;
-		minor = -1;
-	} else {
-		minorChord.checked = false;
-		minor = 0;
-	}
 
 	//update	
 	gainNode.gain.value = volume.value / 100;
@@ -128,8 +127,8 @@ function play(event, keynumber) {
 		oscillator3.connect(gainNode);
 	}
 
-	
-	
+
+
 	buttons[keynumber].classList.add("pressed");
 
 	frequency = keys[keynumber];
@@ -199,7 +198,7 @@ function drawSin(freq, freq2, freq3) {
 		result = Math.sin(r1 * i);
 		if (third) result += Math.sin(r2 * i);
 		if (fifth) result += Math.sin(r3 * i);
-		ctx.lineTo(i, (1- result / divider) * amplitude);
+		ctx.lineTo(i, (1 - result / divider) * amplitude);
 	}
 	ctx.stroke();
 
@@ -207,8 +206,8 @@ function drawSin(freq, freq2, freq3) {
 		ctx.strokeStyle = "rgba(150,0,0,0.3)";
 		ctx.beginPath();
 		ctx.moveTo(0, amplitude);
-		for (i = 0; i <= cnv.width; i ++) {
-			ctx.lineTo(i, amplitude - Math.sin(r1 * i) * amplitude / divider );
+		for (i = 0; i <= cnv.width; i++) {
+			ctx.lineTo(i, amplitude - Math.sin(r1 * i) * amplitude / divider);
 		}
 		ctx.stroke();
 	}
@@ -217,8 +216,8 @@ function drawSin(freq, freq2, freq3) {
 		ctx.strokeStyle = "rgba(0,150,0,0.3)";
 		ctx.beginPath();
 		ctx.moveTo(0, amplitude);
-		for (i = 0; i <= cnv.width; i ++) {
-			ctx.lineTo(i, amplitude - Math.sin(r2 * i) * amplitude / divider );
+		for (i = 0; i <= cnv.width; i++) {
+			ctx.lineTo(i, amplitude - Math.sin(r2 * i) * amplitude / divider);
 		}
 		ctx.stroke();
 	}
@@ -227,23 +226,23 @@ function drawSin(freq, freq2, freq3) {
 		ctx.strokeStyle = "rgba(0,0,150,0.3)";
 		ctx.beginPath();
 		ctx.moveTo(0, amplitude);
-		for (i = 0; i <= cnv.width; i ++) {
-			ctx.lineTo(i, amplitude - Math.sin(r3 * i) * amplitude / divider );
+		for (i = 0; i <= cnv.width; i++) {
+			ctx.lineTo(i, amplitude - Math.sin(r3 * i) * amplitude / divider);
 		}
 		ctx.stroke();
 	}
 }
 
-function playRange(event) {	
-	if(!rangeOscillator) {
+function playRange(event) {
+	if (!rangeOscillator) {
 		rangeOscillator = context.createOscillator();
 		rangeOscillator.type = 0;
 		rangeOscillator.connect(gainNode);
 		rangeOscillator.start(0);
 	}
-	if (event.target.type === "range"){
+	if (event.target.type === "range") {
 		rangeOscillator.frequency.value = frequencyRange.value;
-		frequencyDisplay.value = frequencyRange.value + " Р“С†";
+		frequencyDisplay.value = frequencyRange.value + " Гц";
 	} else {
 		rangeOscillator.frequency.value = parseFloat(frequencyDisplay.value);
 		frequencyRange.value = parseFloat(frequencyDisplay.value);
@@ -258,15 +257,21 @@ function stopRange(event) {
 
 cnv.width = document.body.clientWidth - 20;
 cnv.height = 256;
-duration = cnv.width*0.00003;
+duration = cnv.width * 0.00003;
 
 
 
 keyboard.addEventListener('mousedown', play, false);
 keyboard.addEventListener('mouseup', stop, false);
-frequencyRange.addEventListener('change',playRange,false);
-buttonStart.addEventListener('click',playRange,false);
-buttonStop.addEventListener('click',stopRange,false);
-volume.addEventListener('change',function() {
-	gainNode.gain.value = volume.value/100;
+frequencyRange.addEventListener('change', playRange, false);
+buttonStart.addEventListener('click', playRange, false);
+buttonStop.addEventListener('click', stopRange, false);
+volume.addEventListener('change', function() {
+	gainNode.gain.value = volume.value / 100;
+}, false);
+
+var keyboardspoiler = document.getElementById("keyboardspoiler");
+var keyboardinfo = document.getElementById("keyboardinfo");
+keyboardspoiler.addEventListener('click', function(event){
+	keyboardinfo.classList.toggle("show");
 }, false);

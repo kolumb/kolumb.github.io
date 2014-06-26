@@ -93,6 +93,20 @@ label {
 	opacity: 1;
 }
 
+#keyboardspoiler {
+	cursor: help;
+}
+#keyboardinfo {
+	display: none;
+	text-align: center;
+}
+#keyboardinfo.show{
+	display: block;
+}
+#keyboardimage {
+	width: 100%;
+}
+
 input[type=range] {
 	-webkit-appearance: none;
 	appearance: none;
@@ -139,10 +153,6 @@ button:focus {
 	border-color: #999;
 }
 
-summary {
-	cursor: pointer;
-}
-
 #cnv {
 	margin: 0 auto;
 	display: block;
@@ -156,8 +166,8 @@ summary {
 		text-align: center;
 	}
 
-#keyboard {
-	width: auto;
-	margin: 0 auto;
-}
+	#keyboard {
+		width: auto;
+		margin: 0 auto;
+	}
 }

@@ -74,7 +74,8 @@
     // Package the message
     var msg = {
       data: data,
-      timestamp: 0
+      timestamp: 0,
+      shiftKey: e.shiftKey
     };
 
     // Send it

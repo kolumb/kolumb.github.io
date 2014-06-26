@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="120"
-   height="140"
+   width="45"
+   height="61"
    id="svg3787"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="github2.svg">
+   sodipodi:docname="facebook.svg">
   <defs
      id="defs3789" />
   <sodipodi:namedview
@@ -26,7 +26,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="4.50877"
      inkscape:cx="34.002957"
-     inkscape:cy="71.654357"
+     inkscape:cy="20.654358"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -47,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,7 +55,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-55.998853,-505.33939)">
+     transform="translate(-55.998853,-584.3394)">
     <path
        sodipodi:type="star"
        style="fill:#3b5998;fill-opacity:1;stroke:none"
@@ -71,11 +71,11 @@
        inkscape:rounded="0"
        inkscape:randomized="0"
        d="M 282.85715,213.82925 509.71545,378.65146 423.06328,645.33938 142.651,645.33937 55.998853,378.65145 z"
-       inkscape:transform-center-y="6.0243416"
-       transform="matrix(0.26448228,0,0,-0.26448228,41.188149,701.89344)" />
+       inkscape:transform-center-y="2.2591266"
+       transform="matrix(0.09918086,0,0,-0.09918086,50.444839,666.54716)" />
     <path
        inkscape:connector-curvature="0"
-       d="m 133.78496,637.54951 0,-36.30493 12.18642,0 1.82446,-14.14893 -14.01088,0 0,-9.03347 c 0,-4.09644 1.1374,-6.88794 7.01194,-6.88794 l 7.49247,-0.004 0,-12.65465 c -1.29617,-0.17213 -5.74352,-0.55747 -10.91765,-0.55747 -10.80243,0 -18.1976,6.59358 -18.1976,18.70272 l 0,10.43431 -12.21733,0 0,14.14893 12.21733,0 0,42.73684 14.61084,-6.43191 z"
+       d="m 85.168644,642.41819 0,-13.61435 4.569907,0 0.684173,-5.30585 -5.25408,0 0,-3.38755 c 0,-1.53617 0.426525,-2.58298 2.629477,-2.58298 l 2.809676,-10e-4 0,-4.74549 c -0.486063,-0.0646 -2.15382,-0.20906 -4.094118,-0.20906 -4.050912,0 -6.8241,2.4726 -6.8241,7.01352 l 0,3.91287 -4.581499,0 0,5.30585 4.581499,0 0,16.02631 5.479065,-2.41196 z"
        style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="path3049"
        sodipodi:nodetypes="cccccscccssccccccc" />

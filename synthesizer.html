@@ -7,7 +7,7 @@
 		<meta name="description" content="Портфолио. Веб-приложения, трёхмерная граффика и илюстрации.">
 		<meta name="author" content="Данил Колумбет / Web Designer &amp; Front End Developer">
     	<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="css/soundsincss.css">
+		<link rel="stylesheet" href="css/synthesizer.css">
 	</head>
 	<body>
 	<div id="wraper">
@@ -137,10 +137,17 @@
 	</div>
 	<label for="volume">Громкость:</label>
 	<input id="volume" type="range" value="4" min="0" max="100" step="2">
-	<details>
-	<summary>Раскладка клавиатуры</summary>
-	<img src="images/keyboard.svg" alt="Раскладка клавиатуры" id="keyboardinfo">
-	</details>
+	<span id="keyboardspoiler">Раскладка клавиатуры</span>
+	<div id="keyboardinfo">
+		<img src="images/keyboard.svg" alt="Раскладка клавиатуры" id="keyboardimage">
+		<p>Для минорного аккорда зажмите Shift.</p>
+	</div><!-- 
+
+	<img src="images/treble-clef.svg" alt="Скрипичный ключ" id="trebleclef">
+	<img src="images/note.svg" alt="нота" id="note1">
+	<img src="images/note.svg" alt="терция" id="note2">
+	<img src="images/note.svg" alt="квинта" id="note3">
+ -->
 	<canvas id='cnv'></canvas>
 	<label for="frequencyRange">Частота:</label>
 	<input id="frequencyRange" type="range" value="440" min="0" max="1000" step="1">
@@ -162,6 +169,6 @@
     </nav>
 </footer>
 	<script src="js/midikeys.js"></script>
-	<script src="js/soundsinjs.js"></script>
+	<script src="js/synthesizer.js"></script>
 	</body>
 </html>
