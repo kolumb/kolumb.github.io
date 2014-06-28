@@ -137,17 +137,28 @@
 	</div>
 	<label for="volume">Громкость:</label>
 	<input id="volume" type="range" value="4" min="0" max="100" step="2">
-	<span id="keyboardspoiler">Раскладка клавиатуры</span>
+	<button id="keyboardspoiler">Раскладка клавиатуры</button>
 	<div id="keyboardinfo">
 		<img src="images/keyboard.svg" alt="Раскладка клавиатуры" id="keyboardimage">
-		<p>Для минорного аккорда зажмите Shift.</p>
-	</div><!-- 
-
-	<img src="images/treble-clef.svg" alt="Скрипичный ключ" id="trebleclef">
-	<img src="images/note.svg" alt="нота" id="note1">
-	<img src="images/note.svg" alt="терция" id="note2">
-	<img src="images/note.svg" alt="квинта" id="note3">
- -->
+		<p><strong>Для минорного аккорда зажмите Shift.</strong></p>
+	</div>
+	<div class="stave">
+		<img src="images/treble-clef.svg" alt="Скрипичный ключ" id="trebleclef" width="59" height="115">
+		<img src="images/note.svg" class="note" alt="нота" id="note1" width="31" height="62">
+		<img src="images/note.svg" class="note" alt="терция" id="note2" width="31" height="62">
+		<img src="images/note.svg" class="note" alt="квинта" id="note3" width="31" height="62">
+		<hr />
+		<hr />
+		<hr />
+		<hr />
+		<hr />
+		<hr class="additional"/>		
+		<hr />
+		<hr />
+		<hr />
+		<hr />
+		<hr />
+	</div>
 	<canvas id='cnv'></canvas>
 	<label for="frequencyRange">Частота:</label>
 	<input id="frequencyRange" type="range" value="440" min="0" max="1000" step="1">
