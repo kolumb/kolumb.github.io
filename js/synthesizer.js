@@ -12,27 +12,31 @@ var majorThird = document.getElementById('majorThird');
 var perfectFifth = document.getElementById('perfectFifth');
 var minorChord = document.getElementById('minorChord');
 var volume = document.getElementById('volume');
-var note1 = document.getElementById('note1');
-var note2 = document.getElementById('note2');
-var note3 = document.getElementById('note3');
-var dies1 = document.getElementById('dies1');
-var dies2 = document.getElementById('dies2');
-var dies3 = document.getElementById('dies3');
+var graphnote = [];
+graphnote[0] = document.getElementById('note1');
+graphnote[1] = document.getElementById('note2');
+graphnote[2] = document.getElementById('note3');
+graphnote[3] = graphnote[0];
+graphnote[4] = graphnote[1];
+var graphdies = [];
+graphdies[0] = document.getElementById('dies1');
+graphdies[1] = document.getElementById('dies2');
+graphdies[2] = document.getElementById('dies3');
+graphdies[3] = graphdies[0];
+graphdies[4] = graphdies[1];
 var frequencyRange = document.getElementById('frequencyRange');
 var frequencyDisplay = document.getElementById('frequencyDisplay');
 var buttonStop = document.getElementById('buttonStop');
 var cursorClick = 0;
 var cnv = document.getElementById('cnv');
 var ctx = cnv.getContext('2d');
-
-var third = false;
-var fifth = false;
 var minor = 0;
 var duration = 0.03; //canvas seconds;
 var amplitude;
 var divider;
 var result = 27.5;
-var frequencies = [100];
+var plaingnotes = [];
+var frequencies = [];
 frequencies[0] = 0;
 frequencies[1] = 27.5;
 var multiplier = Math.pow(2, 1 / 12);
@@ -42,42 +46,49 @@ for (var i = 2; i < 100; i++) {
 }
 var notes = {};
 for (var i = 1; i < 100; i++) {
-	register[i] = {};
-	note = notes[i];
-	note.frequency = frequencies[i];
-	note.octave = Math.floor((i + 8) / 12);
-	note.octavekey = (i + 8) % 12;
-	note.dies = false;
-	if (note.octavekey===1 || 
-		note.octavekey===3 || 
-		note.octavekey===6 || 
-		note.octavekey===8 || 
-		note.octavekey===10) {
-		note.dies = true;
+	plaingnotes[i] = false;
+	notes[i] = {
+		frequency : frequencies[i],
+		octave : Math.floor((i + 8) / 12),
+		octavekey : (i + 8) % 12,
+		dies : false,
+		plaing : false,
+		button : document.getElementById(i),
+		shift : Math.round(((i + 8) % 12 + 1.5) * .54545454)/2,
+		play : function () {
+			if(!this.plaing){
+				this.oscillator = context.createOscillator();
+				this.plaing = true;
+				this.oscillator.type = 0;
+				this.oscillator.connect(gainNode);
+				this.oscillator.frequency.value = this.frequency;
+				this.oscillator.start(0);
+				this.button.classList.add("pressed");
+			}
+		},
+		stop : function () {
+			if (this.plaing)	{
+				this.plaing = false;
+				this.button.classList.remove("pressed");
+				this.oscillator.disconnect();			
+			}
+		}
+	};
+	if (notes[i].octavekey===1 || 
+		notes[i].octavekey===3 || 
+		notes[i].octavekey===6 || 
+		notes[i].octavekey===8 || 
+		notes[i].octavekey===10) {
+		notes[i].dies = true;
 	}else{
-		note.dies = false;
+		notes[i].dies = false;
 	}
 }
-console.log(register["0"]);
-console.log(register["1"]);
-console.log(register["2"]);
-var plaingKeys = [88];
-var frequency;
-var frequency2;
-var frequency3;
-var octave = 0;
-var data;
-var r1 = 0;
-var r2 = 0;
-var r3 = 0;
+var note;
+var lastnote = 2;
+var wavetable = [];
 var minor;
-var nodes = [];
-var waveTable = [];
 
-var buttons = [];
-for (var i = 1; i <= 88; i++) {
-	buttons[i] = document.getElementById(i);
-};
 
 window.addEventListener('load', function(e) {
 	var decodeMessage, midiMessageReceived, synth;
@@ -87,13 +98,8 @@ window.addEventListener('load', function(e) {
 		channel = msg.data[0] & 0xf;
 		note = msg.data[1];
 		vel = msg.data[2];
-		if (msg.shiftKey) {
-			minorChord.checked = true;
-			minor = -1;
-		} else {
-			minorChord.checked = false;
-			minor = 0;
-		}
+		minorChord.checked = msg.shiftKey ? true : false;
+		minor = msg.shiftKey ? -1 : 0;
 		if (cmd === 9) {
 			play(null, note - 32);
 		}
@@ -115,173 +121,107 @@ window.addEventListener('load', function(e) {
 });
 
 function play(event, keynumber) {
-
-	//init
 	if (event) {
-		keynumber = Number(event.target.dataset.key);
-		if (event.shiftKey) {
-			minorChord.checked = true;
-			minor = -1;
-		} else {
-			minorChord.checked = false;
-			minor = 0;
-		}
-		cursorClick = keynumber;
+		cursorClick = keynumber = Number(event.target.dataset.key);
 		if (isNaN(keynumber)) return;
+		minorChord.checked = event.shiftKey ? true : false;
+		minor = event.shiftKey ? -1 : 0;
 	}
-	third = false;
-	fifth = false;
-	frequency = frequencies[keynumber];
-	frequencyDisplay.value = frequency;
-	frequencyRange.value = frequency;
+	note = notes[keynumber];
+	note.play();
+	graphnotes(note);
+	plaingnotes[keynumber] = true;
 
-	//update		
-	buttons[keynumber].classList.add("pressed");
+	frequencyDisplay.value = note.frequency;
+	frequencyRange.value = note.frequency;
 	gainNode.gain.value = volume.value / 100;
 
-	//create
-	oscillator = context.createOscillator();
-	//registrate
-	nodes[keynumber] = oscillator;
-	plaingKeys[keynumber] = oscillator;
-	//configure
-	octave = Math.floor((keynumber + 8) / 12);
-	octavekey = (keynumber + 8) % 12;
-	adder = octavekey > 4 ? 1 : 0;
-	adder = octavekey === 11 ? 2 : adder;
-	shift = Math.floor((octavekey + adder) * .5) / 2;
-	// 0 1 2 3 4 5 6 7 8 9 10 11
-	// 0 0 1 1 2 3 3 4 4 5 5  6
-	if (shift !== 0) {
-		dies1.style.visibility = "visible";
-		dies1.style.left = (octave * 10.5 + octavekey * .86) - 8.1 + 'em';
-		dies1.style.top = (23.1 - octave * 3.5 - shift) + 'em';
-	} else {
-		dies1.style.visibility = "hidden";
-	}
-
-	note1.style.left = (octave * 10.5 + octavekey * .86) - 7.5 + 'em';
-	note1.style.top = (20.5 - octave * 3.5 - shift) + 'em';
-
-	oscillator.type = 0;
-	oscillator.connect(gainNode);
-	oscillator.frequency.value = frequency;
-	oscillator.start(0);
-
 	if (majorThird.checked) {
-		oscillator2 = context.createOscillator();
-		oscillator2.type = 0;
-		oscillator2.connect(gainNode);
-		third = true;
-		buttons[keynumber + 4 + minor].classList.add("pressed");
-		frequency2 = frequencies[keynumber + 4 + minor];
-		oscillator2.frequency.value = frequency2;
-		oscillator2.start(0);
-		plaingKeys[keynumber + 4 + minor] = oscillator;
-
-
-		octave = Math.floor((keynumber + 12 + minor) / 12);
-		octavekey = (keynumber + 12 + minor) % 12;
-		adder = octavekey > 4 ? 1 : 0;
-		adder = octavekey === 11 ? 2 : adder;
-		shift = Math.floor((octavekey + adder) * .5) / 2;
-		note2.style.left = (octave * 10.5 + octavekey * .86) - 7.5 + 'em';
-		note2.style.top = (20.5 - octave * 3.5 - shift) + 'em';
+		notes[keynumber + 4 + minor].play();
+		graphnotes(notes[keynumber + 4 + minor]);
+		plaingnotes[keynumber + 4 + minor] = true;
 	}
 
 	if (perfectFifth.checked) {
-		oscillator3 = context.createOscillator();
-		oscillator3.type = 0;
-		oscillator3.connect(gainNode);
-		fifth = true;
-		buttons[keynumber + 7].classList.add("pressed");
-		frequency3 = frequencies[keynumber + 7];
-		oscillator3.frequency.value = frequency3;
-		oscillator3.start(0);
-		plaingKeys[keynumber + 7] = oscillator;
-
-		octave = Math.floor((keynumber + 15) / 12);
-		octavekey = (keynumber + 15) % 12;
-		adder = octavekey > 4 ? 1 : 0;
-		adder = octavekey === 11 ? 2 : adder;
-		shift = Math.floor((octavekey + adder) * .5) / 2;
-		note3.style.left = (octave * 10.5 + octavekey * .86) - 7.5 + 'em';
-		note3.style.top = (20.5 - octave * 3.5 - shift) + 'em';
+		notes[keynumber + 7].play();
+		graphnotes(notes[keynumber + 7]);
+		plaingnotes[keynumber + 7] = true;
 	}
 
-	drawSin(frequency, frequency2, frequency3);
+	drawSin();
+}
+
+function graphnotes(note) {
+	if (++lastnote > 2) lastnote = 0;
+	graphnote[lastnote].style.left = (note.octave * 10.5 + note.octavekey * .86) - 7.5 + 'em';
+	graphnote[lastnote].style.top = (20.5 - note.octave * 3.5 - note.shift) + 'em';
+	if (note.dies) {
+		graphdies[lastnote].style.visibility = "visible";
+		graphdies[lastnote].style.left = (note.octave * 10.5 + note.octavekey * .86) - 8.1 + 'em';
+		graphdies[lastnote].style.top = (23.1 - note.octave * 3.5 - note.shift) + 'em';
+	} else {
+		graphdies[lastnote].style.visibility = "hidden";
+	}
 }
 
 function stop(event, note) {
-	oscillator.disconnect();
-	if (event !== null) note = cursorClick; //Number(event.target.dataset.key);
+	if (event !== null) {
+		note = cursorClick;
+	}
 	if (note) {
-		buttons[note].classList.remove("pressed");
-		nodes[note].disconnect();
+		plaingnotes[note] = false;
+		notes[note].stop();
 		if (majorThird.checked) {
-			buttons[note + 4 + minor].classList.remove("pressed");
-			oscillator2.disconnect();
+			notes[note + 4 + minor].stop();
+			plaingnotes[note + 4 + minor] = false;
 		}
 		if (perfectFifth.checked) {
-			buttons[note + 7].classList.remove("pressed");
-			oscillator3.disconnect();
+			notes[note + 7].stop();	
+			plaingnotes[note + 7] = false;
 		}
 	}
 }
 
-function drawSin(freq, freq2, freq3) {
+function drawSin() {
 	amplitude = cnv.height / 2;
-	divider = 1;
-	r2 = r3 = 0;
-	result = 0;
+	divider = 0;
+	
+	//r2 = r3 = 0;
+	//result = 0;
 	ctx.clearRect(0, 0, cnv.width, cnv.height);
 
-	ctx.strokeStyle = "rgba(0,0,0,1)";
-	ctx.beginPath();
-	ctx.moveTo(0, amplitude);
-	r1 = Math.PI * 2 * freq * duration / cnv.width;
-	if (third) {
-		r2 = Math.PI * 2 * freq2 * duration / cnv.width;
-		divider++;
-	}
-	if (fifth) {
-		r3 = Math.PI * 2 * freq3 * duration / cnv.width;
-		divider++;
-	}
-	for (i = 0; i <= cnv.width; i++) {
-		result = Math.sin(r1 * i);
-		if (third) result += Math.sin(r2 * i);
-		if (fifth) result += Math.sin(r3 * i);
-		ctx.lineTo(i, (1 - result / divider) * amplitude);
-	}
-	ctx.stroke();
-
-	if (third || fifth) {
-		ctx.strokeStyle = "rgba(150,0,0,0.3)";
-		ctx.beginPath();
-		ctx.moveTo(0, amplitude);
-		for (i = 0; i <= cnv.width; i++) {
-			ctx.lineTo(i, amplitude - Math.sin(r1 * i) * amplitude / divider);
+	for (var j = 1; j<100; j++) {
+		if(plaingnotes[j]) {
+			divider++;
 		}
-		ctx.stroke();
 	}
-
-	if (third) {
-		ctx.strokeStyle = "rgba(0,150,0,0.3)";
-		ctx.beginPath();
-		ctx.moveTo(0, amplitude);
-		for (i = 0; i <= cnv.width; i++) {
-			ctx.lineTo(i, amplitude - Math.sin(r2 * i) * amplitude / divider);
+	if(divider > 1){
+		for (i = 0; i <= cnv.width; i++) {			
+			wavetable[i] = 0;
 		}
-		ctx.stroke();
 	}
-
-	if (fifth) {
-		ctx.strokeStyle = "rgba(0,0,150,0.3)";
+	for (var j = 1; j<100; j++) {
+		if(plaingnotes[j]) {
+			ctx.strokeStyle = "rgba(0,0," + Math.floor(j*2+50) + ",1)";
+			ctx.beginPath();
+			ctx.moveTo(0, amplitude);
+			r1 = Math.PI * 2 * notes[j].frequency * duration / cnv.width;
+			for (i = 0; i <= cnv.width; i++) {	
+				result = Math.sin(r1 * i);		
+				if(divider > 1){
+					wavetable[i] +=result;
+				}
+				ctx.lineTo(i, (1 - result / divider) * amplitude);
+			}
+			ctx.stroke();
+		}
+	}
+	if(divider > 1){
+		ctx.strokeStyle = "rgba(200,0,50,1)";
 		ctx.beginPath();
 		ctx.moveTo(0, amplitude);
-		for (i = 0; i <= cnv.width; i++) {
-			ctx.lineTo(i, amplitude - Math.sin(r3 * i) * amplitude / divider);
+		for (i = 0; i <= cnv.width; i++) {	
+			ctx.lineTo(i, (1 - wavetable[i] / divider) * amplitude);
 		}
 		ctx.stroke();
 	}
@@ -304,7 +244,6 @@ function playRange(event) {
 }
 
 function stopRange(event) {
-	//rangeOscillator.stop(0);
 	rangeOscillator.disconnect();
 	rangeOscillator = null;
 }
@@ -322,10 +261,4 @@ buttonStart.addEventListener('click', playRange, false);
 buttonStop.addEventListener('click', stopRange, false);
 volume.addEventListener('change', function() {
 	gainNode.gain.value = volume.value / 100;
-}, false);
-
-var keyboardspoiler = document.getElementById("keyboardspoiler");
-var keyboardinfo = document.getElementById("keyboardinfo");
-keyboardspoiler.addEventListener('click', function(event) {
-	keyboardinfo.classList.toggle("show");
 }, false);

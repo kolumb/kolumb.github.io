@@ -50,6 +50,14 @@ li.dies {
 .pressed {
 	background-color: #fff !important;
 }
+.shortcuts {
+	margin-left: 30.2em;
+	font-family: monospace;
+	letter-spacing: 1.23em;
+}
+.diesshort {
+	margin-left: .9em;
+}
 label {
 	display: inline-block;
 }
@@ -95,20 +103,6 @@ label {
 }
 .chord input[type=checkbox]:checked + label:after {
 	opacity: 1;
-}
-
-#keyboardspoiler {
-	cursor: help;
-}
-#keyboardinfo {
-	display: none;
-	text-align: center;
-}
-#keyboardinfo.show{
-	display: block;
-}
-#keyboardimage {
-	width: 100%;
 }
 
 .stave{
