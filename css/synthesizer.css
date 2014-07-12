@@ -124,6 +124,12 @@ label {
 	padding: 0;
 	position: absolute;
 }
+.noteDies {
+	top: 0;
+	visibility: hidden;
+	padding: 0;
+	position: absolute;
+}
 #note1 {
 	top: 6em;
 	left: 5em;
