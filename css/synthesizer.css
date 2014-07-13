@@ -51,11 +51,18 @@ li.dies {
 	background-color: #fff !important;
 }
 .shortcuts {
-	margin-left: 30.2em;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	position: absolute;
+	top: 3.6em;
+	left: 30.2em;
+	/*margin-left: 30.2em;*/
 	font-family: monospace;
 	letter-spacing: 1.23em;
 }
 .diesshort {
+	color: white;
 	margin-left: .9em;
 }
 label {
@@ -126,15 +133,15 @@ label {
 }
 #note1 {
 	top: 6em;
-	left: 5em;
+	left: -5em;
 }
 #note2 {
 	top: 4.5em;
-	left: 8em;
+	left: -8em;
 }
 #note3 {
 	top: 3em; 
-	left: 11em;
+	left: -11em;
 }
 hr {
 	height: .125em;

@@ -132,7 +132,7 @@ function play(event, keynumber) {
 	graphnotes(note);
 	plaingnotes[keynumber] = true;
 
-	frequencyDisplay.value = note.frequency;
+	frequencyDisplay.value = note.frequency.toFixed(4);
 	frequencyRange.value = note.frequency;
 	gainNode.gain.value = volume.value / 100;
 
