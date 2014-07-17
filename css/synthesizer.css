@@ -4,9 +4,11 @@ body, ol, li{
 }
 #keyboard {
 	width: 78em;
+	cursor: pointer;
+	position: relative;
 }
 #wraper {
-	width: 100%;
+	width: 100% - 8em;
 	overflow: auto;
 	text-align: center;
 }
@@ -54,18 +56,51 @@ li.dies {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
+
+	cursor: help;
 	position: absolute;
 	top: 3.6em;
-	left: 30.2em;
+	left: 30.1em;
 	/*margin-left: 30.2em;*/
 	font-family: monospace;
 	letter-spacing: 1.23em;
 }
 .diesshort {
 	color: white;
-	margin-left: .9em;
+	margin-left: 0.1em;
 }
+
+#neck {
+	position: relative;
+	margin: 2em 1em;
+	float: right;
+	width: 9em;
+	border: 1px solid black;
+}
+
+#neck hr {
+	margin: 2em 0;
+}
+
+#neck span {
+	position: absolute;
+	top: 0;
+	left: 1.8em;
+	width: 0.125em;
+	height: 46.7em;
+	background-color: black;
+}
+#neck strong {
+	border: 1px solid black;
+	border-radius: 50%;
+	position: absolute;
+	background: gray;
+	width: 1em;
+	height: 1em;
+}
+
 label {
+	margin-left: 1em;
 	display: inline-block;
 }
 #majorThird, #perfectFifth, #minorChord {
@@ -124,12 +159,14 @@ label {
 	top: 0;
 	padding: 0;
 	position: absolute;
+	/*transition: left 0.2s ease-out 0s, top 0.2s ease-in 0s;*/
 }
 .noteDies {
 	top: 0;
 	visibility: hidden;
 	padding: 0;
 	position: absolute;
+	transition: left 0.2s ease-out 0.1s, top 0.2s ease-in 0.1s;
 }
 #note1 {
 	top: 6em;
@@ -179,9 +216,20 @@ input[type=range]::-webkit-slider-thumb {
 	width: 1.75em;
 	height: 1.75em;
 }
+input[type=range]::slider-thumb {
+	 -webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border-radius: 50%;
+	box-shadow:0 0.2em 0.4em #000;
+	background-color: #aaa;
+	background: linear-gradient(to top, #aab 0%, #eee 100%);
+	width: 1.75em;
+	height: 1.75em;
+}
 
 #frequencyRange {
-    width: 90%;
+    width: 70%;
 }
 
 #frequencyDisplay {
@@ -205,7 +253,10 @@ button:focus {
 	margin: 0 auto;
 	display: block;
 }
+footer {
+	clear: both;
 
+}
 @media (max-width: 600px) {
 	
 	#wraper {

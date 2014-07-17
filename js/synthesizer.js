@@ -248,7 +248,7 @@ function stopRange(event) {
 	rangeOscillator = null;
 }
 
-cnv.width = document.body.clientWidth - 20;
+cnv.width = document.body.clientWidth - 20 - 180;
 cnv.height = 256;
 duration = cnv.width * 0.00003;
 
