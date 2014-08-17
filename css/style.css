@@ -1,5 +1,5 @@
 /*! normalize.css v1.0.1 | MIT License | git.io/normalize */
-article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary {display: block;}
+article,details,figcaption,figure,footer,header,nav,section,summary {display: block;}
 html {-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 100%;}
 html,button,input,select,textarea {font-family: sans-serif;}
 body,figure {margin: 0;}
@@ -21,39 +21,31 @@ button,input,select,textarea {font-size: 100%;margin: 0;vertical-align: baseline
 body {
 	font-family: Helvetica, Arial, sans-serif;
 	line-height:1.5;
-	/*text-align: center;*/
-	/*width: 7800px;*/
 	color: #000;
 	margin: 0;
 }
 
 nav li{
-  display: inline;
+	display: inline;
 	text-decoration: none;
 }
 nav a{
+	color: #555;
 	float: left;
-	/*color: #222;*/
-	color: #fff;
-  /*display:inline-block;*/
-	/*padding: 1em .5em .5em;*/
 	-webkit-transition: 300ms background ease-in-out;
 	-moz-transition: 300ms background ease-in-out;
-	-ms-transition: 300ms background ease-in-out;
-	-o-transition: 300ms background ease-in-out;
 	transition: 300ms background ease-in-out;
 
-	-webkit-perspective: 1000px;
-	-moz-perspective: 1000px;
-	perspective: 1000px;
+	-webkit-perspective: 200px;
+	-moz-perspective: 200px;
+	perspective: 200px;
 }
 	nav a:visited {
-		color: #555;
+		/*color: #555;*/
 	}
 	nav a:hover {
 		background: #f4fff4;
 		text-decoration: none;
-		/*color: #fff;*/
 	}
 	nav a:focus {
 		background: #777;
@@ -68,14 +60,16 @@ nav a span {
 	position: relative;
 	display: inline-block;
 	padding: .5em 1em;
-	background: #eefbee;
 	text-align: center;
-	-webkit-transition: -webkit-transform 0.3s;
-	-moz-transition: -moz-transform 0.3s;
+	background: #eee;	
+	-webkit-transition: -webkit-transform 0.3s, color 0.3s, background 0.3s;
+	-moz-transition: -moz-transform 0.3s, color 0.3s, background 0.3s;
 	transition: transform 0.3s, color 0.3s, background 0.3s;
+
 	-webkit-transform-origin: 50% 0;
 	-moz-transform-origin: 50% 0;
 	transform-origin: 50% 0;
+
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
@@ -89,7 +83,7 @@ nav a span::before {
 	width: 100%;
 	height: 100%;
 	color: #222;
-	background: #bbebbb;
+	background: #bbb;
 	content: attr(data-hover);
 	-webkit-transition: background 0.3s;
 	-moz-transition: background 0.3s;
@@ -103,7 +97,6 @@ nav a span::before {
 }
 nav a:hover span,
 nav a:focus span {
-	color: #fff;
 	background: #fff;	
 
 	-webkit-transform: rotateX(90deg) translateY(-22px);
@@ -113,7 +106,7 @@ nav a:focus span {
 
 nav a:hover span::before,
 nav a:focus span::before {
-	background: #eefbee;	
+	background: #eee;	
 }
 
 #main{
@@ -132,13 +125,13 @@ a {
 		position: relative;
 }
 	a:visited {
-		color: #97a;
+		color: #758;
 	}
 	a:hover {
 		text-decoration: underline;
 	}
 	a:focus {
-		outline: 1px dotted #97a;
+		outline: 1px dotted #758;
 	}
 	a:active {			
 		top: 1px;
@@ -167,14 +160,12 @@ footer p {
 	position: absolute;
 	top: 0;
 	right: 0;
-		margin: 0;
-		padding: 0;
+	margin: 0;
+	padding: 0;
 	display: inline-block;
 }
 .main-menu a {
-		font-weight: bold;
-
-	/*padding-top: .5em;*/
+	font-weight: bold;
 }
 .main-menu ul {
 	margin: 0;
