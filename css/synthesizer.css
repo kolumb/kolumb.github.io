@@ -269,4 +269,7 @@ footer {
 		width: auto;
 		margin: 0 auto;
 	}
+	#c0, #c1, #c2, #c6, #c7, #c8, .shortcuts {
+		display: none;
+	}
 }
