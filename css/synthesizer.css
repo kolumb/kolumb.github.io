@@ -7,6 +7,13 @@ body, ol, li{
 	cursor: pointer;
 	position: relative;
 }
+.white li{
+	box-shadow: inset 0px -1px 3px 0px rgba(50, 50, 50, .5);
+	background-color: #fff;
+}
+.white li.dies{
+	background-color: black;
+}
 #wraper {
 	width: 100% - 8em;
 	overflow: auto;
@@ -49,8 +56,14 @@ li.dies {
 .a { background-color: #1bc2ff; }
 	.a.dies {left: 8.6em;}
 .b { background-color: #ddaadd; }
-.pressed {
-	background-color: #fff !important;
+
+.white li.pressed {
+	background: linear-gradient(0deg, rgb(230, 235, 240) 0%, rgb(253, 254, 255) 100%);
+	box-shadow: inset 0px -2px 3px 1px rgba(0, 0, 0, .5);
+}
+li.pressed {
+	background: white;
+	box-shadow: inset 0px -1px 3px 0px rgba(50, 50, 50, .5);
 }
 .shortcuts {
 	-webkit-user-select: none;
@@ -70,35 +83,6 @@ li.dies {
 	margin-left: 0.1em;
 }
 
-#neck {
-	position: relative;
-	margin: 2em 1em;
-	float: right;
-	width: 9em;
-	border: 1px solid black;
-}
-
-#neck hr {
-	margin: 2em 0;
-}
-
-#neck span {
-	position: absolute;
-	top: 0;
-	left: 1.8em;
-	width: 0.125em;
-	height: 46.7em;
-	background-color: black;
-}
-#neck strong {
-	border: 1px solid black;
-	border-radius: 50%;
-	position: absolute;
-	background: gray;
-	width: 1em;
-	height: 1em;
-}
-
 label {
 	margin-left: 1em;
 	display: inline-block;
@@ -108,6 +92,7 @@ label {
 }
 
 .chord {
+	color: lightgray;
 	width: 1.75em;
 	height: 1.75em;
 	border-radius: 50%;
@@ -148,11 +133,11 @@ label {
 }
 
 .stave{
-	padding: 4em 0;
+	padding: 3em 0 2em;
 	position: relative;
 }
 #trebleclef{
-	top: 3.5em;
+	top: 2.5em;
 	position: absolute;
 }
 .note {
@@ -187,7 +172,7 @@ hr {
 	margin: .875em 0;
 }
 hr.additional {
-	background-color: #ddd;	
+	background-color: #eee;	
 }
 
 input[type=range] {
@@ -229,7 +214,7 @@ input[type=range]::slider-thumb {
 }
 
 #frequencyRange {
-    width: 70%;
+    width: 90%;
 }
 
 #frequencyDisplay {
@@ -249,9 +234,10 @@ button:focus {
 	border-color: #999;
 }
 
-#cnv {
-	margin: 0 auto;
+.center {
 	display: block;
+	margin: 0 auto;
+	text-align: center;
 }
 footer {
 	clear: both;

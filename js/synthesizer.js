@@ -45,9 +45,12 @@ for (var i = 2; i < 100; i++) {
 	frequencies[i] = result;
 }
 var notes = {};
-for (var i = 1; i < 100; i++) {
+var j = 0;
+var i = 0;
+for (i = 1; i < 100; i++) {
 	plaingnotes[i] = false;
 	notes[i] = {
+		number: i,
 		frequency : frequencies[i],
 		octave : Math.floor((i + 8) / 12),
 		octavekey : (i + 8) % 12,
@@ -88,9 +91,35 @@ var note;
 var lastnote = 2;
 var wavetable = [];
 var minor;
+var alteration;
+var paper = Raphael("guitarneck", 935, 180);
+for(i = 0;i<6;i++){
+	paper.path("M35 " + (15.5 + i*30) + "L935 " + (15.5 + i*30));
+}
+paper.path("M40 15L40 165");
+for(i = 0;i<18;i++){
+	paper.path("M" + (35 + i*50) + " 15L" + (35 + i*50) + " 165");
+}
+paper.circle(160, 90, 6);
+paper.circle(260, 90, 6);
+paper.circle(360, 90, 6);
+paper.circle(460, 90, 6);
+paper.circle(610, 30, 6);
+paper.circle(610, 150, 6);
+paper.circle(760, 90, 6);
+paper.circle(860, 90, 6);
 
+var circles = [];
+for(i = 0;i<6;i++){
+	circles[i] = paper.circle(50, 15.5+i*30, 8).attr({fill: "#666"}).hide();
+}
+circles[0].attr({fill: "#F7F73E"});
+circles[1].attr({fill: "#1bc2ff"});
+circles[2].attr({fill: "#FAA341"});
+circles[3].attr({fill: "#b6effb"});
 
 window.addEventListener('load', function(e) {
+
 	var decodeMessage, midiMessageReceived, synth;
 	decodeMessage = function(msg) {
 		var channel, cmd, note, vel;
@@ -154,13 +183,56 @@ function play(event, keynumber) {
 function graphnotes(note) {
 	if (++lastnote > 2) lastnote = 0;
 	graphnote[lastnote].style.left = (note.octave * 10.5 + note.octavekey * .86) - 7.5 + 'em';
-	graphnote[lastnote].style.top = (20.5 - note.octave * 3.5 - note.shift) + 'em';
+	if(note.octave>5){
+		alteration = 3.5 * (note.octave-5);
+	} else if(note.octave<2) {
+		alteration = -3.5 * (2-note.octave);
+	} else {
+		alteration = 0
+	}
+	graphnote[lastnote].style.top = (20 - note.octave * 3.5 - note.shift + alteration) + 'em';
 	if (note.dies) {
 		graphdies[lastnote].style.visibility = "visible";
 		graphdies[lastnote].style.left = (note.octave * 10.5 + note.octavekey * .86) - 8.1 + 'em';
-		graphdies[lastnote].style.top = (23.1 - note.octave * 3.5 - note.shift) + 'em';
+		graphdies[lastnote].style.top = (22.6 - note.octave * 3.5 - note.shift + alteration) + 'em';
 	} else {
 		graphdies[lastnote].style.visibility = "hidden";
+	}
+	i = note.number-32;
+	j=0;
+	if(i>=0 && i<38){
+		if(i>18){j=1};
+		console.log(i);
+		circles[0].show();
+		circles[0].attr({
+			cx : 10+i*50-j*950,
+			cy : 165-j*120
+		});
+	}
+	j=0;
+	if(i>4 && i<43){
+		if(i>23){j=1};
+		circles[1].show();
+		circles[1].attr({
+			cx : i*50-240-j*950,
+			cy : 135-j*120
+		});
+	}
+	j=0;
+	if(i>9 && i<29){
+		circles[2].show();
+		circles[2].attr({
+			cx : i*50-490,
+			cy : 105
+		});
+	}
+	j=0;
+	if(i>14 && i<34){
+		circles[3].show();
+		circles[3].attr({
+			cx : i*50-740-j*600,
+			cy : 75-j*90
+		});
 	}
 }
 
@@ -180,6 +252,10 @@ function stop(event, note) {
 			plaingnotes[note + 7] = false;
 		}
 	}
+	circles[0].hide();
+	circles[1].hide();
+	circles[2].hide();
+	circles[3].hide();
 }
 
 function drawSin() {

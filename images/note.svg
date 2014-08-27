@@ -42,15 +42,15 @@
      inkscape:window-height="721"
      id="namedview11"
      showgrid="true"
-     inkscape:zoom="13.368321"
-     inkscape:cx="27.244115"
-     inkscape:cy="55.263506"
+     inkscape:zoom="9.4528304"
+     inkscape:cx="32.4267"
+     inkscape:cy="27.735062"
      inkscape:window-x="-4"
      inkscape:window-y="-4"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
-     fit-margin-top="7"
-     fit-margin-left="0"
+     fit-margin-top="6"
+     fit-margin-left="6"
      fit-margin-right="0.44"
      fit-margin-bottom="0">
     <inkscape:grid
@@ -69,7 +69,7 @@
      inkscape:label="Слой"
      transform="translate(-323.10876,-46.545661)">
     <path
-       style="fill:#000000;stroke:none"
+       style="fill:#000000;stroke:none;fill-opacity:1"
        d="m 338.2026,52.545199 1.67132,0 c 0,7.416522 3.97981,10.69841 5.10931,11.921248 6.13554,6.64248 13.81438,13.067889 3.97136,30.118116 l -0.79962,0.05519 c 10.42831,-19.398919 -3.6295,-27.034115 -8.29023,-27.150029 l -0.0101,31.763892 c -9.8e-4,5.031214 -5.94633,9.292044 -11.05669,9.292044 -3.23993,0 -5.68919,-2.00657 -5.68919,-4.74252 0,-4.470225 6.03325,-9.145004 10.71663,-9.145004 3.69622,0 4.37633,1.249978 4.37633,1.249978 z"
        id="path3012"
        inkscape:connector-curvature="0"
