@@ -202,7 +202,6 @@ function graphnotes(note) {
 	j=0;
 	if(i>=0 && i<38){
 		if(i>18){j=1};
-		console.log(i);
 		circles[0].show();
 		circles[0].attr({
 			cx : 10+i*50-j*950,
@@ -328,10 +327,28 @@ cnv.width = document.body.clientWidth - 20 - 180;
 cnv.height = 256;
 duration = cnv.width * 0.00003;
 
-
-
 keyboard.addEventListener('mousedown', play, false);
+keyboard.addEventListener('touchstart', function (e) {
+    e.preventDefault();
+    var clkEvt = document.createEvent('MouseEvent');
+    clkEvt.initMouseEvent('mousedown', true, true, window, e.detail, 
+                 e.touches[0].screenX, e.touches[0].screenY, 
+                 e.touches[0].clientX, e.touches[0].clientY, 
+                 false, false, false, false, 
+                 0, null);
+    e.target.dispatchEvent(clkEvt);
+}, false);
 keyboard.addEventListener('mouseup', stop, false);
+keyboard.addEventListener('touchend', function (e) {
+    e.preventDefault();
+    var clkEvt = document.createEvent('MouseEvent');
+    clkEvt.initMouseEvent('mouseup', true, true, window, e.detail, 
+                 e.changedTouches[0].screenX, e.changedTouches[0].screenY, 
+                 e.changedTouches[0].clientX, e.changedTouches[0].clientY, 
+                 false, false, false, false, 
+                 0, null);
+    e.target.dispatchEvent(clkEvt);
+}, false);
 frequencyRange.addEventListener('change', playRange, false);
 buttonStart.addEventListener('click', playRange, false);
 buttonStop.addEventListener('click', stopRange, false);
