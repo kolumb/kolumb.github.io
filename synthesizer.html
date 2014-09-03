@@ -2,7 +2,7 @@
 <html lang="ru">
 	<head>
 		<meta charset="UTF-8" />
-		<title>Синтезатор для изучения музыки. Или камертон</title>
+		<title>Синтезатор для изучения нотной записи, клавиш пианино и ладов гитары.</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="description" content="Обучающее приложение для выявления связи между нотной записью, клавишами пианино и струнами гитары.">
 		<meta name="author" content="Данил Колумбет / Web Designer &amp; Front End Developer">
@@ -139,16 +139,27 @@
 		<input type="checkbox" value="None" id="minorChord" name="check" />
 		<label for="minorChord"></label>
 	</div>
-	<label for="volume">Громкость:</label>
-	<input id="volume" type="range" value="4" min="0" max="100" step="2">
+	<label for="volumeRange">Громкость:</label>
+	<input id="volumeRange" type="range" value="4" min="0" max="100" step="2">
+	<button id="buttonMelody" type="button">Пример</button>
+	<label for="tempoRange">Темп:</label>
+	<input id="tempoRange" type="range" value="100" min="0" max="1000" step="1">
 	<div class="stave">
 		<img src="images/treble-clef.svg" alt="Скрипичный ключ" id="trebleclef" width="59" height="115">
 		<img src="images/note.svg" class="note" alt="нота" id="note1" width="31" height="62">
 		<img src="images/note.svg" class="note" alt="терция" id="note2" width="31" height="62">
 		<img src="images/note.svg" class="note" alt="квинта" id="note3" width="31" height="62">
+		<img src="images/note.svg" class="note" alt="нота" id="note4" width="31" height="62">
+		<img src="images/note.svg" class="note" alt="терция" id="note5" width="31" height="62">
+		<img src="images/note.svg" class="note" alt="квинта" id="note6" width="31" height="62">
+		<img src="images/note.svg" class="note" alt="нота" id="note7" width="31" height="62">
 		<img src="images/dies.svg" class="noteDies" alt="dies" id="dies1" width="8" height="27">
 		<img src="images/dies.svg" class="noteDies" alt="dies" id="dies2" width="8" height="27">
 		<img src="images/dies.svg" class="noteDies" alt="dies" id="dies3" width="8" height="27">
+		<img src="images/dies.svg" class="noteDies" alt="dies" id="dies4" width="8" height="27">
+		<img src="images/dies.svg" class="noteDies" alt="dies" id="dies5" width="8" height="27">
+		<img src="images/dies.svg" class="noteDies" alt="dies" id="dies6" width="8" height="27">
+		<img src="images/dies.svg" class="noteDies" alt="dies" id="dies7" width="8" height="27">
 		<hr />
 		<hr />
 		<hr />

@@ -141,29 +141,18 @@ label {
 	position: absolute;
 }
 .note {
-	top: 0;
+	top: 3.5em;
+	left: 5em;
 	padding: 0;
 	position: absolute;
-	/*transition: left 0.2s ease-out 0s, top 0.2s ease-in 0s;*/
+	transition: left 0.2s ease-out 0s, top 0.2s ease-in 0s;
 }
 .noteDies {
 	top: 0;
-	visibility: hidden;
 	padding: 0;
 	position: absolute;
+	visibility: hidden;
 	transition: left 0.2s ease-out 0.1s, top 0.2s ease-in 0.1s;
-}
-#note1 {
-	top: 6em;
-	left: -5em;
-}
-#note2 {
-	top: 4.5em;
-	left: -8em;
-}
-#note3 {
-	top: 3em; 
-	left: -11em;
 }
 hr {
 	height: .125em;
@@ -182,7 +171,7 @@ input[type=range] {
 	background-color: silver;
 	border-top-left-radius: 50%;
 	border-bottom-left-radius: 50%;
-	width: 15em;
+	width: 12em;
 	height: 0.5em;
 }
 input[type="range"]:focus {
@@ -224,6 +213,7 @@ input[type=range]::slider-thumb {
 }
 
 button {
+	margin-left: 1em;
 	background: #eee;
 	border: 1px solid #ccc;
     border-radius: 1em;	
