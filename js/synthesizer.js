@@ -72,7 +72,6 @@ for (i = 1; i < 100; i++) {
 		notes[i].dies = false;
 	}
 }
-
 var thread;
 var note;
 var lastNote = 2;
@@ -80,6 +79,7 @@ var noteCarret = 8;
 var wavetable = [];
 var minor;
 var alteration;
+
 var paper = Raphael("guitarneck", 935, 180);
 for (i = 0; i < 6; i++) {
 	paper.path("M35 " + (15.5 + i * 30) + "L935 " + (15.5 + i * 30));
@@ -149,7 +149,7 @@ window.addEventListener('load', function(e) {
 });
 
 function play(event, keynumber) {
-		l.log(event)
+	//l.log(event)
 	if (event) {
 		noteCarret += 3;
 		cursorClick = keynumber = Number(event.target.dataset.key);
@@ -158,8 +158,8 @@ function play(event, keynumber) {
 		minor = event.shiftKey ? -1 : 0;
 	}
 	note = notes[keynumber];
-	l.log(keynumber);
-	if (note === undefined)return;
+	//l.log(keynumber);
+	if (note === undefined) return;
 	l.log('   ' + note.button.innerText)
 	note.play();
 	graphNotes(note);
@@ -207,6 +207,7 @@ function graphNotes(note) {
 	} else {
 		graphDies[lastNote].style.visibility = "hidden";
 	}
+
 	i = note.number - 32;
 	j = 0;
 	if (i >= 0 && i < 38) {
@@ -333,7 +334,7 @@ function stopRange(event) {
 	rangeOscillator = null;
 }
 
-cnv.width = document.body.clientWidth - 20 - 180;
+cnv.width = document.body.clientWidth - 20;
 cnv.height = 256;
 waveDuration = cnv.width * 0.00003;
 
@@ -366,32 +367,93 @@ volumeRange.addEventListener('change', function() {
 	gainNode.gain.value = volumeRange.value / 100;
 }, false);
 
+
+
+
+//========================================================================
+var nMelodyInterval;
+var synchronizedTime = Date.now();
+var nBeginMelody;
+var bDrawedNote = false;
+var durationTypes = {
+	"1": 16,
+	"2": 8,
+	"3": 6,
+	"4": 4,
+	"6": 3,
+	"8": 2,
+	"12": 1.5,
+	"16": 1
+};
+var tempo = 100;
+var nMelodySize = durationTypes["1"] * tempo //16 *100 = 1600 4/4
+var nMelodyPart;
 buttonMelody.addEventListener('click', function() {
+	nBeginMelody = Date.now();
+	nMelodyPart = 0;
 	for (thread = 0; thread < threads.length; thread++) {
 		threads[thread].position = 0;
-		playMelody(threads[thread]);
+		threads[thread].getNextChange();
 	};
+	if (nMelodyInterval === undefined) {
+		nMelodyInterval = setInterval(playMelody, tempo)
+	} else {		
+		clearInterval(nMelodyInterval);
+		nMelodyInterval = undefined
+		for (i = 1; i < 100; i++) {
+			plaingNotes[i] = false;
+			notes[i].stop();
+		}
+	}
 }, false);
 tempoRange.addEventListener('change', function() {
-	tempo = tempoRange.value;
+	tempo = 1000 - tempoRange.value;
 }, false);
-
-var threads = [];
 
 function Thread(record) {
 	this.record = record;
-	this.timer = undefined;
 	this.position = 0;
+	//this.nextChage = synchronizedTime + 1000;
+	this.nNextMelodyPart = undefined;
+	//this.noteDuration = undefined;
+	this.getNextChange = function() {
+		if (this.record[this.position].length > 4) {
+			this.nNextMelodyPart =  nMelodyPart + durationTypes[this.record[this.position].slice(4)]*2;
+
+		} else {
+			this.nNextMelodyPart =  nMelodyPart + durationTypes[this.record[this.position].slice(3)]*2;
+		}
+	}
+	this.changeNote = function() {
+		if (this.position !== 0) {
+			if (this.record[this.position - 1][0] !== "P") {
+				stop(null, noteIndex(this.record[this.position - 1]));
+			}
+		}
+		if (this.position > this.record.length - 1) {
+			clearInterval(nMelodyInterval);
+			return;
+		}
+		if (this.record[this.position][0] !== "P") {
+			bDrawedNote = true;
+			l.log('bDrawedNote');
+			if (!plaingNotes[noteIndex(this.record[this.position])]) play(null, noteIndex(this.record[this.position]));
+		};
+		this.position++;
+	}
 }
-var tempo = 100;
-threads[0] = new Thread('G4/8 C5/8 D5/8 ' +
+
+var threads = [];
+threads[0] = new Thread('PA/4 G4/8 C5/8 D5/8 ' +
 	'Eb5/3 D5/8 Eb5/2 ' +
 	'Eb5/8 F5/8 D5/8 C5/8 D5/2 ' +
 	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb4/8 ' +
-	'G4/2 PA/8 C5/8 D5/8 ' +
+	
+	'G4/2 PA/8 G4/8 C5/8 D5/8 ' +
 	'Eb5/3 D5/8 Eb5/2 ' +
 	'Eb5/8 F5/8 D5/8 C5/8 D5/2 ' +
 	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb4/8 ' +
+
 	'C5/2 PA/8 G4/8 C5/8 D5/8 ' +
 	'Eb5/3 D5/8 Eb5/2 ' +
 	'Eb5/8 F5/8 D5/8 C5/8 D5/2 ' +
@@ -404,67 +466,67 @@ threads[0] = new Thread('G4/8 C5/8 D5/8 ' +
 	'Bb5/8 C6/4 C6/8 C6/8 D6/8 Bb5/8 Ab5/8 ' +
 	'Bb5/16 Bb5/16 Bb5/3 F4/8 PA/8 D5/8 E5/8 G5/8 ' +
 	'G5/8 Ab5/4 Ab/8 Ab/8 Bb/8 G5/8 F5/8 ' +
-	'G5/2 PA/4 D5/8 Eb5/8 Bb5/8 '+
-	'C6/3 C6/8 C6/8 D6/8 Bb5/8 A5/8 '+
-	'Bb5/3 Bb5/8 Bb5/8 C6/8 Ab5/8 G5/8 '+
-	'Ab5/2 PA/8 Bb5/8 G5/8 F5/8 '+
-	'G5/2 G4/8 G4/8 C5/8 D5/8 '+
-	'Eb5/3 D5/8 Eb5/2 '+
-	'Eb5/8 F5/8 D5/8 C5/8 D5/2 '+
-	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb/8 '+
-	'G4/2 PA/8 G4/8 C5/8 D5/8 '+
-	'Eb5/3 D5/8 Eb5/2 '+
-	'Eb5/8 F5/8 D5/8 C5/8 D5/2 '+
-	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb4/8 '+
-	'C4/1'+
-	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb/8 '+
+	'G5/2 PA/4 D5/8 Eb5/8 Bb5/8 ' +
+	'C6/3 C6/8 C6/8 D6/8 Bb5/8 A5/8 ' +
+	'Bb5/3 Bb5/8 Bb5/8 C6/8 Ab5/8 G5/8 ' +
+	'Ab5/2 PA/8 Bb5/8 G5/8 F5/8 ' +
+	'G5/2 G4/8 G4/8 C5/8 D5/8 ' +
+	'Eb5/3 D5/8 Eb5/2 ' +
+	'Eb5/8 F5/8 D5/8 C5/8 D5/2 ' +
+	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb/8 ' +
+	'G4/2 PA/8 G4/8 C5/8 D5/8 ' +
+	'Eb5/3 D5/8 Eb5/2 ' +
+	'Eb5/8 F5/8 D5/8 C5/8 D5/2 ' +
+	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb4/8 ' +
+	'C4/1' +
+	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb/8 ' +
 	'C5/1'
 );
-threads[1] = new Thread('PA/3 C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/4 '+
-	'Bb2/8 F3/8 D4/4 Eb2/8 Bb2/8 G3/8 D4/8 '+
-	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 '+
+threads[1] = new Thread('PA/4 PA/3 C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/4 ' +
+	'Bb2/8 F3/8 D4/4 Eb2/8 Bb2/8 G3/8 D4/8 ' +
+	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 ' +
 
-	'G2/8 D3/8 G3/8 A3/8 B3/4 G2/4 '+
-	'C3/8 G3/8 Eb4/8 F4/8 F2/8 C3/8 Ab3/8 C4/8 '+
-	'Bb2/8 F3/8 C4/8 D4/8 Eb2/8 Bb2/8 G3/8 D4/8 '+
-	'Ab2/8 Eb2/8 C4/4 F2/8 C3/8 Ab3/4 '+
+	'G2/8 D3/8 G3/8 A3/8 B3/4 G2/4 ' +
+	'C3/8 G3/8 Eb4/8 F4/8 F2/8 C3/8 Ab3/8 C4/8 ' +
+	'Bb2/8 F3/8 C4/8 D4/8 Eb2/8 Bb2/8 G3/8 D4/8 ' +
+	'Ab2/8 Eb2/8 C4/4 F2/8 C3/8 Ab3/4 ' +
 
-	'C3/8 G3/8 C4/8 D4/8 Eb4/4 G3/4 '+
+	'C3/8 G3/8 C4/8 D4/8 Eb4/4 G3/4 ' +
 
-	'C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/4 '+
-	'Bb2/8 F3/8 D4/4 Eb2/8 Bb2/8 G3/8 D4/8 '+
-	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 '+
-	'G2/8 D3/8 G3/8 A3/8 B3/4 G2/4 '+
-	'C3/8 G3/8 Eb4/8 F4/8 F2/8 C3/8 Ab3/8 C4/8 '+
-	'Bb2/8 F3/8 C4/8 D4/8 Eb2/8 Bb2/8 G3/8 D4/8 '+
-	'Ab2/8 Eb2/8 C4/4 F2/8 C3/8 Ab3/4 '+
+	'C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/4 ' +
+	'Bb2/8 F3/8 D4/4 Eb2/8 Bb2/8 G3/8 D4/8 ' +
+	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 ' +
+	'G2/8 D3/8 G3/8 A3/8 B3/4 G2/4 ' +
+	'C3/8 G3/8 Eb4/8 F4/8 F2/8 C3/8 Ab3/8 C4/8 ' +
+	'Bb2/8 F3/8 C4/8 D4/8 Eb2/8 Bb2/8 G3/8 D4/8 ' +
+	'Ab2/8 Eb2/8 C4/4 F2/8 C3/8 Ab3/4 ' +
 
-	'C3/8 Eb3/8 G3/8 C4/8 Eb4/8 G4/8 C5/8 G4/8 '+
-	'Ab2/8 Eb3/8 Ab3/8 C4/8 Bb2/8 F3/8 Bb3/8 D4/8 '+
-	'G2/8 D3/8 G3/8 Bb3/8 C3/8 G3/8 C4/8 Eb4/8 '+
+	'C3/8 Eb3/8 G3/8 C4/8 Eb4/8 G4/8 C5/8 G4/8 ' +
+	'Ab2/8 Eb3/8 Ab3/8 C4/8 Bb2/8 F3/8 Bb3/8 D4/8 ' +
+	'G2/8 D3/8 G3/8 Bb3/8 C3/8 G3/8 C4/8 Eb4/8 ' +
 
 
-	'F2/8 C3/8 F3/8 Ab3/8 Bb2/8 F3/8 Bb3/8 D4/8 '+
-	'Eb2/8 Bb2/8 Eb3/8 G3/8 Bb3/8 Eb3/8 C3/8 Bb3/8 '+
-	'A2/8 Eb3/8 G3/8 C4/8 Fd2/8 D3/8 A3/8 C4/8 '+
-	'G2/8 D3/8 G3/8 Bb3/8 E2/8 C3/8 G3/8 Bb3/8 '+
+	'F2/8 C3/8 F3/8 Ab3/8 Bb2/8 F3/8 Bb3/8 D4/8 ' +
+	'Eb2/8 Bb2/8 Eb3/8 G3/8 Bb3/8 Eb3/8 C3/8 Bb3/8 ' +
+	'A2/8 Eb3/8 G3/8 C4/8 Fd2/8 D3/8 A3/8 C4/8 ' +
+	'G2/8 D3/8 G3/8 Bb3/8 E2/8 C3/8 G3/8 Bb3/8 ' +
 
-	'F2/8 C3/8 F3/8 Ab3/8 Eb2/8 C3/8 F3/8 Ab3/8 '+
-	'D2/8 C3/8 D3/8 G3/8 G2/4 G1/4 '+
-	'C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/8 '+
-	'Bb2/8 F3/8 D4/8 Eb2/8 Bb2/8 G3/8 D4/8 '+
+	'F2/8 C3/8 F3/8 Ab3/8 Eb2/8 C3/8 F3/8 Ab3/8 ' +
+	'D2/8 C3/8 D3/8 G3/8 G2/4 G1/4 ' +
+	'C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/8 ' +
+	'Bb2/8 F3/8 D4/8 Eb2/8 Bb2/8 G3/8 D4/8 ' +
 
-	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 '+
-	'G2/8 D3/8 G3/8 A3/8 B3/4 D4/4 '+
-	'C3/8 G3/8 Eb4/8 F4/8 F2/8 C3/8 Ab3/8 C4/8 '+
-	'Bb2/8 F3/8 C4/8 D4/8 E2/8 Bb2/8 G3/8 D4/8 '+
+	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 ' +
+	'G2/8 D3/8 G3/8 A3/8 B3/4 D4/4 ' +
+	'C3/8 G3/8 Eb4/8 F4/8 F2/8 C3/8 Ab3/8 C4/8 ' +
+	'Bb2/8 F3/8 C4/8 D4/8 E2/8 Bb2/8 G3/8 D4/8 ' +
 
-	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 '+
-	'C3/8 G3/8 C4/8 D4/8 Eb4/4 G4/4 '+
+	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 ' +
+	'C3/8 G3/8 C4/8 D4/8 Eb4/4 G4/4 ' +
 	'Ab2/8 Eb3/8 C4/4 G2/8 D3/8 Bb3/4' +
 	'C3/8 G3/8 C4/8 D4/8 Eb4/2'
-	);
-threads[2] = new Thread('PA/3 PA/1 PA/1 PA/1 PA/1 PA/2 G4/2 PA/1 Ab4/8 PA/6 PA/2 PA/1 PA/1 PA/1 PA/1 PA/1 PA/2 G4/2 PA/1 Ab4/8 PA/6 PA/2 PA/1 PA/1 PA/2 Eb4/2 PA/1 PA/4 D5/4 C5/2 PA/1 PA/1 PA/1 PA/1 PA/1 PA/1 PA/1 PA/2 PA/4 G4/4 PA/2 G4/2 PA/1 Ab4/8 PA/3 PA/2 PA/1	Ab4/8');
+);
+threads[2] = new Thread('PA/4 PA/3 PA/1 PA/1 PA/1 PA/1 PA/2 G4/2 PA/1 Ab4/8 PA/6 PA/2 PA/1 PA/1 PA/1 PA/1 PA/1 PA/2 G4/2 PA/1 Ab4/8 PA/6 PA/2 PA/1 PA/1 PA/2 Eb4/2 PA/1 PA/4 D5/4 C5/2 PA/1 PA/1 PA/1 PA/1 PA/1 PA/1 PA/1 PA/2 PA/4 G4/4 PA/2 G4/2 PA/1 Ab4/8 PA/3 PA/2 PA/1	Ab4/8');
 for (i = threads.length - 1; i >= 0; i--) {
 	threads[i].record = threads[i].record.split(" ");
 };
@@ -478,16 +540,6 @@ var noteTypes = {
 	"B": 12
 };
 var noteDuration = 0;
-var durationTypes = {
-	"1": 16,
-	"2": 8,
-	"3": 6,
-	"4": 4,
-	"6": 3,
-	"8": 2,
-	"12": 1.5,
-	"16": 1
-};
 var octave;
 var dies;
 
@@ -508,23 +560,19 @@ function noteIndex(str) {
 	return octave * 12 + noteTypes[str[0]] + dies - 9;
 }
 
-
-function playMelody(thread) {
-	if (thread.position > 0) {
-		if (thread.record[thread.position - 1][0] !== "P") {
-			stop(null, noteIndex(thread.record[thread.position - 1]));
+function playMelody() {
+	synchronizedTime = Date.now();
+	bDrawedNote = false;
+	if ((synchronizedTime-nBeginMelody)%nMelodySize>nMelodyPart) {
+		nMelodyPart++;
+		l.log(nMelodyPart)
+	}
+	for (thread = 0; thread < threads.length; thread++) {
+		//l.log('qwe ', threads[thread].nNextMelodyPart)
+		if (threads[thread].nNextMelodyPart === nMelodyPart) {
+			threads[thread].getNextChange();
+			threads[thread].changeNote();
 		}
 	}
-	if (thread.position > thread.record.length - 1) return;
-	if (thread.record[thread.position][0] !== "P") {
-		if (!plaingNotes[noteIndex(thread.record[thread.position])]) play(null, noteIndex(thread.record[thread.position]));
-	};
-	if (thread.record[thread.position].length > 4) {
-		noteDuration = durationTypes[thread.record[thread.position].slice(4)] * tempo;
-	} else {
-		noteDuration = durationTypes[thread.record[thread.position].slice(3)] * tempo;
-	}
-	thread.position++;
-	noteCarret += 3;
-	thread.timer = window.setTimeout(playMelody, noteDuration, thread);
+	if (bDrawedNote) noteCarret += 3.1;
 }
