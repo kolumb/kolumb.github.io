@@ -36,8 +36,10 @@ dt {
 		left: -3.24em;
 		border-left: 3.24em solid #EEE;
 	}
-	dt:hover + dd, dd:hover {
+	dd {
+		opacity: .1; 
 		display: block;
+		position:absolute;
 		background: #eee;
 		padding: 1em 2em;
 		border-bottom-left-radius: 3em;
@@ -45,9 +47,11 @@ dt {
 		left: 12em;
 		position: absolute;
 		margin-top: -3.3em;
+	}
+	dt:hover + dd, dd:hover {
+		opacity: 1;
 		z-index: 2;
 	}
-dd {display: none;}
 .nested{
 	margin: 0 1em;
 }
@@ -64,6 +68,50 @@ p {margin: 0;}
 <body>
 	<h1>Закладки</h1>
 	<div id="main" role="main">
+		<h2>Обучение программированию</h2>
+		<article>
+			<dl>
+				<dt><a href="http://habrahabr.ru/post/240219/">Выразительный JS</a></dt>
+				<dd>Программирование с самых основ. Интересно и коротко. И практично.</dd>
+				
+				<dt><a href="http://upyourpic.org/images/201405/o47a96m1y2.gif">Языки программирования</a></dt>
+				<dd>Дата появления и взаимосвязь.</dd>
+
+				<dt><a href="https://github.com/bayandin/awesome-awesomeness">Awesome-awesomeness</a></dt>
+				<dd>Сборник ссылок на бесплатные материалы по всем языкам.</dd>
+
+				<dt><a href="http://xoax.net/cpp/index.php">Simple C++ lessons</a></dt>
+				<dd>Простые видеоуроки с текстовым сопровождением по делу.</dd>
+
+				<dt><a href="http://rooksguide.org/2013/11/26/version-1-0-is-out/">The Rook's Guide to C++</a></dt>
+				<dd>Бесплатная подробная плавная книга по современным возможностям языка.</dd>
+
+				<dt><a href="https://yadi.sk/d/wglm7JzxdtUe2">Мои программы</a></dt>
+				<dd>Flash, Java, C++, C#</dd>
+			</dl>
+		</article>
+
+		<h2>Диагностика работы компьютера</h2>
+		<article>
+			<dl>
+
+				<dt><a href="http://technet.microsoft.com/ru-ru/sysinternals/default">Windows Sysinternals</a></dt>
+				<dd>Официальные инструменты для Windows, диска, сети и т.д.</dd>
+
+				<dt><a href="http://cpuz.ru/cpuz_download.htm">CPU-Z</a></dt>
+				<dd>Программа для просмотра характеристик процессора, материнской платы, памяти, видеокарты.</dd>
+				
+				<dt><a href="http://www.resplendence.com/downloads">Latency monitor</a></dt>
+				<dd>Разные мониторы и сервисы.</dd>
+
+				<dt><a href="http://www.thesycon.de/deu/latency_check.shtml">DPC Latency Checker</a></dt>
+				<dd>Программа для просмотра задержки вызовов к материнской плате.</dd>
+
+				<dt><a href="http://www.freedrweb.com/cureit/">Dr WEB CureIt</a></dt>
+				<dd>Бесплатный кусочек антивируса для полной проверки.</dd>
+			</dl>
+		</article>
+		
 		<h2>Нужные программы</h2>
 		<article>
 			<dl>
@@ -101,6 +149,9 @@ p {margin: 0;}
 		<h2>Полезные программы</h2>
 		<article>
 			<dl>
+				<dt><a href="http://www.yworks.com/en/products/yfiles/yed/">yEd Graph editor</a></dt>
+				<dd>Редактор графов.</dd>
+
 				<dt><a href="http://www.moonsoftware.com/fxplorer.asp">Font Xplorer</a></dt>
 				<dd>Some features: <ul><li>Browse both installed and not installed TrueType* fonts from disk.</li><li>See what each font looks like, so it's very easy to compare fonts</li><li>Special "user text compare" mode allows you to find the perfect font in seconds</li><li>Load, install, unload, uninstall, manage fonts</li></ul></dd>
 
