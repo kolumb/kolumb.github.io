@@ -13,7 +13,7 @@ var i = 0;
 for (i = 0; i < 7; i++) {
 	graphNote[i] = document.getElementById('note' + (i + 1));
 	graphDies[i] = document.getElementById('dies' + (i + 1));
-};
+}
 var cursorClick = 0;
 var ctx = cnv.getContext('2d');
 var minor = 0;
