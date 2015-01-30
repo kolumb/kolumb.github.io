@@ -1,38 +1,65 @@
 <!doctype html>
 <html lang=ru>
+
 <head>
 	<meta charset=utf-8>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="Интерактивная демонстрация тригономерических функций.">
-	<meta name="author" content="Данил Колумбет / Web Designer &amp; Front End Developer">	
+	<meta name="author" content="Данил Колумбет / Web Designer &amp; Front End Developer">
 	<title>Портфолио - Данил Колумбет / Web Designer &amp; Front End Developer</title>
 	<link rel="shortcut icon" href="../favicon.ico" />
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../style.css">
+	<link rel="stylesheet" href="trigonometry.css">
 </head>
+
 <body>
-<div class="container">
-	<h1>Тригонометрия</h1>
-<div class="main" role="main">
-	<article class="unit-circle">
-        <canvas id="unit-circle"></canvas>
-	</article>
-</div>
-<script src="trigonometry.js"></script>
-<footer>
-	<p><img src="favicon.ico" width=16 height=16>
- 	<span itemprop="copyrightYear">2014</span>
- 	<span itemprop="copyrightHolder">Kolumbetko</span>
-	</p>
-	<nav class="main-menu">
+	<div class="container">
+		<h1>Тригонометрия</h1>
+		<div class="main" role="main">
+			<article class="unit-circle">
+				<canvas id="unit-circle"></canvas>
+				<div id="checks">
+					<label for="sin" class="check sinL">
+						<input id="sin" type="checkbox" checked=true/>Синус
+					</label>
+					<label for="cos" class="check cosL">
+						<input id="cos" type="checkbox" />Косинус</label>
+					<label for="tan" class="check tanL">
+						<input id="tan" type="checkbox" />Тангенс
+					</label>
+					<label for="ctn" class="check ctnL">
+						<input id="ctn" type="checkbox" />Котангенс
+					</label>
+				</div>
+			</article>
+		</div>
 		<ul>
-			<li><a href="/"><span data-hover="Главная">Главная</span></a></li><li>
-			<a href="../synthesizer.html" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
-			<a href="../rent.html" title="Финансовый калькулятор"><span data-hover="Квартплата">Квартплата</span></a></li><li>
-			<a href="../useful-programs.html" title="Закладки"><span data-hover="Закладки">Закладки</span></a></li>
+			<li><a href="http://www.touchmathematics.org/">Touch mathematics ("Притронься к математике")</a>
+			</li>
+			<li><a href="https://www.mathsisfun.com/algebra/trig-interactive-unit-circle.html">Interactive unit circle.</a>
+			</li>
+			<li><a href="http://illuminations.nctm.org/Search.aspx?view=search&type=ac">Illuminations Интерактивные инструменты.</a>
+			</li>
+			<li><a href="http://tube.geogebra.org/student/m14774">Почему кажется, что карандаш гнется?</a>
+			</li>
 		</ul>
-	</nav>
-</footer>
-</div>
+		<script src="trigonometry.js"></script>
+		<footer>
+			<p><img src="favicon.ico" width=16 height=16>
+		 	<span itemprop="copyrightYear">2015</span>
+		 	<span itemprop="copyrightHolder">Kolumbetko</span>
+			</p>
+			<nav class="main-menu">
+				<ul>
+					<li><a href="./"><span data-hover="Главная">Главная</span></a></li><li>
+					<a href="../music" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
+					<a href="." title="Интерактивная программа"><span data-hover="Тригонометрия">Тригонометрия</span></a></li><li>
+					<a href="../links" title="Полезные ссылки"><span data-hover="Закладки">Закладки</span></a></li>
+				</ul>
+			</nav>
+		</footer>
+	</div>
 </body>
+
 </html>
