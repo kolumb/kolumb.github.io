@@ -10,177 +10,213 @@
 		<link rel="stylesheet" href="synthesizer.css">
 	</head>
 	<body>
+	<!--
+1. Keyboard
+2. Options.Accord
+3. Options.Volume
+4. Sample
+5. Sample.Temp
+6. Note stave
+7. Guitar
+7a. Harmonica
+8. WaveGraph
+9. Manual Frequency + display + controls
+	 -->
+	
 	<div id="wraper">
-		<div id="keyboard">
-			<ol id="c0">
-				<li id="1" class="a" data-key="1" id="1">A0
-				</li><li class="a dies" data-key="2" id="2">
-				</li><li class="b" data-key="3" id="3">B0</li>
-			</ol><ol id="c1">
-				<li class="c" data-key="4" id="4">C1
-				</li><li class="c dies" data-key="5" id="5">
-				</li><li class="d" data-key="6" id="6">D1
-				</li><li class="d dies" data-key="7" id="7">
-				</li><li class="e" data-key="8" id="8">E1
-				</li><li class="f" data-key="9" id="9">F1
-				</li><li class="f dies" data-key="10" id="10">
-				</li><li class="g" data-key="11" id="11">G1
-				</li><li class="g dies" data-key="12" id="12">
-				</li><li class="a" data-key="13" id="13">A1
-				</li><li class="a dies" data-key="14" id="14">
-				</li><li class="b" data-key="15" id="15">B1</li>
-				
-			</ol><ol id="c2">
-				<li class="c" data-key="16" id="16">C2
-				</li><li class="c dies" data-key="17" id="17">
-				</li><li class="d" data-key="18" id="18">D2
-				</li><li class="d dies" data-key="19" id="19">
-				</li><li class="e" data-key="20" id="20">E2
-				</li><li class="f" data-key="21" id="21">F2
-				</li><li class="f dies" data-key="22" id="22">
-				</li><li class="g" data-key="23" id="23">G2
-				</li><li class="g dies" data-key="24" id="24">
-				</li><li class="a" data-key="25" id="25">A2
-				</li><li class="a dies" data-key="26" id="26">
-				</li><li class="b" data-key="27" id="27">B2</li>
-				
-			</ol><ol id="c3">
-				<li class="c" data-key="28" id="28">C3
-				</li><li class="c dies" data-key="29" id="29">
-				</li><li class="d" data-key="30" id="30">D3
-				</li><li class="d dies" data-key="31" id="31">
-				</li><li class="e" data-key="32" id="32">E3
-				</li><li class="f" data-key="33" id="33">F3
-				</li><li class="f dies" data-key="34" id="34">
-				</li><li class="g" data-key="35" id="35">G3
-				</li><li class="g dies" data-key="36" id="36">
-				</li><li class="a" data-key="37" id="37">A3
-				</li><li class="a dies" data-key="38" id="38">
-				</li><li class="b" data-key="39" id="39">B3</li>
-				
-			</ol><ol id="c4">
-				<li class="c" data-key="40" id="40">C4
-				</li><li class="c dies" data-key="41" id="41">
-				</li><li class="d" data-key="42" id="42">D4
-				</li><li class="d dies" data-key="43" id="43">
-				</li><li class="e" data-key="44" id="44">E4
-				</li><li class="f" data-key="45" id="45">F4
-				</li><li class="f dies" data-key="46" id="46">
-				</li><li class="g" data-key="47" id="47">G4
-				</li><li class="g dies" data-key="48" id="48">
-				</li><li class="a" data-key="49" id="49">A4
-				</li><li class="a dies" data-key="50" id="50">
-				</li><li class="b" data-key="51" id="51">B4</li>
-				
-			</ol><ol id="c5">
-				<li class="c" data-key="52" id="52">C5
-				</li><li class="c dies" data-key="53" id="53">
-				</li><li class="d" data-key="54" id="54">D5
-				</li><li class="d dies" data-key="55" id="55">
-				</li><li class="e" data-key="56" id="56">E5
-				</li><li class="f" data-key="57" id="57">F5
-				</li><li class="f dies" data-key="58" id="58">
-				</li><li class="g" data-key="59" id="59">G5
-				</li><li class="g dies" data-key="60" id="60">
-				</li><li class="a" data-key="61" id="61">A5
-				</li><li class="a dies" data-key="62" id="62">
-				</li><li class="b" data-key="63" id="63">B5</li>
-				
-			</ol><ol id="c6">
-				<li class="c" data-key="64" id="64">C6
-				</li><li class="c dies" data-key="65" id="65">
-				</li><li class="d" data-key="66" id="66">D6
-				</li><li class="d dies" data-key="67" id="67">
-				</li><li class="e" data-key="68" id="68">E6
-				</li><li class="f" data-key="69" id="69">F6
-				</li><li class="f dies" data-key="70" id="70">
-				</li><li class="g" data-key="71" id="71">G6
-				</li><li class="g dies" data-key="72" id="72">
-				</li><li class="a" data-key="73" id="73">A6
-				</li><li class="a dies" data-key="74" id="74">
-				</li><li class="b" data-key="75" id="75">B6</li>
-				
-			</ol><ol id="c7">
-				<li class="c" data-key="76" id="76">C7
-				</li><li class="c dies" data-key="77" id="77">
-				</li><li class="d" data-key="78" id="78">D7
-				</li><li class="d dies" data-key="79" id="79">
-				</li><li class="e" data-key="80" id="80">E7
-				</li><li class="f" data-key="81" id="81">F7
-				</li><li class="f dies" data-key="82" id="82">
-				</li><li class="g" data-key="83" id="83">G7
-				</li><li class="g dies" data-key="84" id="84">
-				</li><li class="a" data-key="85" id="85">A7
-				</li><li class="a dies" data-key="86" id="86">
-				</li><li class="b" data-key="87" id="87">B7</li>
-				
-			</ol><ol id="c8">
-				<li class="c" data-key="88" id="88">C8</li>
-			</ol>
-				<div class="shortcuts">
-					<p class="diesshort">ыв про 23 567 90 =</p>
-					<p>ячсмитьйцукенгшщзхъ</p>
-				</div>
+		<div id="keyboardWraper">
+			<div id="keyboard">
+				<ol id="c0">
+					<li id="1" class="a" id="1">A0
+					</li><li class="a dies" id="2">
+					</li><li class="b" id="3">B0</li>
+				</ol><ol id="c1">
+					<li class="c" id="4">C1
+					</li><li class="c dies" id="5">
+					</li><li class="d" id="6">D1
+					</li><li class="d dies" id="7">
+					</li><li class="e" id="8">E1
+					</li><li class="f" id="9">F1
+					</li><li class="f dies" id="10">
+					</li><li class="g" id="11">G1
+					</li><li class="g dies" id="12">
+					</li><li class="a" id="13">A1
+					</li><li class="a dies" id="14">
+					</li><li class="b" id="15">B1</li>
+				</ol><ol id="c2">
+					<li class="c" id="16">C2
+					</li><li class="c dies" id="17">
+					</li><li class="d" id="18">D2
+					</li><li class="d dies" id="19">
+					</li><li class="e" id="20">E2
+					</li><li class="f" id="21">F2
+					</li><li class="f dies" id="22">
+					</li><li class="g" id="23">G2
+					</li><li class="g dies" id="24">
+					</li><li class="a" id="25">A2
+					</li><li class="a dies" id="26">
+					</li><li class="b" id="27">B2</li>
+				</ol><ol id="c3">
+					<li class="c" id="28">C3
+					</li><li class="c dies" id="29">
+					</li><li class="d" id="30">D3
+					</li><li class="d dies" id="31">
+					</li><li class="e" id="32">E3
+					</li><li class="f" id="33">F3
+					</li><li class="f dies" id="34">
+					</li><li class="g" id="35">G3
+					</li><li class="g dies" id="36">
+					</li><li class="a" id="37">A3
+					</li><li class="a dies" id="38">
+					</li><li class="b" id="39">B3</li>
+				</ol><ol id="c4">
+					<li class="c" id="40">C4
+					</li><li class="c dies" id="41">
+					</li><li class="d" id="42">D4
+					</li><li class="d dies" id="43">
+					</li><li class="e" id="44">E4
+					</li><li class="f" id="45">F4
+					</li><li class="f dies" id="46">
+					</li><li class="g" id="47">G4
+					</li><li class="g dies" id="48">
+					</li><li class="a" id="49">A4
+					</li><li class="a dies" id="50">
+					</li><li class="b" id="51">B4</li>
+				</ol><ol id="c5">
+					<li class="c" id="52">C5
+					</li><li class="c dies" id="53">
+					</li><li class="d" id="54">D5
+					</li><li class="d dies" id="55">
+					</li><li class="e" id="56">E5
+					</li><li class="f" id="57">F5
+					</li><li class="f dies" id="58">
+					</li><li class="g" id="59">G5
+					</li><li class="g dies" id="60">
+					</li><li class="a" id="61">A5
+					</li><li class="a dies" id="62">
+					</li><li class="b" id="63">B5</li>
+				</ol><ol id="c6">
+					<li class="c" id="64">C6
+					</li><li class="c dies" id="65">
+					</li><li class="d" id="66">D6
+					</li><li class="d dies" id="67">
+					</li><li class="e" id="68">E6
+					</li><li class="f" id="69">F6
+					</li><li class="f dies" id="70">
+					</li><li class="g" id="71">G6
+					</li><li class="g dies" id="72">
+					</li><li class="a" id="73">A6
+					</li><li class="a dies" id="74">
+					</li><li class="b" id="75">B6</li>
+				</ol><ol id="c7">
+					<li class="c" id="76">C7
+					</li><li class="c dies" id="77">
+					</li><li class="d" id="78">D7
+					</li><li class="d dies" id="79">
+					</li><li class="e" id="80">E7
+					</li><li class="f" id="81">F7
+					</li><li class="f dies" id="82">
+					</li><li class="g" id="83">G7
+					</li><li class="g dies" id="84">
+					</li><li class="a" id="85">A7
+					</li><li class="a dies" id="86">
+					</li><li class="b" id="87">B7</li>
+				</ol><ol id="c8">
+					<li class="c" id="88">C8</li>
+				</ol>
+					<div class="shortcuts">
+						<p class="diesshort">ыв про 23 567 90 =</p>
+						<p>ячсмитьйцукенгшщзхъ</p>
+					</div>
+			</div>
 		</div>
-	</div>
-
-	<label for="majorThird">Терция:</label>
-	<div class="chord">.
-		<input type="checkbox" value="None" id="majorThird" name="check" />
-		<label for="majorThird"></label>
-	</div>
-	<label for="perfectFifth">Квинта:</label>
-	<div class="chord">.
-		<input type="checkbox" value="None" id="perfectFifth" name="check" />
-		<label for="perfectFifth"></label>
-	</div>
-	<label for="minorChord" title="Нажмите Shift">Минор:</label>
-	<div class="chord">.
-		<input type="checkbox" value="None" id="minorChord" name="check" />
-		<label for="minorChord"></label>
-	</div>
-	<label for="volumeRange">Громкость:</label>
-	<input id="volumeRange" type="range" value="4" min="0" max="100" step="2">
-	<button id="buttonMelody" type="button">Пример</button>
-	<label for="tempoRange">Темп:</label>
-	<input id="tempoRange" type="range" value="900" min="0" max="1000" step="1">
-	<div class="stave">
-		<img src="../images/treble-clef.svg" alt="Скрипичный ключ" id="trebleclef" width="59" height="115">
-		<img src="../images/note.svg" class="note" alt="нота" id="note1" width="31" height="62">
-		<img src="../images/note.svg" class="note" alt="терция" id="note2" width="31" height="62">
-		<img src="../images/note.svg" class="note" alt="квинта" id="note3" width="31" height="62">
-		<img src="../images/note.svg" class="note" alt="нота" id="note4" width="31" height="62">
-		<img src="../images/note.svg" class="note" alt="терция" id="note5" width="31" height="62">
-		<img src="../images/note.svg" class="note" alt="квинта" id="note6" width="31" height="62">
-		<img src="../images/note.svg" class="note" alt="нота" id="note7" width="31" height="62">
-		<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies1" width="8" height="27">
-		<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies2" width="8" height="27">
-		<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies3" width="8" height="27">
-		<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies4" width="8" height="27">
-		<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies5" width="8" height="27">
-		<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies6" width="8" height="27">
-		<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies7" width="8" height="27">
-		<hr />
-		<hr />
-		<hr />
-		<hr />
-		<hr />
-		<hr class="additional"/>		
-		<hr />
-		<hr />
-		<hr />
-		<hr />
-		<hr />
-	</div>
-	<div id="guitarneck" class="center"></div>
-	<canvas id='cnv' class="center"></canvas>
-	<label for="frequencyRange">Частота:</label>
-	<input id="frequencyRange" type="range" value="440" min="0" max="1000" step="1">
-	<input id="frequencyDisplay" value="440" type="text">
-	<button id="buttonStart" type="button">Старт</button>
-	<button id="buttonStop" type="button">Стоп</button>
+		<div id="tools">
+			<label for="keyboardCheck" class="check keyb">
+				<input id="keyboardCheck" type="checkbox" checked="true">
+				<img src="">
+				<span>Keyboard</span>
+			</label>
+			<label for="optionsCheck" class="check opti">
+				<input id="optionsCheck" type="checkbox">
+				<img src="">
+				<span>Options</span>
+			</label>
+			<label for="staveCheck" class="check stav">
+				<input type="checkbox" id="staveCheck" checked="true">
+				<img src="">
+				<span>Stave</span>
+			</label>
+			<label for="guitarCheck" class="check guit">
+				<input type="checkbox" id="guitarCheck">
+				<img src="">
+				<span>Guitar</span>
+			</label>
+			<label for="waveCheck" class="check wave">
+				<input type="checkbox" id="waveCheck">
+				<img src="">
+				<span>Wave</span>
+			</label>
+		</div>
+		<div id="Options">
+			<label for="majorThird">Терция:</label>
+			<div class="chord">.
+				<input type="checkbox" value="None" id="majorThird" name="check" />
+				<label for="majorThird"></label>
+			</div>
+			<label for="perfectFifth">Квинта:</label>
+			<div class="chord">.
+				<input type="checkbox" value="None" id="perfectFifth" name="check" />
+				<label for="perfectFifth"></label>
+			</div>
+			<label for="minorChord" title="Нажмите Shift">Минор:</label>
+			<div class="chord">.
+				<input type="checkbox" value="None" id="minorChord" name="check" />
+				<label for="minorChord"></label>
+			</div>
+			<label for="volumeRange">Громкость:</label>
+			<input id="volumeRange" type="range" value="4" min="0" max="100" step="2">
+			<button id="buttonMelody" type="button">Пример</button>
+			<label for="tempoRange">Темп:</label>
+			<input id="tempoRange" type="range" value="900" min="0" max="1000" step="1">
+		</div>
+		<div class="stave">
+			<img src="../images/treble-clef.svg" alt="Скрипичный ключ" id="trebleclef" width="59" height="115">
+			<img src="../images/note.svg" class="note" alt="нота" id="note1" width="31" height="62">
+			<img src="../images/note.svg" class="note" alt="терция" id="note2" width="31" height="62">
+			<img src="../images/note.svg" class="note" alt="квинта" id="note3" width="31" height="62">
+			<img src="../images/note.svg" class="note" alt="нота" id="note4" width="31" height="62">
+			<img src="../images/note.svg" class="note" alt="терция" id="note5" width="31" height="62">
+			<img src="../images/note.svg" class="note" alt="квинта" id="note6" width="31" height="62">
+			<img src="../images/note.svg" class="note" alt="нота" id="note7" width="31" height="62">
+			<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies1" width="8" height="27">
+			<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies2" width="8" height="27">
+			<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies3" width="8" height="27">
+			<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies4" width="8" height="27">
+			<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies5" width="8" height="27">
+			<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies6" width="8" height="27">
+			<img src="../images/dies.svg" class="noteDies" alt="dies" id="dies7" width="8" height="27">
+			<hr />
+			<hr />
+			<hr />
+			<hr />
+			<hr />
+			<hr class="additional"/>
+			<hr />
+			<hr />
+			<hr />
+			<hr />
+			<hr />
+		</div>
+		<div id="guitarneck" class="center"></div>
+		<canvas id='cnv' class="center"></canvas>
+		<label for="frequencyRange">Частота:</label>
+		<input id="frequencyRange" type="range" value="440" min="0" max="1000" step="1">
+		<input id="frequencyDisplay" value="440" type="text">
+		<button id="buttonStart" type="button">Старт</button>
+		<button id="buttonStop" type="button">Стоп</button>
+</div>
 	<footer>
-		<p><img src="favicon.ico" width=16 height=16>
+		<p><img src="../favicon.ico" width=16 height=16>
 	 	<span itemprop="copyrightYear">2015</span>
 	 	<span itemprop="copyrightHolder">Kolumbetko</span>
 		</p>
@@ -197,15 +233,14 @@
 	<script src="midikeys.js"></script>
 	<script src="raphael-min.js"></script>
 	<script src="synthesizer.js"></script>
+	<script src="example-melody.js"></script>
 	<script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		/*(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
 		ga('create', 'UA-52946302-2', 'auto');
-		ga('send', 'pageview');
-
+		ga('send', 'pageview');*/
 	</script>
 	</body>
 </html>
