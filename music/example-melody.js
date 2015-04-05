@@ -55,7 +55,7 @@ function Thread(record) {
 	this.changeNote = function() {
 		if (this.position !== 0) {
 			if (this.record[this.position - 1][0] !== "P") {
-				core.stop(null, noteIndex(this.record[this.position - 1]));
+				core.PlayEvent(noteIndex(this.record[this.position - 1]), false);
 			}
 		}
 		if (this.position > this.record.length - 1) {
@@ -64,7 +64,7 @@ function Thread(record) {
 		}
 		if (this.record[this.position][0] !== "P") {
 			bDrawedNote = true;
-			if (!core.plaingNotes[noteIndex(this.record[this.position])]) core.play(null, noteIndex(this.record[this.position]));
+			if (!core.plaingNotes[noteIndex(this.record[this.position])]) core.PlayEvent(noteIndex(this.record[this.position]), true);
 		};
 		this.position++;
 	}
