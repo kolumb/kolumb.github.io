@@ -9,6 +9,8 @@ body, ol, li{ margin: 0; padding: 0; }
 	position: absolute; top:0; left: 0; right: 0; bottom: 0;
 	transition: 300ms background-color; }
 .check svg { position: absolute; top: 0; left: 0;
+	-webkit-filter: drop-shadow(0 0 2px #aaa); 
+	filter: drop-shadow(0 0 2px #aaa);
 	width: 5em; height: 5em; }
 .check svg:hover {
 	background-color: rgba(250,250,250,0.1);
