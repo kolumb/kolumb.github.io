@@ -68,20 +68,20 @@ li.pressed { background: white;
 #Options { padding: .5em; background-color: #eee; }
 
 label { margin: .5em -.2em .5em 1em; display: inline-block; }
-/*#majorThird, #perfectFifth, #minorChord { display: none; }*/
+/*#majorThird, #perfectFifth, #minorchecky { display: none; }*/
 
-.chord { color: lightgray; width: 1.75em; height: 1.75em; border-radius: 50%;
+.checky { color: lightgray; width: 1.75em; height: 1.75em; border-radius: 50%;
 	display: inline-block; background: #eee; margin: 0.3em;
 	box-shadow:  0px 1px 3px rgba(0,0,0,0.5); position: relative; }
-.chord label { cursor: pointer; position: absolute; left: 0.25em; top: 0.25em;
+.checky label { cursor: pointer; position: absolute; left: 0.25em; top: 0.25em;
 	margin: 0; padding: 0; width: 1.25em; height: 1.25em; border-radius: 50%;
 	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5);
 	background: linear-gradient(to top, #fff 0%, #b5b8bd 100%); }
-.chord label:after { opacity: 0; content: ''; position: absolute;
+.checky label:after { opacity: 0; content: ''; position: absolute;
 	border-radius: 50%; width: 1.25em; height: 1.25em; background: #00bf00;
 	background: linear-gradient(to top, #10bf20 0%, #109420 100%); }
-.chord label:hover::after { opacity: 0.3; }
-.chord input[type=checkbox]:checked + label:after { opacity: 1; }
+.checky label:hover::after { opacity: 0.3; }
+.checky input[type=checkbox]:checked + label:after { opacity: 1; }
 
 #Stave{ padding: 3em 0 2em; position: relative; cursor: crosshair;}
 #Harmonica{ cursor: crosshair; }

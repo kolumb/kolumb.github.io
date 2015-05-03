@@ -15,11 +15,11 @@ body {
 	font: 1.5em Calibri, Helvetica, sans-serif;
 	background: #f8f8f8 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAIAAADZSiLoAAAAHElEQVQIHWP48+fP9+/f////zwCkgBwQC4ghAACODRqkCkEF0QAAAABJRU5ErkJggg==');
 }
-h1 {font-size: 2em;margin: 0;padding: 1em;background: rgba(224,224,224,.4);}
+h1 {font-size: 2em;margin: 0;padding: 1em;background: rgba(224,229,234,.4);}
 
 .main {margin: 0 1em;}
 
-h2 {font-size: 1.5em;margin: 0;padding: 1em;background: rgba(239,239,239,.4);}
+h2 {font-size: 1.5em;margin: 0;padding: 1em;background: rgba(239,244,249,.4);}
 
 article{display: block;margin: 0 1em 1em;}
 
@@ -38,9 +38,8 @@ dt {
 		border-left: 3.24em solid #EEE;
 	}
 	dd {
-		display: none; 
-		position:absolute;
-		background: #eee;
+		display: none;
+		background: rgb(239,244,249);
 		padding: 1em 2em;
 		border-bottom-left-radius: 3em;
 		right: 3em;
@@ -69,14 +68,107 @@ footer{
 footer a {
 	padding: 0;
 }
+
+.box {
+    border: 1px solid #D2DAE6;
+    background-color : #EEF1F7;
+    position: fixed;
+	width: 4em;
+	right: 0;
+	top: 0;
+	z-index: 999;
+}
+
+.hint_navigation {
+    text-align: center;
+    padding-top: 11px;
+}
+.navigation_button {
+    margin: 3px;
+    position: relative;
+    height: 1.5em;
+    background-color : #E4EAED;
+}
+.navigation_currentmark {
+    position: absolute;
+    height: 100%;
+    width : 3px;
+    background-color : #6A8299;
+    opacity : 0;
+    transition : opacity .2s;
+}
+.navigation_label {
+    position: absolute;
+    font-size : 18px;
+    margin: 0.2em;
+    padding-left: 10px;
+    width: 100%;
+    height: 100%;
+    color : #112233;
+    transition: color .2s;
+}
+.navigation_label:hover {
+    color : #8899AA;
+    cursor : pointer;
+}
+@media screen and (max-width:700px) {
+	article, .main {
+		margin: 0;
+	}
+	dt:hover {
+		left: -1em;
+		border-left: 1em solid #EEE;
+	}
+    dd {	
+		margin-top: 0;	
+		border-bottom-left-radius: 2em;
+		right: 2em;
+		left: 0em;
+		padding: 1em;
+	}
+	dt:hover + dd, dd:hover {
+		margin: 0 1em;
+
+	}
+}
+@media screen and (max-width:550px) {
+	body {
+		font: 1em Calibri, Helvetica, sans-serif;
+	}
+    dd {
+		position:static;
+	}
+	dt:hover + dd, dd:hover {
+		margin: 0;
+
+	}
+	.box {
+    	position: static;
+		width: auto;
+    }
+    .navigation_button {
+    	display: inline-block;
+    	padding: 0.5em;
+    }
+    .navigation_currentmark {
+		display: none;
+    }
+    .navigation_label {
+		position: static;
+    	display: inline-block;
+    	padding-left: 0;
+    	margin: 0;
+    }
+}
 	</style>
 </head>
 <body>
-	
+<div id="myViewport" class="viewport scrollable intence ">
 	<h1>Закладки</h1>
+	<div class="box" id="navigation_container"></div>
 	<div class="main">	
 		<h2>Полезные программы для графики</h2>
-		<article>
+		<article section_title="Графика" id="graphicsSection" class=section>
 			<dl>
 				<dt><a href="http://www.faststone.org/FSViewerDownload.htm">FastStone Image Viewer</a></dt>
 				<dd>Быстрый просмотр изображений на весь экран, всех форматов с вожностью настройки яркости, обрезки и т.п.</dd>
@@ -99,7 +191,7 @@ footer a {
 		</article>
 
 		<h2>Полезные программы для мультимедиа</h2>
-		<article>
+		<article section_title="Медиа"  id="mediaSection" class=section>
 			<dl>
 				<dt><a href="http://codecguide.com/download_kl.htm">K-Lite Codec Pack</a></dt>
 				<dd>Сборник кодеков для всех форматов.</dd>
@@ -119,7 +211,7 @@ footer a {
 		</article>
 
 		<h2>Полезные программы для текста</h2>
-		<article>
+		<article section_title="Текст" id="textSection" class=section>
 			<dl>
 				<dt><a href="http://notepad-plus-plus.org/">Notepad++</a></dt>
 				<dd>Текстовый редактор со свободным исходным кодом с проверкой орфографии, с простой поддержкой многих языков программирования.<dd>
@@ -139,7 +231,7 @@ footer a {
 		</article>	
 		
 		<h2>Системные программы</h2>
-		<article>
+		<article section_title="Система" id="systemSection" class=section>
 			<dl>
 				<dt><a href="http://en.wikipedia.org/wiki/Microsoft_Foundation_Class_Library">Microsoft Visual C++ Redistributable Package</a></dt>
 				<dd>Библиотеки, нужные для запуска программ написаных на C++ для Windows.</dd>
@@ -162,8 +254,11 @@ footer a {
 		</article>
 
 		<h2>Диагностика работы компьютера</h2>
-		<article>
+		<article section_title="Диагноз" id="diagnosticSection" class=section>
 			<dl>
+				<dt><a href="http://download.teamviewer.com/download/TeamViewerQS_ru.exe">Скачать Teamviewer Quick</a></dt>
+				<dd>Управление компьютером через Интернет. Односторонняя версия без установки.</dd>
+
 				<dt><a href="http://technet.microsoft.com/ru-ru/sysinternals/default">Windows Sysinternals</a></dt>
 				<dd>Официальные инструменты для Windows, диска, сети и т.д.</dd>
 
@@ -197,7 +292,7 @@ footer a {
 	<h1>Обучение программированию</h1>
 	<div class="main">
 		<h2>Статьи</h2>
-		<article>
+		<article section_title="Статьи" id="articlesSection" class=section>
 			<dl>
 				<dt><a href="http://russian.joelonsoftware.com/Articles/BacktoBasics.html">Назад к основам.</a></dt>
 				<dd>Почему стоит изучать с низкоуровневых языков?</dd>
@@ -208,19 +303,13 @@ footer a {
 		</article>
 
 		<h2>Обучающие игры</h2>
-		<article>
+		<article section_title="Игры" id="gamesSection" class=section>
 			<dl>
 				<dt><a href="http://sineridergame.com">SineRider Game</a></dt>
 				<dd>Забавно обучает рисованию графиков. Качественно сделано.</dd>
 
 				<dt><a href="http://www.playcodemonkey.com/">Play CodeMonkey</a></dt>
 				<dd>Обучение программированию (кодингу) детей.</dd>
-
-				<dt><a href="https://codecombat.com">Code Combat</a></dt>
-				<dd>То же самое, посложнее и с сеттингом как в РПГ.</dd>
-
-				<dt><a href="http://www.codingame.com">Coding Game</a></dt>
-				<dd>Программирование разных игр. Подходит для знакомства с еще одним языком.</dd>
 
 				<dt><a href="http://play.elevatorsaga.com/">Elevator Saga</a></dt>
 				<dd>Игра в программиста лифта.</dd>
@@ -231,7 +320,7 @@ footer a {
 		</article>
 
 		<h2>Книги</h2>
-		<article>
+		<article section_title="Книги" id="booksSection" class=section>
 			<dl>
 				<dt><a href="http://habrahabr.ru/post/240219/">Выразительный JS</a></dt>
 				<dd>Программирование с самых основ. Интересно и коротко. И практично.</dd>
@@ -248,7 +337,7 @@ footer a {
 		</article>
 
 		<h2>Видеоуроки</h2>
-		<article>
+		<article section_title="Видео" id="videoSection" class=section>
 			<dl>
 				<dt><a href="https://hexlet.io">hexlet.io</a></dt>
 				<dd>Бесплатные видеоуроки по фундаментальным основам программирования: алгоритмы, логика, функциональное программирование. А также по популярным языкам программирования для самых начинающих.</dd>
@@ -265,7 +354,7 @@ footer a {
 		</article>
 
 		<h2>Другие материалы</h2>
-		<article>
+		<article section_title="Другое" id="othersSection" class=section>
 			<dl>
 				<dt><a href="http://upyourpic.org/images/201405/o47a96m1y2.gif">Картинка "языки программирования"</a></dt>
 				<dd>Дата появления и взаимосвязь.</dd>
@@ -313,6 +402,93 @@ footer a {
 			</ul>
 		</nav>
 	</footer>
+</div>
+	<script src="viewport.source.js"></script>
+	<script src="naturalScroll.js"></script>
+	<script>
+
+
+var positions =[];
+
+function _el(id) {
+    return document.getElementById(id);
+}
+var sections;
+function start() {
+    setTimeout( function() {
+    	create_navigation();
+    }, 100 );
+}
+
+var navigations = {};
+
+function create_navigation() {
+    var container = _el('navigation_container');
+    sections = document.getElementsByClassName('section');
+
+    var i, section, id, title, button, currentMark, indicator, label;
+    for (i = 0; i < sections.length; i++) {
+        section = sections[i];
+        positions[i] = section.getBoundingClientRect().top + window.pageYOffset -115;
+        title = section.getAttribute('section_title');
+        id = section.getAttribute('id');
+
+        button = document.createElement('div');
+        button.className = 'navigation_button';
+
+        currentMark = document.createElement('div');
+        currentMark.className = 'navigation_currentmark';
+
+        label = document.createElement('div');
+        label.className = 'navigation_label';
+        label.innerHTML = title;
+
+        label.addEventListener(
+            'click',
+            (function(i) {
+                 return function() {
+                     var target = positions[i];
+                     naturalScroll.scrollTop(document.body, target);
+                 }
+            })(i),
+            false
+        );
+
+        button.appendChild(currentMark);
+        button.appendChild(label);
+
+        container.appendChild(button);
+
+        navigations[id] = {
+            currentMark : currentMark,
+        };
+    }
+
+    window.addEventListener(
+        'scroll', update_navigation, false
+    );
+}
+
+function update_navigation() {
+	var current;
+	currentScroll = window.pageYOffset;
+	var i = 1;
+	while(currentScroll + 90 > positions[i]) { i++; }
+	current = i-1;
+
+    for (i = 0; i < sections.length; i++) {
+        navigations[sections[i].getAttribute('id')].currentMark.style.opacity = current == i ? 1 : 0;
+    }
+}
+
+if (document.readyState == "complete") {
+    start();
+} else {
+    window.addEventListener("load", start, false);
+}
+
+
+	</script>
 	<script>
 		/*(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
