@@ -1,0 +1,57 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, Arial, sans-serif;
+	background-color: #BCC8DB;
+}
+#controller {
+	margin: 1em 0;
+	padding: 0;
+	list-style-type: none;
+	text-align: center;
+}
+#controller li {
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+	font-size: 1.5em;
+	line-height: 2em;
+	color: white;
+	background-color: #8EA4C8;
+	box-shadow: 0 .1em .08em #79a;
+}
+#gamefield {
+	margin: 0 auto;
+}
+table table td {
+	position: relative;
+	width: 2.5em;
+	height: 2.5em;
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.5em;
+	background-color: #E5E1EE;
+}
+
+.over {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	background-color: transparent;
+}
+.over:active {
+	background-color: red;
+}
+
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
