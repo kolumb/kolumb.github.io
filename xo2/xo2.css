@@ -69,8 +69,10 @@ table table td {
 		box-shadow: inset 0 0 .5em gray;
 	}
 
-.tic { background: url(../images/tic.svg); }
-.tac { background: url(../images/tac.svg); }
+.tic { background: url(../images/tic.svg);
+	background-size: 100%; }
+.tac { background: url(../images/tac.svg);
+	background-size: 100%; }
 .tic-full::after { 
 	display:block;
 	position: absolute;
