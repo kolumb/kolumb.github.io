@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang=ru>
+<html lang=ru prefix="og: http://ogp.me/ns#">
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
@@ -7,9 +7,163 @@
 	<meta name="description" content="Версия игры крестики-нолики для запоминания таблицы умножения.">
 	<meta name="author" content="Данил Колумбет">
 	<title>Крестики-нолики 2</title>
+	<meta property="og:title" content="The Rock" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="http://kolumb.tk/xo2/" />
+	<meta property="og:image" content="http://cs629409.vk.me/v629409698/a2cc/2qph9jn-MAk.jpg" />
 	<link rel="shortcut icon" href="../favicon.ico" />
 	<link rel="stylesheet" href="../style.css">
-	<link rel="stylesheet" href="xo2.css">
+	<style>
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, Arial, sans-serif;
+	background-color: #BCC8DB;
+}
+#controller {
+	min-height: 6em;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	text-align: center;
+}
+.digit {
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+	margin: 1em 0;
+	font-size: 1.5em;
+	line-height: 2em;
+	color: white;
+	background-color: #6D89B8;
+	border: 0 solid orange;
+	border-radius: .3em;
+	box-shadow: 0 .1em .08em #79a;
+	transition-delay: 0s;
+	transition-duration: 200ms;
+	transition-property: border, margin;
+	transition-timing-function: ease;
+}
+.first {
+	margin: 0;
+	border-top: .5em solid orange;
+	background-color: #686A99;
+	transition-duration: 200ms;
+}
+.second {
+	margin: 0;
+	border-bottom: .5em solid orange;
+	background-color: #686A99;
+	transition-duration: 200ms;
+}
+
+#gamefield { margin: 0 auto; }
+
+td { position: relative; }
+table table td {
+	width: 2.5em;
+	height: 2.5em;
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.5em;
+	background-color: #E5E1EE;
+}
+
+.over {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 2.5em;
+	height: 2.5em;
+	cursor: pointer;
+	background-color: transparent;
+	box-shadow: inset 0 0 0 black;
+	transition: box-shadow 100ms;
+}
+	.over:active {
+		box-shadow: inset 0 0 .5em gray;
+	}
+
+.tic { background: url(../images/tic.svg);
+	background-size: 100%; }
+.tac { background: url(../images/tac.svg);
+	background-size: 100%; }
+.tic-full::after { 
+	display:block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 11.85em;
+	height: 11.85em;
+	content: '';
+	background: url(../images/tic.svg); 
+	background-size: 100%;
+}
+.tac-full::after { 
+	display:block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 11.85em;
+	height: 11.85em;
+	content: '';
+	background: url(../images/tac.svg); 
+	background-size: 100%;
+}
+
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+footer {
+	background: transparent;
+	margin: 2em;
+}
+nav a span {
+	background: #BCC8DB;
+}
+nav a span::before {
+	background: #686A99;
+}
+
+nav a:hover span::before,
+nav a:focus span::before {
+	background: #BCC8DB;	
+}
+nav a:hover span,
+nav a:focus span {
+	background: #E5E1EE;
+}
+
+@media screen and (max-width:600px) {
+	#controller {
+		min-height: 3em;
+	}
+	.digit {
+		font-size: 1em;
+		width: 1.5em;
+		height: 1.5em;
+		line-height: 1.5em;
+	}
+	table table td {
+		width: 2em;
+		height: 2em;
+		font-size: 1em;
+	}
+
+	.over {
+		width: 2em;
+		height: 2em;
+	}
+
+}
+	</style>
 </head>
 <body>
 <ol id="controller" class="noselect">
