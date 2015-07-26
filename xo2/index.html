@@ -6,13 +6,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="Версия игры крестики-нолики для запоминания таблицы умножения.">
 	<meta name="author" content="Данил Колумбет">
-	<title>Крестики-нолики 2</title>
-	<meta property="og:title" content="The Rock" />
+	<title>Крестики-нолики для обучения таблицы умножения</title>
+	<meta property="og:title" content="Крестики-нолики для обучения таблицы умножения" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="http://kolumb.tk/xo2/" />
 	<meta property="og:image" content="http://cs629409.vk.me/v629409698/a2cc/2qph9jn-MAk.jpg" />
 	<link rel="shortcut icon" href="../favicon.ico" />
-	<link rel="stylesheet" href="../style.css">
 	<style>
 body {
 	margin: 0;
@@ -35,7 +34,7 @@ body {
 	font-size: 1.5em;
 	line-height: 2em;
 	color: white;
-	background-color: #6D89B8;
+	background-color: #686A99;
 	border: 0 solid orange;
 	border-radius: .3em;
 	box-shadow: 0 .1em .08em #79a;
@@ -44,17 +43,23 @@ body {
 	transition-property: border, margin;
 	transition-timing-function: ease;
 }
-.first {
+#controller .first {
 	margin: 0;
+	color: white;
 	border-top: .5em solid orange;
 	background-color: #686A99;
 	transition-duration: 200ms;
 }
-.second {
+#controller .second {
 	margin: 0;
+	color: white;
 	border-bottom: .5em solid orange;
 	background-color: #686A99;
 	transition-duration: 200ms;
+}
+.disable .digit {
+	background-color: #6D89B8;
+	color: #BCC8DB;
 }
 
 #gamefield { margin: 0 auto; }
@@ -81,9 +86,7 @@ table table td {
 	box-shadow: inset 0 0 0 black;
 	transition: box-shadow 100ms;
 }
-	.over:active {
-		box-shadow: inset 0 0 .5em gray;
-	}
+	.over:active { box-shadow: inset 0 0 .5em gray;	}
 
 .tic { background: url(../images/tic.svg);
 	background-size: 100%; }
@@ -120,48 +123,29 @@ table table td {
 	-ms-user-select: none;
 	user-select: none;
 }
+h4 {
+	text-align: center;
+}
+body footer { background: #BCC8DB; margin: 2em; }
+body nav a:hover{ background-color: #BCC8DB; }
+body nav a span { background: #BCC8DB; }
+body nav a span::before { background: #686A99; }
 
-footer {
-	background: transparent;
-	margin: 2em;
-}
-nav a span {
-	background: #BCC8DB;
-}
-nav a span::before {
-	background: #686A99;
-}
-
-nav a:hover span::before,
-nav a:focus span::before {
-	background: #BCC8DB;	
-}
-nav a:hover span,
-nav a:focus span {
-	background: #E5E1EE;
-}
+body nav a:hover span::before,
+body nav a:focus span::before { background: #BCC8DB;	}
+body nav a:hover span,
+body nav a:focus span { background: #E5E1EE; }
 
 @media screen and (max-width:600px) {
-	#controller {
-		min-height: 3em;
-	}
-	.digit {
-		font-size: 1em;
+	#controller { min-height: 3em; }
+	.digit { font-size: 1em;
 		width: 1.5em;
 		height: 1.5em;
 		line-height: 1.5em;
 	}
-	table table td {
-		width: 2em;
-		height: 2em;
-		font-size: 1em;
-	}
-
-	.over {
-		width: 2em;
-		height: 2em;
-	}
-
+	table table td { width: 2em; height: 2em;
+		font-size: 1em; }
+	.over { width: 2em; height: 2em; }
 }
 	</style>
 </head>
@@ -178,437 +162,107 @@ nav a:focus span {
 	<li id="pick9" class="digit">9</li>
 </ol>
 
-<table id="gamefield" class="noselect">
-	<tr>
-		<td id="block1">
-			<table>
-				<tr>
-					<td>1
-						<div id="cell0" class="over">
-						</div>
-					</td>
-					<td>2
-						<div id="cell1" class="over">
-						</div>
-					</td>
-					<td>3
-						<div id="cell2" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>4
-						<div id="cell3" class="over">
-						</div>
-					</td>
-					<td>5
-						<div id="cell4" class="over">
-						</div>
-					</td>
-					<td>6
-						<div id="cell5" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>7
-						<div id="cell6" class="over">
-						</div>
-					</td>
-					<td>8
-						<div id="cell7" class="over">
-						</div>
-					</td>
-					<td>9
-						<div id="cell8" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td id="block2">
-			<table>
-				<tr>
-					<td>2
-						<div id="cell9" class="over">
-						</div>
-					</td>
-					<td>4
-						<div id="cell10" class="over">
-						</div>
-					</td>
-					<td>6
-						<div id="cell11" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>8
-						<div id="cell12" class="over">
-						</div>
-					</td>
-					<td>10
-						<div id="cell13" class="over">
-						</div>
-					</td>
-					<td>12
-						<div id="cell14" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>14
-						<div id="cell15" class="over">
-						</div>
-					</td>
-					<td>16
-						<div id="cell16" class="over">
-						</div>
-					</td>
-					<td>18
-						<div id="cell17" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td id="block3">
-			<table>
-				<tr>
-					<td>3
-						<div id="cell18" class="over">
-						</div>
-					</td>
-					<td>6
-						<div id="cell19" class="over">
-						</div>
-					</td>
-					<td>9
-						<div id="cell20" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>12
-						<div id="cell21" class="over">
-						</div>
-					</td>
-					<td>15
-						<div id="cell22" class="over">
-						</div>
-					</td>
-					<td>18
-						<div id="cell23" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>21
-						<div id="cell24" class="over">
-						</div>
-					</td>
-					<td>24
-						<div id="cell25" class="over">
-						</div>
-					</td>
-					<td>27
-						<div id="cell26" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td id="block4">
-			<table>
-				<tr>
-					<td>4
-						<div id="cell27" class="over">
-						</div>
-					</td>
-					<td>8
-						<div id="cell28" class="over">
-						</div>
-					</td>
-					<td>12
-						<div id="cell29" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>16
-						<div id="cell30" class="over">
-						</div>
-					</td>
-					<td>20
-						<div id="cell31" class="over">
-						</div>
-					</td>
-					<td>24
-						<div id="cell32" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>28
-						<div id="cell33" class="over">
-						</div>
-					</td>
-					<td>32
-						<div id="cell34" class="over">
-						</div>
-					</td>
-					<td>36
-						<div id="cell35" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td id="block5">
-			<table>
-				<tr>
-					<td>5
-						<div id="cell36" class="over">
-						</div>
-					</td>
-					<td>10
-						<div id="cell37" class="over">
-						</div>
-					</td>
-					<td>15
-						<div id="cell38" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>20
-						<div id="cell39" class="over">
-						</div>
-					</td>
-					<td>25
-						<div id="cell40" class="over">
-						</div>
-					</td>
-					<td>30
-						<div id="cell41" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>35
-						<div id="cell42" class="over">
-						</div>
-					</td>
-					<td>40
-						<div id="cell43" class="over">
-						</div>
-					</td>
-					<td>45
-						<div id="cell44" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td id="block6">
-			<table>
-				<tr>
-					<td>6
-						<div id="cell45" class="over">
-						</div>
-					</td>
-					<td>12
-						<div id="cell46" class="over">
-						</div>
-					</td>
-					<td>18
-						<div id="cell47" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>24
-						<div id="cell48" class="over">
-						</div>
-					</td>
-					<td>30
-						<div id="cell49" class="over">
-						</div>
-					</td>
-					<td>36
-						<div id="cell50" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>42
-						<div id="cell51" class="over">
-						</div>
-					</td>
-					<td>48
-						<div id="cell52" class="over">
-						</div>
-					</td>
-					<td>54
-						<div id="cell53" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td id="block7">
-			<table>
-				<tr>
-					<td>7
-						<div id="cell54" class="over">
-						</div>
-					</td>
-					<td>14
-						<div id="cell55" class="over">
-						</div>
-					</td>
-					<td>21
-						<div id="cell56" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>28
-						<div id="cell57" class="over">
-						</div>
-					</td>
-					<td>35
-						<div id="cell58" class="over">
-						</div>
-					</td>
-					<td>42
-						<div id="cell59" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>49
-						<div id="cell60" class="over">
-						</div>
-					</td>
-					<td>56
-						<div id="cell61" class="over">
-						</div>
-					</td>
-					<td>63
-						<div id="cell62" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td id="block8">
-			<table>
-				<tr>
-					<td>8
-						<div id="cell63" class="over">
-						</div>
-					</td>
-					<td>16
-						<div id="cell64" class="over">
-						</div>
-					</td>
-					<td>24
-						<div id="cell65" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>32
-						<div id="cell66" class="over">
-						</div>
-					</td>
-					<td>40
-						<div id="cell67" class="over">
-						</div>
-					</td>
-					<td>48
-						<div id="cell68" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>56
-						<div id="cell69" class="over">
-						</div>
-					</td>
-					<td>64
-						<div id="cell70" class="over">
-						</div>
-					</td>
-					<td>72
-						<div id="cell71" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td id="block9">
-			<table>
-				<tr>
-					<td>9
-						<div id="cell72" class="over">
-						</div>
-					</td>
-					<td>18
-						<div id="cell73" class="over">
-						</div>
-					</td>
-					<td>27
-						<div id="cell74" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>36
-						<div id="cell75" class="over">
-						</div>
-					</td>
-					<td>45
-						<div id="cell76" class="over">
-						</div>
-					</td>
-					<td>54
-						<div id="cell77" class="over">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>63
-						<div id="cell78" class="over">
-						</div>
-					</td>
-					<td>72
-						<div id="cell79" class="over">
-						</div>
-					</td>
-					<td>81
-						<div id="cell80" class="over">
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table><br />
+<table id="gamefield" class="noselect"><tr>
+<td id="block1"><table><tr><td>1
+<div id="cell0" class="over"></div></td><td>2
+<div id="cell1" class="over"></div></td><td>3
+<div id="cell2" class="over"></div></td></tr><tr><td>4
+<div id="cell3" class="over"></div></td><td>5
+<div id="cell4" class="over"></div></td><td>6
+<div id="cell5" class="over"></div></td></tr><tr><td>7
+<div id="cell6" class="over"></div></td><td>8
+<div id="cell7" class="over"></div></td><td>9
+<div id="cell8" class="over"></div></td></tr></table></td>
+<td id="block2"><table><tr><td>2
+<div id="cell9" class="over"></div></td><td>4
+<div id="cell10" class="over"></div></td><td>6
+<div id="cell11" class="over"></div></td></tr><tr><td>8
+<div id="cell12" class="over"></div></td><td>10
+<div id="cell13" class="over"></div></td><td>12
+<div id="cell14" class="over"></div></td></tr><tr><td>14
+<div id="cell15" class="over"></div></td><td>16
+<div id="cell16" class="over"></div></td><td>18
+<div id="cell17" class="over"></div></td></tr></table></td>
+<td id="block3"><table><tr><td>3
+<div id="cell18" class="over"></div></td><td>6
+<div id="cell19" class="over"></div></td><td>9
+<div id="cell20" class="over"></div></td></tr><tr><td>12
+<div id="cell21" class="over"></div></td><td>15
+<div id="cell22" class="over"></div></td><td>18
+<div id="cell23" class="over"></div></td></tr><tr><td>21
+<div id="cell24" class="over"></div></td><td>24
+<div id="cell25" class="over"></div></td><td>27
+<div id="cell26" class="over"></div></td></tr></table></td></tr><tr>
+<td id="block4"><table><tr><td>4
+<div id="cell27" class="over"></div></td><td>8
+<div id="cell28" class="over"></div></td><td>12
+<div id="cell29" class="over"></div></td></tr><tr><td>16
+<div id="cell30" class="over"></div></td><td>20
+<div id="cell31" class="over"></div></td><td>24
+<div id="cell32" class="over"></div></td></tr><tr><td>28
+<div id="cell33" class="over"></div></td><td>32
+<div id="cell34" class="over"></div></td><td>36
+<div id="cell35" class="over"></div></td></tr></table></td>
+<td id="block5"><table><tr><td>5
+<div id="cell36" class="over"></div></td><td>10
+<div id="cell37" class="over"></div></td><td>15
+<div id="cell38" class="over"></div></td></tr><tr><td>20
+<div id="cell39" class="over"></div></td><td>25
+<div id="cell40" class="over"></div></td><td>30
+<div id="cell41" class="over"></div></td></tr><tr><td>35
+<div id="cell42" class="over"></div></td><td>40
+<div id="cell43" class="over"></div></td><td>45
+<div id="cell44" class="over"></div></td></tr></table></td>
+<td id="block6"><table><tr><td>6
+<div id="cell45" class="over"></div></td><td>12
+<div id="cell46" class="over"></div></td><td>18
+<div id="cell47" class="over"></div></td></tr><tr><td>24
+<div id="cell48" class="over"></div></td><td>30
+<div id="cell49" class="over"></div></td><td>36
+<div id="cell50" class="over"></div></td></tr><tr><td>42
+<div id="cell51" class="over"></div></td><td>48
+<div id="cell52" class="over"></div></td><td>54
+<div id="cell53" class="over"></div></td></tr></table></td></tr><tr>
+<td id="block7"><table><tr><td>7
+<div id="cell54" class="over"></div></td><td>14
+<div id="cell55" class="over"></div></td><td>21
+<div id="cell56" class="over"></div></td></tr><tr><td>28
+<div id="cell57" class="over"></div></td><td>35
+<div id="cell58" class="over"></div></td><td>42
+<div id="cell59" class="over"></div></td></tr><tr><td>49
+<div id="cell60" class="over"></div></td><td>56
+<div id="cell61" class="over"></div></td><td>63
+<div id="cell62" class="over"></div></td></tr></table></td>
+<td id="block8"><table><tr><td>8
+<div id="cell63" class="over"></div></td><td>16
+<div id="cell64" class="over"></div></td><td>24
+<div id="cell65" class="over"></div></td></tr><tr><td>32
+<div id="cell66" class="over"></div></td><td>40
+<div id="cell67" class="over"></div></td><td>48
+<div id="cell68" class="over"></div></td></tr><tr><td>56
+<div id="cell69" class="over"></div></td><td>64
+<div id="cell70" class="over"></div></td><td>72
+<div id="cell71" class="over"></div></td></tr></table></td>
+<td id="block9"><table><tr><td>9
+<div id="cell72" class="over"></div></td><td>18
+<div id="cell73" class="over"></div></td><td>27
+<div id="cell74" class="over"></div></td></tr><tr><td>36
+<div id="cell75" class="over"></div></td><td>45
+<div id="cell76" class="over"></div></td><td>54
+<div id="cell77" class="over"></div></td></tr><tr><td>63
+<div id="cell78" class="over"></div></td><td>72
+<div id="cell79" class="over"></div></td><td>81
+<div id="cell80" class="over"></div></td></tr></table></td></tr>
+</table>
+<br />
 <label for="automatic" style="padding: 3em">Автоматический режим:</label> <input id="automatic" type="checkbox">
 
 <div style="margin: 2em">
+<h4>Крестики-нолики для обучения таблицы умножения</h4>
 	<p>Цель игры - поставить три крестика или нолика в ряд. Победив на маленьком поле, можно победить на большом, если получится ряд из больших крестика или нолика.</p> <br />
 	<p>Чтобы поставить отметку, нужно выбрать пару чисел. Например, 2 и 5. Тогда можно поставить отметку на всех десятках. </p><br />
 	<p>Второй игрок может переместить один из множителей. Например, нажать на 5, а затем на 2. Получится 2 x 2 = 4. И отметить все четвёрки. Каждый может перемещать только один множитель.</p>
-
 </div>
-
 <p style="margin: 3em">Идея взята из статьи: <a href="https://artofmathstudio.wordpress.com/2013/08/30/multiplication-tic-tac-toe/">Multiplication tic-tac-toe</a></p>
 <footer>
 	<p><img src="../favicon.ico" width=16 height=16>
@@ -619,22 +273,23 @@ nav a:focus span {
 		<ul>
 			<li><a href="../"><span data-hover="Главная">Главная</span></a></li><li>
 			<a href="../music/" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
-			<a href="." title="Крестики-нолики 2"><span data-hover="XO2">XO2</span></a></li><li>
+			<a href="." title="Крестики-нолики для обучения таблицы умножения"><span data-hover="XO2">XO2</span></a></li><li>
 			<a href="../trigonometry" title="Интерактивная программа"><span data-hover="Тригонометрия">Тригонометрия</span></a></li><li>
 			<a href="../links" title="Полезные ссылки"><span data-hover="Закладки">Закладки</span></a></li>
 		</ul>
 	</nav>
 </footer>
+<link rel="stylesheet" href="../style.css">
 <script src="xo2.js"></script>
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-52946302-3', 'auto');
-	  ga('send', 'pageview');
-
-	</script>
+<script>
+if (document.location.hostname) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-52946302-3', 'auto');
+	ga('send', 'pageview');
+}
+</script>
 </body>
 </html>

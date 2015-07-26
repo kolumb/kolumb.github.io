@@ -152,6 +152,7 @@ controller.addEventListener('click', function (event) {
 			first = index;
 			classList.add('first');
 		}
+		controller.classList.remove('disable');
 	} else {
 		if (first === index) {
 			classList.add('second');
@@ -169,6 +170,7 @@ controller.addEventListener('click', function (event) {
 			}
 		}
 		makeTurn();
+		controller.classList.add('disable');
 	}
 	movingControl = !movingControl;
 }, false);
