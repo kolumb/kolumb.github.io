@@ -6,8 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="Версия игры крестики-нолики для запоминания таблицы умножения.">
 	<meta name="author" content="Данил Колумбет">
-	<title>Крестики-нолики для обучения таблицы умножения</title>
-	<meta property="og:title" content="Крестики-нолики для обучения таблицы умножения" />
+	<title>Крестики-нолики для изучения таблицы умножения</title>
+	<meta property="og:title" content="Крестики-нолики для изучения таблицы умножения" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="http://kolumb.tk/xo2/" />
 	<meta property="og:image" content="http://cs629409.vk.me/v629409698/a2cc/2qph9jn-MAk.jpg" />
@@ -38,6 +38,7 @@ body {
 	border: 0 solid orange;
 	border-radius: .3em;
 	box-shadow: 0 .1em .08em #79a;
+	cursor: pointer;
 	transition-delay: 0s;
 	transition-duration: 200ms;
 	transition-property: border, margin;
@@ -48,6 +49,7 @@ body {
 	color: white;
 	border-top: .5em solid orange;
 	background-color: #686A99;
+	cursor: pointer;
 	transition-duration: 200ms;
 }
 #controller .second {
@@ -55,11 +57,13 @@ body {
 	color: white;
 	border-bottom: .5em solid orange;
 	background-color: #686A99;
+	cursor: pointer;
 	transition-duration: 200ms;
 }
 .disable .digit {
 	background-color: #6D89B8;
 	color: #BCC8DB;
+	cursor: default;
 }
 
 #gamefield { margin: 0 auto; }
@@ -97,8 +101,8 @@ table table td {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 11.85em;
-	height: 11.85em;
+	width: 100%;
+	height: 100%;
 	content: '';
 	background: url(../images/tic.svg); 
 	background-size: 100%;
@@ -108,8 +112,8 @@ table table td {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 11.85em;
-	height: 11.85em;
+	width: 100%;
+	height: 100%;
 	content: '';
 	background: url(../images/tac.svg); 
 	background-size: 100%;
@@ -258,7 +262,7 @@ body nav a:focus span { background: #E5E1EE; }
 <label for="automatic" style="padding: 3em">Автоматический режим:</label> <input id="automatic" type="checkbox">
 
 <div style="margin: 2em">
-<h4>Крестики-нолики для обучения таблицы умножения</h4>
+<h4>Крестики-нолики для изучения таблицы умножения</h4>
 	<p>Цель игры - поставить три крестика или нолика в ряд. Победив на маленьком поле, можно победить на большом, если получится ряд из больших крестика или нолика.</p> <br />
 	<p>Чтобы поставить отметку, нужно выбрать пару чисел. Например, 2 и 5. Тогда можно поставить отметку на всех десятках. </p><br />
 	<p>Второй игрок может переместить один из множителей. Например, нажать на 5, а затем на 2. Получится 2 x 2 = 4. И отметить все четвёрки. Каждый может перемещать только один множитель.</p>
@@ -273,7 +277,7 @@ body nav a:focus span { background: #E5E1EE; }
 		<ul>
 			<li><a href="../"><span data-hover="Главная">Главная</span></a></li><li>
 			<a href="../music/" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
-			<a href="." title="Крестики-нолики для обучения таблицы умножения"><span data-hover="XO2">XO2</span></a></li><li>
+			<a href="." title="Крестики-нолики для изучения таблицы умножения"><span data-hover="XO2">XO2</span></a></li><li>
 			<a href="../trigonometry" title="Интерактивная программа"><span data-hover="Тригонометрия">Тригонометрия</span></a></li><li>
 			<a href="../links" title="Полезные ссылки"><span data-hover="Закладки">Закладки</span></a></li>
 		</ul>

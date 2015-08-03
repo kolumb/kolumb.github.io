@@ -76,8 +76,7 @@ var checkWin = function(fieldSum){
 	return false;
 };
 
-var mark = function (node) {
-	var selectedId = node.id.slice(4);
+var mark = function (selectedId) {
 	var smallFieldIndex = Math.floor(selectedId/9);
 	if(capturedField[smallFieldIndex]) {
 		return false;
@@ -85,7 +84,7 @@ var mark = function (node) {
 	var selectedProduct = fieldArray[selectedId];
 	if (product === selectedProduct && !capturedCell[selectedId]) {
 		capturedCell[selectedId]++;
-		node.classList.add(tictac);
+		window['cell' + selectedId].classList.add(tictac);
 		var turnAddition = 512>>selectedId%9+1;
 		score[tictac][smallFieldIndex] += turnAddition;
 		if (checkWin(score[tictac][smallFieldIndex])) {
@@ -100,7 +99,7 @@ var mark = function (node) {
 }
 
 gamefield.addEventListener('click', function (event) {
-	mark(event.target);
+	mark(event.target.id.slice(4));
 }, false);
 
 
@@ -121,7 +120,7 @@ var makeTurn = function (){
 		moves.push(product);
 		var listOfCells = linksToCells[product];
 		for(var i = 0; i<listOfCells.length; i++){
-			mark(window['cell' + listOfCells[i]]);
+			mark(listOfCells[i]);
 		}
 	}	
 }
