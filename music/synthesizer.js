@@ -207,9 +207,6 @@ var options = {
 	},
 	clickHandler: function (event) {
 		switch (event.target.id) {
-			case 'colorKeyb':
-				Keyboard.classList.toggle('white');
-				break;
 			case 'majorThird':
 				options.third = event.target.checked;
 				break;
