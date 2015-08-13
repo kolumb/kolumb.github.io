@@ -27,9 +27,9 @@ var second;
 
 var displayHint = 0;
 var maxHint = 5;
-var tictac = 'tac';
-var moves = [];
-var product = 0;
+var tictac;
+var moves;
+var product;
 var automaticPlay = false;
 
 var checks = [448,56,7,292,146,73,273,84];
@@ -62,8 +62,6 @@ var init = function() {
 	tictac = 'tac';
 	moves = [];
 	product = 0;
-	automaticPlay = false;
-	automatic.checked = false;
 	first = 0;
 	second = 0;
 	productCountArray = [0,1,2,2,3,2,4,2,4,3,2,0,4,0,2,2,3,0,4,0,2,2,0,0,4,1,0,2,2,0,2,0,2,0,0,2,3,0,0,0,2,0,2,0,0,2,0,0,2,1,0,0,0,0,2,0,2,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1];
