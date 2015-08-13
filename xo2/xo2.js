@@ -202,6 +202,7 @@ controller.addEventListener('click', function (event) {
 		makeTurn();
 		controller.classList.add('disable');
 		if(displayHint < maxHint) {
+			gamefield.classList.add('accent');
 			hint.innerText = 'Теперь отметьте на поле все числа   ' + (first*second) + '    (' + first + ' умножить на ' + second + ').';
 			displayHint++;
 		}

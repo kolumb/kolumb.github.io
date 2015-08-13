@@ -73,10 +73,53 @@ body {
 	cursor: pointer;
 	transition-duration: 200ms;
 }
+
 .disable .digit {
 	background-color: #6D89B8;
 	color: #BCC8DB;
 	cursor: default;
+}
+.accent .digit {
+	-webkit-animation-duration: 400ms;
+	-moz-animation-duration: 400ms;
+	animation-duration: 400ms;
+	-webkit-animation-delay: 600ms;
+	-moz-animation-delay: 600ms;
+	animation-delay: 600ms;
+	-webkit-animation-iteration-count: 2;
+	-moz-animation-iteration-count: 2;
+	animation-iteration-count: 2;
+	-webkit-animation-name: accentuation;
+	-moz-animation-name: accentuation;
+	animation-name: accentuation;
+}
+#gamefield.accent {
+	-webkit-animation-duration: 400ms;
+	-moz-animation-duration: 400ms;
+	animation-duration: 400ms;
+	-webkit-animation-delay: 600ms;
+	-moz-animation-delay: 600ms;
+	animation-delay: 600ms;
+	-webkit-animation-iteration-count: 2;
+	-moz-animation-iteration-count: 2;
+	animation-iteration-count: 2;
+	-webkit-animation-name: accentuation;
+	-moz-animation-name: accentuation;
+	animation-name: accentuation;
+}
+@-webkit-keyframes accentuation {
+	from, 100% {
+	}
+	50% {
+		background-color: #7990CB;
+	}
+}
+@keyframes accentuation {
+	from, 100% {
+	}
+	50% {
+		background-color: #7990CB;
+	}
 }
 
 #gamefield { margin: 0 auto; }
@@ -168,7 +211,7 @@ body nav a:focus span { background: #E5E1EE; }
 </head>
 <body>
 <div id="hint">Выберите 2 числа:</div>
-<ol id="controller" class="noselect">
+<ol id="controller" class="noselect accent">
 	<li id="pick1" class="digit" draggable="true">1</li>
 	<li id="pick2" class="digit">2</li>
 	<li id="pick3" class="digit">3</li>
