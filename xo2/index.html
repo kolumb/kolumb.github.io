@@ -15,9 +15,20 @@
 	<style>
 body {
 	margin: 0;
-	padding: 0;
+	padding: 1.5em 0 0;
 	font-family: Helvetica, Arial, sans-serif;
 	background-color: #BCC8DB;
+}
+#hint {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 0.5em;
+	text-align: center;
+	font-weight: bold;
+	color: #686A99;
+
 }
 #controller {
 	min-height: 6em;
@@ -44,6 +55,8 @@ body {
 	transition-property: border, margin;
 	transition-timing-function: ease;
 }
+	.digit:active { background-color: #9294B7;	}
+
 #controller .first {
 	margin: 0;
 	color: white;
@@ -154,6 +167,7 @@ body nav a:focus span { background: #E5E1EE; }
 	</style>
 </head>
 <body>
+<div id="hint">Выберите 2 числа:</div>
 <ol id="controller" class="noselect">
 	<li id="pick1" class="digit" draggable="true">1</li>
 	<li id="pick2" class="digit">2</li>

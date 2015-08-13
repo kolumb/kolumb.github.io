@@ -8,39 +8,29 @@ var fieldArray =
  7,14,21,28,35,42,49,56,63, 
  8,16,24,32,40,48,56,64,72, 
  9,18,27,36,45,54,63,72,81];
-
+var productCountArray;
 var score = {};
-score.tic = 
- [0,0,0,
-  0,0,0,
-  0,0,0];
-score.tac = 
- [0,0,0,
-  0,0,0,
-  0,0,0];
 
 score.big = {};
-score.big.tic = 0;
-score.big.tac = 0;
 
 score.names = {};
 score.names.tic = 'Крестики';
 score.names.tac = 'Нолики';
+var gameover;
 
-var capturedCell = 
-[0,0,0,0,0,0,0,0,0,
- 0,0,0,0,0,0,0,0,0,
- 0,0,0,0,0,0,0,0,0,
- 0,0,0,0,0,0,0,0,0,
- 0,0,0,0,0,0,0,0,0,
- 0,0,0,0,0,0,0,0,0,
- 0,0,0,0,0,0,0,0,0,
- 0,0,0,0,0,0,0,0,0];
+var capturedCell;
+var capturedField;
 
-var capturedField = 
- [false,false,false,
-  false,false,false,
-  false,false,false];
+var movingControl;
+var first;
+var second;
+
+var displayHint = 0;
+var maxHint = 5;
+var tictac = 'tac';
+var moves = [];
+var product = 0;
+var automaticPlay = false;
 
 var checks = [448,56,7,292,146,73,273,84];
 /* Minimal binary state of field in case of victory.
@@ -67,6 +57,38 @@ var linksToCells = [
 [62,78],[70],[],[],[],[],[],[],[],
 [71,79],[],[],[],[],[],[],[],[],[80] ];
 
+var init = function() {
+	movingControl = true;
+	tictac = 'tac';
+	moves = [];
+	product = 0;
+	automaticPlay = false;
+	automatic.checked = false;
+	first = 0;
+	second = 0;
+	productCountArray = [0,1,2,2,3,2,4,2,4,3,2,0,4,0,2,2,3,0,4,0,2,2,0,0,4,1,0,2,2,0,2,0,2,0,0,2,3,0,0,0,2,0,2,0,0,2,0,0,2,1,0,0,0,0,2,0,2,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1];
+	capturedCell = 
+[0,0,0,0,0,0,0,0,0,
+ 0,0,0,0,0,0,0,0,0,
+ 0,0,0,0,0,0,0,0,0,
+ 0,0,0,0,0,0,0,0,0,
+ 0,0,0,0,0,0,0,0,0,
+ 0,0,0,0,0,0,0,0,0,
+ 0,0,0,0,0,0,0,0,0,
+ 0,0,0,0,0,0,0,0,0];
+	capturedField = 
+ [false,false,false,
+  false,false,false,
+  false,false,false];
+	score.tic = [0,0,0,0,0,0,0,0,0];
+	score.tac = [0,0,0,0,0,0,0,0,0];
+	score.big.tic = 0;
+	score.big.tac = 0;
+	gameover = false;
+	hint.innerText = 'Выберите два числа:';
+}
+init();
+
 var checkWin = function(fieldSum){
 	for (var i = 0; i < 9; i++) {
 		if((fieldSum & checks[i]) === checks[i]){
@@ -83,16 +105,23 @@ var mark = function (selectedId) {
 	}
 	var selectedProduct = fieldArray[selectedId];
 	if (product === selectedProduct && !capturedCell[selectedId]) {
-		capturedCell[selectedId]++;
-		window['cell' + selectedId].classList.add(tictac);
 		var turnAddition = 512>>selectedId%9+1;
 		score[tictac][smallFieldIndex] += turnAddition;
+		capturedCell[selectedId]++;
+		window['cell' + selectedId].classList.add(tictac);
+		productCountArray[product]--;
+		if(displayHint < maxHint && productCountArray[product] == 0) {
+			hint.innerText = 'Теперь другой игрок может поменять одно из чисел: ' + first + ' или ' + second + '.';
+			displayHint++;
+		}
+
 		if (checkWin(score[tictac][smallFieldIndex])) {
-			window['block' + (smallFieldIndex + 1)].classList.add(tictac + '-full');
-			capturedField[smallFieldIndex] = true;
 			score.big[tictac] += 512>>smallFieldIndex+1;
+			capturedField[smallFieldIndex] = true;
+			window['block' + (smallFieldIndex + 1)].classList.add(tictac + '-full');
 			if (checkWin(score.big[tictac])) {
-				alert(score.names[tictac] + ' выиграли!');
+				hint.innerHTML = score.names[tictac] + ' выиграли! <button id="newgame">Новая игра</buttom>';
+				gameover = true;
 			}
 		}
 	}
@@ -102,18 +131,13 @@ gamefield.addEventListener('click', function (event) {
 	mark(event.target.id.slice(4));
 }, false);
 
-
-var tictac = 'tac';
-var moves = [];
-var product = 0;
-var automaticPlay = false;
 var makeTurn = function (){
 	tictac = tictac == 'tic' ? 'tac' : 'tic';
 	product = first * second;
 
 	if (automaticPlay) {
 		if(moves.indexOf(product) !== -1) {
-			console.log("Пропуск хода.");
+			hint.innerText = 'Это произвидение уже было отмечено. Пропуск хода.';
 			tictac = tictac == 'tic' ? 'tac' : 'tic';
 			return;
 		}
@@ -125,21 +149,17 @@ var makeTurn = function (){
 	}	
 }
 
-var movingControl = true;
-
-var first = 0;
-var second = 0;
-
 controller.addEventListener('click', function (event) {
 	var index = event.target.id.slice(-1);
+	if (index === 'r' || gameover) {return;}
 	var classList = event.target.classList;
-	if (index === 'r') {return;}
 	if (movingControl) {
 		if(first &&
 			second &&
 			index !== first &&
 			index !== second) {
-			console.log('Выберите, пожалуйста, число для перемещения.'); return;
+			hint.innerText = 'Выберите, пожалуйста, какое число вы хотите поменять: ' + first + ' или ' + second + '.';
+			return;
 		}
 		if (first === index) {
 			classList.remove('first');
@@ -151,8 +171,19 @@ controller.addEventListener('click', function (event) {
 			first = index;
 			classList.add('first');
 		}
+		hint.innerText = '';
 		controller.classList.remove('disable');
-	} else {
+	} else {	
+		if(first) {
+			product = index * first;
+		} else if(second) {
+			product = index * second;
+		}	
+		if(productCountArray[product] === 0) {
+			hint.innerText = 'Это произвидение уже было отмечено. Выберите другое число.';
+			return;
+		}
+		hint.innerText = '';
 		if (first === index) {
 			classList.add('second');
 			second = index;
@@ -170,12 +201,29 @@ controller.addEventListener('click', function (event) {
 		}
 		makeTurn();
 		controller.classList.add('disable');
+		if(displayHint < maxHint) {
+			hint.innerText = 'Теперь отметьте на поле все числа   ' + (first*second) + '    (' + first + ' умножить на ' + second + ').';
+			displayHint++;
+		}
 	}
 	movingControl = !movingControl;
 }, false);
 
-
-
 automatic.addEventListener('click', function (event) {
 	automaticPlay = event.target.checked ? true : false;	
+}, false);
+hint.addEventListener('click', function (event) {
+	if(event.target.id !== 'newgame') {return;}
+	controller.classList.remove('disable');
+	for(var i = 1; i < 10; i++) {
+		window['pick' + i].classList.remove('first');
+		window['pick' + i].classList.remove('second');
+		window['block' + i].classList.remove('tic-full');
+		window['block' + i].classList.remove('tac-full');
+	}
+	for(var i = 0; i < 81; i++) {
+		window['cell' + i].classList.remove('tic');
+		window['cell' + i].classList.remove('tac');
+	}
+	init();	
 }, false);
