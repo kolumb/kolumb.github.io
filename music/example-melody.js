@@ -24,7 +24,8 @@ buttonMelody.addEventListener('click', function() {
 		threads[thread].getNextChange();
 	};
 	if (nMelodyInterval === undefined) {
-		nMelodyInterval = setInterval(playMelody, tempo)
+		nMelodyInterval = setInterval(playMelody, tempo);
+		buttonMelody.innerText = '■ Пример'
 	} else {		
 		clearInterval(nMelodyInterval);
 		nMelodyInterval = undefined
@@ -32,6 +33,7 @@ buttonMelody.addEventListener('click', function() {
 			core.plaingNotes[i] = false;
 			core.notes[i].stop();
 		}
+		buttonMelody.innerText = '▶ Пример'
 	}
 }, false);
 tempoRange.addEventListener('change', function() {
@@ -55,7 +57,7 @@ function Thread(record) {
 	this.changeNote = function() {
 		if (this.position !== 0) {
 			if (this.record[this.position - 1][0] !== "P") {
-				core.PlayEvent(noteIndex(this.record[this.position - 1]), false);
+				core.emitPlayNote(noteIndex(this.record[this.position - 1]), false);
 			}
 		}
 		if (this.position > this.record.length - 1) {
@@ -64,7 +66,7 @@ function Thread(record) {
 		}
 		if (this.record[this.position][0] !== "P") {
 			bDrawedNote = true;
-			if (!core.plaingNotes[noteIndex(this.record[this.position])]) core.PlayEvent(noteIndex(this.record[this.position]), true);
+			if (!core.plaingNotes[noteIndex(this.record[this.position])]) core.emitPlayNote(noteIndex(this.record[this.position]), true);
 		};
 		this.position++;
 	}
