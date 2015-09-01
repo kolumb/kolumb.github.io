@@ -91,7 +91,8 @@ hr { height: .125em; background-color: grey; border: 0; margin: .875em 0; }
 hr.additional { background-color: #eee; }
 
 input[type=range] { -webkit-appearance: none; -moz-appearance: none;
-	appearance: none; background-color: silver; border-top-left-radius: 50%;
+	appearance: none; padding: 0;
+	background-color: silver; border-top-left-radius: 50%;
 	border-bottom-left-radius: 50%; width: 12em; height: 0.5em; }
 input[type="range"]:focus { outline: none; background-color: #999; }
 

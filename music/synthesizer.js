@@ -17,10 +17,29 @@ var core = {
 	maxNotes: 100,
 	notes: [],
 	init: function(){
-		this.context = new AudioContext(),
-		this.gainNode = this.context.createGain();
-		this.gainNode.connect(this.context.destination);
-		this.gainNode.gain.value = 0.04;
+		if (typeof window.AudioContext !== "undefined") {
+        	this.context = new window.AudioContext();
+    	} else if (typeof window.webkitAudioContext !== "undefined") {
+			this.context = new webkitAudioContext();
+		} else if (typeof window.mozAudioContext !== "undefined") {
+			this.context = new mozAudioContext();
+		} else {
+			this.context = null;
+			var errorDiv = document.createElement('div'); 
+  			var errorMassage = document.createTextNode('К сожалению, ваш браузер не поддерживает работу со звуком.'); 
+  			var updateLink = document.createElement('a');
+  			updateLink.href = 'https://browser-update.org/ru/update.html';
+  			var linkText = document.createTextNode('Узнайте больше здесь');
+  			updateLink.appendChild(linkText);
+  			errorDiv.appendChild(errorMassage); 
+  			errorDiv.appendChild(updateLink); 
+  			keyboardWraper.insertBefore(errorDiv);
+		}
+		if(this.context) {
+			this.gainNode = this.context.createGain();
+			this.gainNode.connect(this.context.destination);
+			this.gainNode.gain.value = 0.04;			
+		}
 		this.frequencies[0] = 0;
 		this.frequencies[1] = 27.5;
 		for (var i = 2; i < this.maxNotes; i++) {
@@ -39,12 +58,14 @@ var core = {
 				shift: Math.round(((i + 8) % 12 + 1.5) * .54545454) / 2,
 				play: function() {
 					if (!this.plaing) {
-						this.oscillator = core.context.createOscillator();
 						this.plaing = true;
-						this.oscillator.type = 0;
-						this.oscillator.connect(core.gainNode);
-						this.oscillator.frequency.value = this.frequency;
-						this.oscillator.start(0);
+						if(core.context) {
+							this.oscillator = core.context.createOscillator();
+							this.oscillator.type = 'sine';
+							this.oscillator.connect(core.gainNode);
+							this.oscillator.frequency.value = this.frequency;
+							this.oscillator.start(0);
+						}
 						this.button.classList.add("pressed");
 					}
 				},
@@ -52,7 +73,7 @@ var core = {
 					if (this.plaing) {
 						this.plaing = false;
 						this.button.classList.remove("pressed");
-						this.oscillator.disconnect();
+						if(this.oscillator) this.oscillator.disconnect();
 					}
 				}
 			};
@@ -76,15 +97,15 @@ var core = {
 				options.minor = msg.shiftKey ? -1 : 0;
 
 				if (cmd === 9){
-					core.PlayEvent(note - 32, true);
-					if (options.third) core.PlayEvent(note - 32 + 4 + options.minor, true);
-					if (options.fifth) core.PlayEvent(note - 32 + 7, true);
+					core.emitPlayNote(note - 32, true);
+					if (options.third) core.emitPlayNote(note - 32 + 4 + options.minor, true);
+					if (options.fifth) core.emitPlayNote(note - 32 + 7, true);
 				}
 
 				if (cmd === 8) {
-					core.PlayEvent(note - 32, false);
-					if (options.third) core.PlayEvent(note - 32 + 4 + options.minor, false);
-					if (options.fifth) core.PlayEvent(note - 32 + 7, false);
+					core.emitPlayNote(note - 32, false);
+					if (options.third) core.emitPlayNote(note - 32 + 4 + options.minor, false);
+					if (options.fifth) core.emitPlayNote(note - 32 + 7, false);
 				}
 			};
 			midiMessageReceived = function(msgs) {
@@ -110,17 +131,26 @@ var core = {
 			core.plaingNotes[keynumber] = true;
 			frequencyDisplay.value = note.frequency.toFixed(4);
 			frequencyRange.value = note.frequency;
-			core.gainNode.gain.value = volumeRange.value / 100;
+			if(core.gainNode) core.gainNode.gain.value = volumeRange.value / 100;
 		} else {
 			if(!core.plaingNotes[keynumber]) return ;
 			core.notes[keynumber].stop();
 			core.plaingNotes[keynumber] = false;
 		}
 	},
-	PlayEvent: function(noteNumber, action){
-		document.dispatchEvent(new CustomEvent("playnote", {detail: {note: noteNumber, play: action}}));
-	}
+	emitPlayNote: function(noteNumber, action){
+		try {
+			document.dispatchEvent(new CustomEvent('playnote', {detail: {note: noteNumber,play: action}}));			
+		} catch(err) {
 
+			var event = document.createEvent('HTMLEvents');
+			event.initEvent('playnote',true,true);
+			event.detail = {};
+			event.detail.note = noteNumber;
+			event.detail.play = action;
+			document.dispatchEvent(event);
+		}
+	}
 }
 
 
@@ -192,11 +222,9 @@ var options = {
 	third: false,
 	fifth: false,
 	init: function () {
-		Options.addEventListener('click', this.clickHandler, false);
-
-		
+		Options.addEventListener('click', this.clickHandler, false);	
 		volumeRange.addEventListener('change', function() {
-			core.gainNode.gain.value = volumeRange.value / 100;
+			if(core.gainNode) core.gainNode.gain.value = volumeRange.value / 100;
 		}, false);
 	},
 	show: function () {
@@ -246,7 +274,9 @@ var stave = {
 	},
 	mouseHandler: function (event) {
 		if(event.type === 'mousedown') {
-			var y = event.pageY - Stave.getBoundingClientRect().top - document.body.scrollTop;
+			var top = (document.documentElement && document.documentElement.scrollTop) || 
+              document.body.scrollTop;
+			var y = event.pageY - Stave.getBoundingClientRect().top - top;
 			var octave = 8- Math.floor((y+20)/56);
 			var octaveKey = (-1-Math.floor(((y-36) - (8-octave) * 56)/8))*2 ;
 			if(octaveKey > 4) {
@@ -295,6 +325,9 @@ var guitar = {
 	paper: Raphael("guitarneck", 920, 180),
 	circles: [],
 	init: function() {
+		guitarneck.addEventListener('mousedown', this.mouseHandler, false);
+		guitarneck.addEventListener('mouseup', this.mouseHandler, false);
+
 		var numberOfStrings = 6;
 		for (var i = 0; i < numberOfStrings; i++) {
 			this.paper.path("M35 " + (15.5 + i * 30) + "L935 " + (15.5 + i * 30));
@@ -337,6 +370,13 @@ var guitar = {
 	hide: function () {
 		guitarneck.classList.add('hide');
 		document.removeEventListener('playnote', this.noteHandler, false);
+	},
+	mouseHandler: function (event) {
+		if(event.type === 'mousedown') {
+			
+		} else if(event.type === 'mouseup') {
+			
+		}
 	},
 	noteHandler: function (event) {
 		if(event.detail.play){
@@ -500,7 +540,7 @@ var wave = {
 	result: 27.5,
 	wavetable: [],
 	init: function () {
-		this.ctx.strokeStyle = "rgba(20,50,140,1)";
+		wave.ctx.strokeStyle = "rgba(20,50,140,1)";
 		frequencyRange.addEventListener('change', this.playRange, false);
 		buttonStart.addEventListener('click', this.playRange, false);
 		buttonStop.addEventListener('click', this.stopRange, false);
@@ -521,9 +561,22 @@ var wave = {
 		document.removeEventListener('playnote', this.drawSin, false);
 		Wave.classList.add('hide');
 	},
-	drawSin: function (event) {
-		if(!event.detail.play) return;
-		wave.amplitude = wave.canvas.height / 2;
+	drawSin: function (event, frequency) {
+		if(!event || !event.detail.play) {
+			wave.ctx.clearRect(0, 0, wave.canvas.width, wave.canvas.height);
+			wave.ctx.beginPath();
+			wave.ctx.moveTo(0, wave.amplitude);
+			var r1 = Math.PI * 2 * frequency * wave.waveDuration / wave.canvas.width;
+			for (i = 0; i <= wave.canvas.width; i+=3) {
+				wave.result = Math.sin(r1 * i);
+				if (wave.lineCount > 1) {
+					wave.wavetable[i] += wave.result;
+				}
+				wave.ctx.lineTo(i, (1 - wave.result / wave.lineCount) * wave.amplitude);
+			}
+			wave.ctx.stroke();
+			return;
+		};
 		wave.lineCount = 0;
 		wave.ctx.clearRect(0, 0, wave.canvas.width, wave.canvas.height);
 
@@ -568,6 +621,7 @@ var wave = {
 		}
 	},
 	playRange: function(event) {
+		wave.drawSin( null, frequencyRange.value);
 		if (!wave.rangeOscillator) {
 			wave.rangeOscillator = core.context.createOscillator();
 			wave.rangeOscillator.type = 'sine';
