@@ -93,6 +93,19 @@ body {
 	-moz-animation-name: accentuation;
 	animation-name: accentuation;
 }
+#ticmove {
+	display: block;
+	position: absolute;
+	top: 2.65em;
+	left: calc(50% - 19.6em);
+}
+#tacmove {
+	display: none;
+	position: absolute;
+	top: 2.65em;
+	right: calc(50% - 19.6em);
+}
+
 #gamefield.accent {
 	-webkit-animation-duration: 400ms;
 	-moz-animation-duration: 400ms;
@@ -206,6 +219,16 @@ body nav a:focus span { background: #E5E1EE; }
 	table table td { width: 2em; height: 2em;
 		font-size: 1em; }
 	.over { width: 2em; height: 2em; }
+	#ticmove {
+		width: 40px; height: 40px;
+		top: 2em;
+		left: calc(50% - 11.1em);
+	}
+	#tacmove {
+		width: 40px; height: 40px;
+		top: 2em;
+		right: calc(50% - 11.1em);
+	}
 }
 	</style>
 </head>
@@ -222,7 +245,8 @@ body nav a:focus span { background: #E5E1EE; }
 	<li id="pick8" class="digit">8</li>
 	<li id="pick9" class="digit">9</li>
 </ol>
-
+<img id="ticmove" src="../images/tic.svg" alt="X" width="60px" height="60px">
+<img id="tacmove" src="../images/tac.svg" alt="O" width="60px" height="60px">
 <table id="gamefield" class="noselect"><tr>
 <td id="block1"><table><tr><td>1
 <div id="cell0" class="over"></div></td><td>2

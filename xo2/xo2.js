@@ -156,7 +156,7 @@ controller.addEventListener('click', function (event) {
 			second &&
 			index !== first &&
 			index !== second) {
-			hint.innerText = 'Выберите, пожалуйста, какое число вы хотите поменять: ' + first + ' или ' + second + '.';
+			hint.innerText = 'Выберите, пожалуйста, или ' + first + ' или ' + second + '.';
 			return;
 		}
 		if (first === index) {
@@ -199,6 +199,10 @@ controller.addEventListener('click', function (event) {
 		}
 		makeTurn();
 		controller.classList.add('disable');
+		window[tictac + 'move'].style.display = 'block';
+		var tempmove = tictac === 'tic' ? 'tac' : 'tic';
+		window[tempmove + 'move'].style.display = 'none';
+
 		if(displayHint < maxHint) {
 			gamefield.classList.add('accent');
 			hint.innerText = 'Теперь отметьте на поле все числа   ' + (first*second) + '    (' + first + ' умножить на ' + second + ').';
