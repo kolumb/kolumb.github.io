@@ -504,12 +504,18 @@ var wave = {
 		frequencyRange.addEventListener('change', this.playRange, false);
 		buttonStart.addEventListener('click', this.playRange, false);
 		buttonStop.addEventListener('click', this.stopRange, false);
+		Less10.addEventListener('click', this.moveRange, false);
+		Less.addEventListener('click', this.moveRange, false);
+		More.addEventListener('click', this.moveRange, false);
+		More10.addEventListener('click', this.moveRange, false);
+		wave.amplitude = wave.canvas.height / 2;
 	},
 	show: function () {
 		Wave.classList.remove('hide');
 		this.canvas.width = document.body.clientWidth - 90;
 		this.canvas.height = 256;
 		document.addEventListener('playnote', this.drawSin, false);		
+		wave.amplitude = wave.canvas.height / 2;
 	},
 	hide: function () {
 		document.removeEventListener('playnote', this.drawSin, false);
@@ -579,6 +585,17 @@ var wave = {
 	stopRange: function(event) {
 		wave.rangeOscillator.disconnect();
 		wave.rangeOscillator = null;
+	},
+	moveRange: function(event) {
+		var change; 
+		switch(event.target.id) {
+			case 'Less10': change = -10; break;
+			case 'Less': change = -1; break;
+			case 'More': change = 1; break;
+			case 'More10': change = 10; break;
+		}
+		frequencyDisplay.value = (parseFloat(frequencyDisplay.value) + change) + 'гц';
+		wave.playRange(event);
 	}
 }
 

@@ -107,6 +107,9 @@ button { margin-left: 1em; background: #eee; border: 1px solid #ccc;
 	border-radius: 1em; }
 
 button:focus { outline: none; border-color: #999; }
+.compact {
+	margin: 0;
+}
 
 .center { display: block; margin: 0 auto; text-align: center; }
 footer { clear: both; margin: 3em 2em 3em 5em; }
