@@ -163,22 +163,22 @@ var keyboard = {
 			if(event.target.id) {
 				options.minor = event.shiftKey ? -1:0;
 				keyboard.mouseClicked = Number(event.target.id);
-				core.PlayEvent(keyboard.mouseClicked, true);
+				core.emitPlayNote(keyboard.mouseClicked, true);
 				if (options.fifth) {
-					core.PlayEvent(keyboard.mouseClicked + 7, true);
+					core.emitPlayNote(keyboard.mouseClicked + 7, true);
 				}
 				if (options.third) {
-					core.PlayEvent(keyboard.mouseClicked + 4 + options.minor, true);
+					core.emitPlayNote(keyboard.mouseClicked + 4 + options.minor, true);
 				}
 			}
 		} else if (event.type === 'mouseup'){
 			if(keyboard.mouseClicked) {
-				core.PlayEvent(keyboard.mouseClicked, false);
+				core.emitPlayNote(keyboard.mouseClicked, false);
 				if (options.fifth) {
-					core.PlayEvent(keyboard.mouseClicked + 7, false);
+					core.emitPlayNote(keyboard.mouseClicked + 7, false);
 				}
 				if (options.third) {
-					core.PlayEvent(keyboard.mouseClicked + 4 + options.minor, false);
+					core.emitPlayNote(keyboard.mouseClicked + 4 + options.minor, false);
 				}
 				keyboard.mouseClicked = '';
 			}
@@ -253,15 +253,15 @@ var stave = {
 				octaveKey--;
 			}
 			this.mouseClicked = octave*12 + octaveKey - 32;
-			core.PlayEvent(this.mouseClicked, true);
+			core.emitPlayNote(this.mouseClicked, true);
 		} else if(event.type === 'mouseup') {
-			core.PlayEvent(this.mouseClicked, false);
+			core.emitPlayNote(this.mouseClicked, false);
 		}
 	},
 	noteHandler: function (event) {
-		if(event.detail.play)stave.graphNotes(core.notes[event.detail.note]);
+		if(event.detail.play)stave.drawNote(core.notes[event.detail.note]);
 	},
-	graphNotes: function(note) {
+	drawNote: function(note) {
 		var alteration;
 		if (++this.lastNote === this.graphNote.length) this.lastNote = 0;
 
@@ -461,9 +461,9 @@ var harmonica = {
 			if(y> harmonica.harmHeight/2){i+=20;}
 
 			harmonica.mouseClicked = harmonica.harmonyHoles[i];
-			core.PlayEvent(harmonica.mouseClicked, true);
+			core.emitPlayNote(harmonica.mouseClicked, true);
 		} else if(event.type === 'mouseup') {
-			core.PlayEvent(harmonica.mouseClicked, false);
+			core.emitPlayNote(harmonica.mouseClicked, false);
 		}
 	},
 	noteHandler: function (event, undef) {
@@ -570,7 +570,7 @@ var wave = {
 	playRange: function(event) {
 		if (!wave.rangeOscillator) {
 			wave.rangeOscillator = core.context.createOscillator();
-			wave.rangeOscillator.type = 3;
+			wave.rangeOscillator.type = 'sine';
 			wave.rangeOscillator.connect(core.gainNode);
 			wave.rangeOscillator.start(0);
 		}
