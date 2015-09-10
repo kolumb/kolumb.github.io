@@ -10,67 +10,121 @@
 	<title>Интерактивная демонстрация тригономерических функций.</title>
 	<link rel="shortcut icon" href="../favicon.ico" />
 	<link rel="stylesheet" href="../style.css">
-	<link rel="stylesheet" href="trigonometry.css">
+	<style type="text/css">
+.container {
+	position: relative;
+	padding: 0;
+	margin: 0;
+}
+.container h2 {
+	position: absolute;
+	top:0;
+	left:0;
+}
+#Checks {
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.check {
+	display: block;
+	width: 6em;
+	height: 2.5em;
+	position: relative;
+	padding: 0 0 0 2.5em;
+	margin: .3em 0;
+	color: white;
+	line-height: 2.5em;
+	font-weight: bold;
+	background: #C4C6CE;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: background 0.5s;
+}
+input:checked + .sinL { background: #2392f2; }
+input:checked + .cosL { background: #eb0036; }
+input:checked + .tanL { background: #39ce33; }
+input:checked + .ctnL { background: #ffc134; }
+#sin {
+	display: none;
+}
+
+#Checks input {
+	display: none;
+}
+.check::before {
+	opacity: 0;
+	content: '';
+	position: absolute;
+	width: 1.2em;
+	height: .5em;
+	background: transparent;
+	top: .6em;
+	left: .5em;
+	border: .4em solid #fff;
+	border-top: none;
+	border-right: none;
+	transform: rotate(-50deg);
+}
+
+.check:hover::before {
+	visibility:visible;	
+	opacity: 0.5;
+}
+
+input:checked + .check::before {
+	visibility:visible;
+	opacity: 1;
+}
+
+footer {
+	background: white;
+	margin: 1em;
+}
+nav a:hover span, nav a span::before {
+	background: #eee;
+}
+
+.main-menu, nav a span, nav a:hover span::before {
+	background: white;
+}
+
+	</style>
 </head>
 
 <body>
 	<div class="container">
-		<h1>Тригонометрия</h1>
-		<div class="main" role="main">
-			<article class="unit-circle">
-				<canvas id="unit-circle"></canvas>
-				<div id="checks">
-					<label for="sin" class="check sinL">
-						<input id="sin" type="checkbox" checked=true/>Синус
-					</label>
-					<label for="cos" class="check cosL">
-						<input id="cos" type="checkbox" />Косинус</label>
-					<label for="tan" class="check tanL">
-						<input id="tan" type="checkbox" />Тангенс
-					</label>
-					<label for="ctn" class="check ctnL">
-						<input id="ctn" type="checkbox" />Котангенс
-					</label>
-				</div>
-			</article>
+		<h2>Тригонометрия</h2>
+		<canvas id="Canvas"></canvas>
+		<div id="Checks">
+			<input id="sin" type="checkbox" checked=true/>
+			<label for="sin" class="check sinL">Синус</label>
+			<input id="cos" type="checkbox" />
+			<label for="cos" class="check cosL">Косинус</label>
+			<input id="tan" type="checkbox" />
+			<label for="tan" class="check tanL">Тангенс</label>
+			<input id="ctn" type="checkbox" />
+			<label for="ctn" class="check ctnL">Котангенс</label>
 		</div>
-		<ul>
-			<li><a href="http://www.touchmathematics.org/">Touch mathematics ("Притронься к математике")</a>
-			</li>
-			<li><a href="https://www.mathsisfun.com/algebra/trig-interactive-unit-circle.html">Interactive unit circle.</a>
-			</li>
-			<li><a href="http://illuminations.nctm.org/Search.aspx?view=search&type=ac">Illuminations Интерактивные инструменты.</a>
-			</li>
-			<li><a href="http://tube.geogebra.org/student/m14774">Почему кажется, что карандаш гнется?</a>
-			</li>
-		</ul>
-		<script src="trigonometry.js"></script>
-		<footer>
-			<p><img src="../favicon.ico" width=16 height=16>
-		 	<span itemprop="copyrightYear">2015</span>
-		 	<span itemprop="copyrightHolder">Kolumbetko</span>
-			</p>
-			<nav class="main-menu">
-				<ul>
-					<li><a href="./"><span data-hover="Главная">Главная</span></a></li><li>
-					<a href="../music" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
-					<a href="../xo2/" title="Крестики-нолики для изучения таблицы умножения"><span data-hover="XO2">XO2</span></a></li><li>
-					<a href="." title="Интерактивная программа"><span data-hover="Тригонометрия">Тригонометрия</span></a></li><li>
-					<a href="../links" title="Полезные ссылки"><span data-hover="Закладки">Закладки</span></a></li>
-				</ul>
-			</nav>
-		</footer>
 	</div>
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-52946302-3', 'auto');
-	  ga('send', 'pageview');
-
-	</script>
+	<footer>
+		<p><img src="../favicon.ico" width=16 height=16>
+	 	<span itemprop="copyrightYear">2015</span>
+	 	<span itemprop="copyrightHolder">Kolumbetko</span>
+		</p>
+		<nav class="main-menu">
+			<ul>
+				<li><a href="./"><span data-hover="Главная">Главная</span></a></li><li>
+				<a href="../music" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
+				<a href="../xo2/" title="Крестики-нолики для изучения таблицы умножения"><span data-hover="XO2">XO2</span></a></li><li>
+				<a href="." title="Интерактивная программа"><span data-hover="Тригонометрия">Тригонометрия</span></a></li><li>
+				<a href="../links" title="Полезные ссылки"><span data-hover="Закладки">Закладки</span></a></li>
+			</ul>
+		</nav>
+	</footer>
+		<script src="trigonometry.js"></script>
 </body>
 
 </html>
