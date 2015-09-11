@@ -215,32 +215,23 @@ frame();
 
 
 window.addEventListener('resize', initCanvas, false);
-Canvas.addEventListener("mousedown", onDown);
-Canvas.addEventListener('touchstart', function(e) {
+Canvas.addEventListener("mousedown", onDown, false);
+Canvas.addEventListener('touchstart', onDown, false);
+Canvas.addEventListener("mouseup", onUp, false);
+Canvas.addEventListener('touchend', onUp, false);
+Canvas.addEventListener("mouseleave", onUp, false);
+Canvas.addEventListener("mousemove", onMove);
+Canvas.addEventListener("touchmove", function(e) {
 	e.preventDefault();
-	var clkEvt = document.createEvent('MouseEvent');
-	clkEvt.initMouseEvent('mousedown', true, true, window, e.detail,
-	e.touches[0].screenX, e.touches[0].screenY,
-	e.touches[0].clientX, e.touches[0].clientY,
-	false, false, false, false,
-	0, null);
-	e.target.dispatchEvent(clkEvt);
-}, false);
-Canvas.addEventListener("mouseup", onUp);
-Canvas.addEventListener('touchend', function(e) {
-	e.preventDefault();
-	var clkEvt = document.createEvent('MouseEvent');
-	clkEvt.initMouseEvent('mouseup', true, true, window, e.detail,
+	var moveEvt = document.createEvent('MouseEvents');
+	moveEvt.initMouseEvent('mousemove', true, true, window, e.detail,
 		e.changedTouches[0].screenX, e.changedTouches[0].screenY,
 		e.changedTouches[0].clientX, e.changedTouches[0].clientY,
 		false, false, false, false,
 		0, null);
-	e.target.dispatchEvent(clkEvt);
+	e.target.dispatchEvent(moveEvt);
 }, false);
-Canvas.addEventListener("mouseleave", onUp);
-Canvas.addEventListener("mousemove", onMove);
-Canvas.addEventListener("touchmove", onMove);
 Checks.addEventListener("click", checkFuncs);
-document.addEventListener("keydown", onKey,false);
+document.addEventListener("keydown", onKey, false);
 
 }());
