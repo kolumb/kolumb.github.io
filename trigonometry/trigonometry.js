@@ -156,6 +156,7 @@ drawCtn = function() {
 },
 onDown = function(event) {
 	draging = true;
+	frame();
 },
 onUp = function(event) {
 	draging = false;
