@@ -156,6 +156,7 @@ drawCtn = function() {
 },
 onDown = function(event) {
 	draging = true;
+	angle = Math.atan2(halfHeight - event.layerY, event.layerX - halfWidth);
 	frame();
 },
 onUp = function(event) {

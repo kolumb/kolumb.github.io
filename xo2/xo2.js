@@ -30,7 +30,7 @@ var maxHint = 5;
 var tictac;
 var moves;
 var product;
-var automaticPlay = false;
+var automaticPlay = true;
 
 var checks = [448,56,7,292,146,73,273,84];
 /* Minimal binary state of field in case of victory.
@@ -205,7 +205,9 @@ controller.addEventListener('click', function (event) {
 
 		if(displayHint < maxHint) {
 			gamefield.classList.add('accent');
-			hint.innerText = 'Теперь отметьте на поле все числа   ' + (first*second) + '    (' + first + ' умножить на ' + second + ').';
+			if(!automaticPlay) {
+				hint.innerText = 'Теперь отметьте на поле все числа   ' + (first*second) + '    (' + first + ' умножить на ' + second + ').';
+			}
 			displayHint++;
 		}
 	}

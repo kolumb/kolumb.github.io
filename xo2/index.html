@@ -20,11 +20,10 @@ body {
 	background-color: #BCC8DB;
 }
 #hint {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	padding: 0.5em;
+	display: block;
+	height: 1em;
+	margin-top: -1em;
+	padding: 0;
 	text-align: center;
 	font-weight: bold;
 	color: #686A99;
@@ -210,6 +209,7 @@ body nav a:hover span,
 body nav a:focus span { background: #E5E1EE; }
 
 @media screen and (max-width:600px) {
+	#hint { font-size: 65%;}
 	#controller { min-height: 3em; }
 	.digit { font-size: 1em;
 		width: 1.5em;
@@ -340,7 +340,7 @@ body nav a:focus span { background: #E5E1EE; }
 <div id="cell80" class="over"></div></td></tr></table></td></tr>
 </table>
 <br />
-<label for="automatic" style="padding: 3em">Автоматический режим:</label> <input id="automatic" type="checkbox">
+<label for="automatic" style="padding: 3em">Автоматический режим:</label> <input id="automatic" type="checkbox" checked>
 
 <div style="margin: 2em">
 <h4>Крестики-нолики для изучения таблицы умножения</h4>
@@ -366,15 +366,5 @@ body nav a:focus span { background: #E5E1EE; }
 </footer>
 <link rel="stylesheet" href="../style.css">
 <script src="xo2.js"></script>
-<script>
-if (document.location.hostname) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-52946302-3', 'auto');
-	ga('send', 'pageview');
-}
-</script>
 </body>
 </html>
