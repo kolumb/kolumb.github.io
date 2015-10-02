@@ -27,10 +27,13 @@ halfSmallFactor = 0.05,
 microFactor = 0.02,
 graphSize,
 angle = Math.PI/3,
+newAngle = 0,
+anim,
 draging = false,
 pointerX = 0,
 pointerY = 0,
 toDegree = Math.PI/180,
+bRad = true,
 bSin = true,
 bCos = false,
 bTan = false,
@@ -90,10 +93,8 @@ frame = function() {
 
 	pointerX = unitRadius * Math.cos(-angle);
 	pointerY = unitRadius * Math.sin(-angle);
-	if(bSin) drawSin();
-	if(bCos) drawCos();
-	if(bTan) drawTan();
-	if(bCtn) drawCtn();
+
+
 
 	ctx.strokeStyle = '#6f789f';
 	ctx.fillStyle = 'rgba(196,198,206,0.5)';
@@ -110,57 +111,85 @@ frame = function() {
 	ctx.arc(0, 0, unitRadius*0.15, 0, -angle, angle>0);
 	ctx.fill();
 
+
+	ctx.beginPath();
+	ctx.fillStyle = '#6f789f';
+	var textPosX = minSide*halfSmallFactor;
+	var textPosY = minSide*halfSmallFactor * (angle < 0 ? 1.7 : -1);
+	if(Math.abs(angle)>0.5 && Math.abs(angle)<1.571) {
+		textPosX = minSide*smallFactor*Math.cos(angle/2) - lineWidth * 8;
+		textPosY = -minSide*smallFactor*Math.sin(angle/2) - lineWidth * (angle < 0 ? -5 : -7);
+	}
+	ctx.fillText(Math.round(angle/toDegree) + '°', textPosX, textPosY);
+
+	if(bRad) drawRad();
+	if(bSin) drawSin();
+	if(bCos) drawCos();
+	if(bTan) drawTan();
+	if(bCtn) drawCtn();
+
 	ctx.beginPath(); //white point
 	ctx.fillStyle = 'white';
 	ctx.arc(pointerX, pointerY, lineWidth*2, 0, Math.PI * 2);
 	ctx.fill();
 	ctx.closePath();
-
-	ctx.beginPath();
-	ctx.fillStyle = '#6f789f';
-	ctx.fillText('∠ ' + angle.toFixed(3) + ' радиан', -minSide*mainFactor, -unitRadius);
-	ctx.fillText(Math.round(angle/toDegree) + '°', minSide*halfSmallFactor, -minSide*halfSmallFactor);
+},
+drawRad = function() {	
+	ctx.strokeStyle = '#30B8B8';
+	ctx.lineWidth = lineWidth*3;
+	ctx.beginPath(); //Angle radian
+	ctx.arc(0, 0, unitRadius, 0, -angle, angle>0);
+	ctx.stroke();
+	Radian.textContent = '∠ ' + angle.toFixed(3) + ' радиан';
 },
 drawSin = function() {
 	ctx.beginPath();
 	ctx.strokeStyle = '#1489ff';
-	ctx.lineWidth = lineWidth*2;
+	ctx.lineWidth = lineWidth * 2;
 	ctx.moveTo(pointerX, pointerY);
 	ctx.lineTo(pointerX, 0);
 	ctx.stroke();
+	sinValue.textContent = Math.sin(angle).toFixed(3);
 },
 drawCos = function() {
 	ctx.beginPath();
 	ctx.strokeStyle = '#ff6514';
-	ctx.lineWidth = lineWidth*2;
+	ctx.lineWidth = lineWidth * 2;
 	ctx.moveTo(pointerX, pointerY);
 	ctx.lineTo(0, pointerY);
 	ctx.stroke();
+	cosValue.textContent = Math.cos(angle).toFixed(3);
 },
 drawTan = function() {
 	ctx.beginPath();
 	ctx.strokeStyle = '#39ce33';
 	ctx.lineWidth = lineWidth*2;
 	ctx.moveTo(pointerX, pointerY);
-	ctx.lineTo(unitRadius * Math.tan(angle)/Math.sin(angle), 0);
+	ctx.lineTo(unitRadius/Math.cos(angle), 0);
 	ctx.stroke();
+	;
+	if(Math.abs(tanValue.textContent = Math.tan(angle).toFixed(3))>100) tanValue.textContent = '∞';
 },
 drawCtn = function() {
 	ctx.beginPath();
 	ctx.strokeStyle = '#ffc134';
 	ctx.lineWidth = lineWidth*2;
 	ctx.moveTo(pointerX, pointerY);
-	ctx.lineTo(0, -unitRadius / Math.tan(angle)/Math.cos(angle));
+	ctx.lineTo(0, -unitRadius / Math.sin(angle));
 	ctx.stroke();
-	
+	;
+	if(Math.abs(ctnValue.textContent = (1/Math.tan(angle)).toFixed(3))>100) ctnValue.textContent = '∞';
 },
 onDown = function(event) {
 	draging = true;
-	angle = Math.atan2(halfHeight - event.layerY, event.layerX - halfWidth);
-	frame();
+	anim.runing = false;
+	newAngle = Math.atan2(halfHeight - event.layerY, event.layerX - halfWidth);
 },
 onUp = function(event) {
 	draging = false;
+	if(newAngle === Math.atan2(halfHeight - event.layerY, event.layerX - halfWidth)) {
+		intro({from: angle, to: newAngle, friction: 0.85});
+	}
 },
 onMove = function(event) {
 	if (draging) {
@@ -175,8 +204,8 @@ onMove = function(event) {
 	}
 },
 onKey = function (event) {
+	anim.runing = false;
 	var key = (typeof event.which === "number")? event.which : event.keyCode;
-		console.log("key = " + (key));
 	switch (key) {
 		case 38: case 39: case 107: case 187:
 			angle += toDegree;
@@ -189,6 +218,8 @@ onKey = function (event) {
 	}
 },
 checkFuncs = function(event) {
+	bRad = document.getElementById("rad").checked;
+	if(!bRad) Radian.textContent = 'Длина дуги'
 	bSin = document.getElementById("sin").checked;
 	bCos = document.getElementById("cos").checked;
 	bTan = document.getElementById("tan").checked;
@@ -208,12 +239,36 @@ getScrollbarWidth = function() {
     var widthWithScroll = inner.offsetWidth;
     outer.parentNode.removeChild(outer);
     return widthNoScroll - widthWithScroll;
+},
+Animator = function(config) {
+	var value = config.from;
+	var step = 0;
+	this.runing = true;
+	this.next = function() {
+		if(Math.abs(value-config.to) > .0001) {
+			step+=(config.to - value)/40;
+			step*=config.friction
+			value += step;
+		} else {
+			this.runing = false;
+		}
+		return value;
+	}
+},
+intro = function(config){
+	if(typeof config.from === 'number') {
+		anim = new Animator(config);
+	}
+	angle = anim.next();
+	if(anim.runing) {
+		frame();
+		requestAnimationFrame(intro);
+	}
 };
 scrollBarWidth = getScrollbarWidth();
 initCanvas();
-frame();
 
-
+intro({from: 0, to: Math.PI/3, friction: 0.9});
 
 
 window.addEventListener('resize', initCanvas, false);

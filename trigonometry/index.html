@@ -23,59 +23,53 @@
 #Checks {
 	display: block;
 	position: absolute;
-	bottom: 0;
-	left: 0;
+	bottom: 0.5em;
+	left: 0.5em;
 }
 
 .check {
 	display: block;
-	width: 6em;
+	width: 9em;
 	height: 2.5em;
 	position: relative;
-	padding: 0 0 0 2.5em;
+	padding: 0 0 0 0.5em ;
 	margin: .3em 0;
 	color: white;
 	line-height: 2.5em;
 	font-weight: bold;
-	background: #C4C6CE;
+	background: #BCC0D2;
 	border-radius: 3px;
+	box-shadow: 0 .1em .1em rgb(150, 150, 150);
 	cursor: pointer;
 	transition: background 0.5s;
 }
-input:checked + .sinL { background: #2392f2; }
-input:checked + .cosL { background: #eb0036; }
-input:checked + .tanL { background: #39ce33; }
-input:checked + .ctnL { background: #ffc134; }
-#sin {
-	display: none;
+input:checked + .radL { background: #5577D2; 
+	color: #30B8B8;
+	background-color: white;
+	box-shadow: none;
 }
+input:checked + .sinL { background: #5577D2; }
+input:checked + .cosL { background: #CE5555; }
+input:checked + .tanL { background: #5EA642; }
+input:checked + .ctnL { background: #E9B13F; }
 
-#Checks input {
+
+input[type="checkbox"] {
 	display: none;
 }
-.check::before {
-	opacity: 0;
-	content: '';
+.display {
+	display: none;
 	position: absolute;
-	width: 1.2em;
-	height: .5em;
-	background: transparent;
-	top: .6em;
-	left: .5em;
-	border: .4em solid #fff;
-	border-top: none;
-	border-right: none;
-	transform: rotate(-50deg);
+	right: 0.5em;
+	top: -0.1em;
+	width: 3em;
+	height: 1em;
+	padding: .2em 0 .2em .3em;
+	text-align: right;
 }
 
-.check:hover::before {
-	visibility:visible;	
-	opacity: 0.5;
-}
-
-input:checked + .check::before {
-	visibility:visible;
-	opacity: 1;
+input:checked + .check .display {
+	display: inline;
 }
 
 footer {
@@ -90,6 +84,16 @@ nav a:hover span, nav a span::before {
 	background: white;
 }
 
+@media screen and (min-width:1400px) {
+	html {font-size: 150%;}
+}
+@media screen and (max-width:700px) {
+	html {font-size: 70%;}
+}
+@media screen and (max-width:400px) {
+	html {font-size: 50%;}
+}
+
 	</style>
 </head>
 
@@ -98,14 +102,17 @@ nav a:hover span, nav a span::before {
 		<h2>Тригонометрия</h2>
 		<canvas id="Canvas"></canvas>
 		<div id="Checks">
+			
+			<input id="rad" type="checkbox" checked=true/>
+			<label for="rad" class="check radL" id="Radian">Длина в rad</label>
 			<input id="sin" type="checkbox" checked=true/>
-			<label for="sin" class="check sinL">Синус</label>
+			<label for="sin" class="check sinL">Синус <span id="sinValue" class="display"></span></label>
 			<input id="cos" type="checkbox" />
-			<label for="cos" class="check cosL">Косинус</label>
+			<label for="cos" class="check cosL">Косинус <span id="cosValue" class="display"></span></label>
 			<input id="tan" type="checkbox" />
-			<label for="tan" class="check tanL">Тангенс</label>
+			<label for="tan" class="check tanL">Тангенс <span id="tanValue" class="display"></span></label>
 			<input id="ctn" type="checkbox" />
-			<label for="ctn" class="check ctnL">Котангенс</label>
+			<label for="ctn" class="check ctnL">Котангенс <span id="ctnValue" class="display"></span></label>
 		</div>
 	</div>
 	<footer>
