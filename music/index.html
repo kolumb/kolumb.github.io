@@ -12,6 +12,10 @@
 	<body>	
 		<div id="keyboardWraper">
 			<div id="Keyboard" class="white center">
+				<div class="shortcuts">
+					<p class="diesshort">ыв про 23 567 90 =</p>
+					<p>ячсмитьйцукенгшщзхъ</p>
+				</div>
 				<ol id="c0">
 					<li id="1" class="a" id="1">A0
 					</li><li class="a dies" id="2">
@@ -110,10 +114,6 @@
 				</ol><ol id="c8">
 					<li class="c" id="88">C8</li>
 				</ol>
-					<div class="shortcuts">
-						<p class="diesshort">ыв про 23 567 90 =</p>
-						<p>ячсмитьйцукенгшщзхъ</p>
-					</div>
 			</div>
 		</div>
 	<div id="wraper">
@@ -181,6 +181,32 @@
 		<div id="Options">
 			<label for="volumeRange">Громкость:</label>
 			<input id="volumeRange" type="range" value="4" min="0" max="100" step="2">
+			<label for="selectTransposition">Транспонировать на </label>
+			<select id="selectTransposition">
+			  <option value="-11">-11</option>
+			  <option value="-10">-10</option>
+			  <option value="-9">-9</option>
+			  <option value="-8">-8</option>
+			  <option value="-7">-7</option>
+			  <option value="-6">-6</option>
+			  <option value="-5">-5</option>
+			  <option value="-4">-4</option>
+			  <option value="-3">-3</option>
+			  <option value="-2">-2</option>
+			  <option value="-1">-1</option>
+			  <option value="0" selected="selected">0</option>
+			  <option value="1">+1</option>
+			  <option value="2">+2</option>
+			  <option value="3">+3</option>
+			  <option value="3">+4</option>
+			  <option value="5">+5</option>
+			  <option value="6">+6</option>
+			  <option value="7">+7</option>
+			  <option value="8">+8</option>
+			  <option value="9">+9</option>
+			  <option value="10">+10</option>
+			  <option value="11">+11</option>
+			</select>
 <br>
 			<label for="majorThird">Терция:</label>
 			<div class="checky">.
@@ -246,7 +272,7 @@
 	</div>
 	<footer>
 		<p><img src="../favicon.ico" width=16 height=16>
-	 	<span itemprop="copyrightYear">2015</span>
+	 	<span itemprop="copyrightYear">2016</span>
 	 	<span itemprop="copyrightHolder">Kolumbetko</span>
 		</p>
 		<nav class="main-menu">
@@ -263,5 +289,16 @@
 	<script src="raphael-min.js"></script>
 	<script src="synthesizer.js"></script>
 	<script src="example-melody.js"></script>
-	</body>
+<script>
+if (document.location.hostname) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-52946302-3', 'auto');
+	ga('send', 'pageview');
+}
+</script>
+</body>
 </html>

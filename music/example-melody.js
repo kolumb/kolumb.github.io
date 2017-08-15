@@ -13,10 +13,12 @@ var durationTypes = {
 	"12": 1.5,
 	"16": 1
 };
-var tempo = 100;
+var tempo = 50;
 var nMelodySize = durationTypes["1"] * tempo //16 *100 = 1600 4/4
 var nMelodyPart;
 buttonMelody.addEventListener('click', function() {
+	threads = secretGarden;
+	tempo = 90;
 	nBeginMelody = Date.now();
 	nMelodyPart = 0;
 	for (thread = 0; thread < threads.length; thread++) {
@@ -47,6 +49,7 @@ function Thread(record) {
 	this.nNextMelodyPart = undefined;
 	//this.noteDuration = undefined;
 	this.getNextChange = function() {
+		if(!this.record[this.position]) return;
 		if (this.record[this.position].length > 4) {
 			this.nNextMelodyPart =  nMelodyPart + durationTypes[this.record[this.position].slice(4)]*2;
 
@@ -62,6 +65,7 @@ function Thread(record) {
 		}
 		if (this.position > this.record.length - 1) {
 			clearInterval(nMelodyInterval);
+			nMelodyInterval = undefined
 			return;
 		}
 		if (this.record[this.position][0] !== "P") {
@@ -72,8 +76,17 @@ function Thread(record) {
 	}
 }
 
-var threads = [];
-threads[0] = new Thread('PA/4 G4/8 C5/8 D5/8 ' +
+
+var kuznechik = []
+kuznechik[0] = new Thread('B4/8 D5/8 F5/8 Eb5/4')
+
+for (i = kuznechik.length - 1; i >= 0; i--) {
+	kuznechik[i].record = kuznechik[i].record.split(" ");
+};
+var threads = kuznechik;
+
+var secretGarden = [];
+secretGarden[0] = new Thread('PA/16 G4/8 C5/8 D5/8 ' +
 	'Eb5/3 D5/8 Eb5/2 ' +
 	'Eb5/8 F5/8 D5/8 C5/8 D5/2 ' +
 	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb4/8 ' +
@@ -111,7 +124,7 @@ threads[0] = new Thread('PA/4 G4/8 C5/8 D5/8 ' +
 	'D5/8 Eb5/8 C5/8 Bb4/8 C5/3 Bb/8 ' +
 	'C5/1'
 );
-threads[1] = new Thread('PA/4 PA/3 C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/4 ' +
+secretGarden[1] = new Thread('PA/16 PA/3 C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/4 ' +
 	'Bb2/8 F3/8 D4/4 Eb2/8 Bb2/8 G3/8 D4/8 ' +
 	'Ab2/8 Eb3/8 C4/4 F2/8 C3/8 Ab3/4 ' +
 
@@ -155,9 +168,9 @@ threads[1] = new Thread('PA/4 PA/3 C3/8 G3/8 Eb4/4 F2/8 C3/8 Ab3/4 ' +
 	'Ab2/8 Eb3/8 C4/4 G2/8 D3/8 Bb3/4' +
 	'C3/8 G3/8 C4/8 D4/8 Eb4/2'
 );
-threads[2] = new Thread('PA/4 PA/3 PA/1 PA/1 PA/1 PA/1 PA/2 G4/2 PA/1 Ab4/8 PA/6 PA/2 PA/1 PA/1 PA/1 PA/1 PA/1 PA/2 G4/2 PA/1 Ab4/8 PA/6 PA/2 PA/1 PA/1 PA/2 Eb4/2 PA/1 PA/4 D5/4 C5/2 PA/1 PA/1 PA/1 PA/1 PA/1 PA/1 PA/1 PA/2 PA/4 G4/4 PA/2 G4/2 PA/1 Ab4/8 PA/3 PA/2 PA/1	Ab4/8');
-for (i = threads.length - 1; i >= 0; i--) {
-	threads[i].record = threads[i].record.split(" ");
+secretGarden[2] = new Thread('PA/16 PA/3 PA/1 PA/1 PA/1 PA/1 PA/2 G4/2 PA/1 Ab4/8 PA/6 PA/2 PA/1 PA/1 PA/1 PA/1 PA/1 PA/2 G4/2 PA/1 Ab4/8 PA/6 PA/2 PA/1 PA/1 PA/2 Eb4/2 PA/1 PA/4 D5/4 C5/2 PA/1 PA/1 PA/1 PA/1 PA/1 PA/1 PA/1 PA/2 PA/4 G4/4 PA/2 G4/2 PA/1 Ab4/8 PA/3 PA/2 PA/1 Ab4/8');
+for (i = secretGarden.length - 1; i >= 0; i--) {
+	secretGarden[i].record = secretGarden[i].record.split(" ");
 };
 var noteTypes = {
 	"C": 1,
@@ -195,7 +208,7 @@ function playMelody() {
 	if ((synchronizedTime-nBeginMelody)%nMelodySize>nMelodyPart) {
 		nMelodyPart++;
 	}
-	for (thread = 0; thread < threads.length; thread++) {
+	for (var thread = 0; thread < threads.length; thread++) {
 		if (threads[thread].nNextMelodyPart === nMelodyPart) {
 			threads[thread].getNextChange();
 			threads[thread].changeNote();
@@ -203,3 +216,11 @@ function playMelody() {
 	}
 	if (bDrawedNote) stave.noteCarret += 3.1;
 }
+
+window.addEventListener('load', function (event){
+	nBeginMelody = Date.now();
+	nMelodyPart = 0;
+	threads[0].position = 0;
+	threads[0].getNextChange();
+	nMelodyInterval = setInterval(playMelody, tempo);
+})

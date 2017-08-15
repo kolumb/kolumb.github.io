@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>Рендеры.</title>
+		<meta name="author" content="Данил Колумбет">
+		<meta name="description" content="Оригами и другие штуки из бумаги.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="../style.css">
+		<style>
+html, body, #container{
+	margin: 0;
+	padding: 0;
+}
+body {
+	position: relative;
+}
+#container {
+}
+h1 {
+	margin: 2em 1em 0;
+	text-align: center;
+}
+#container h2 {
+	background-color: rgba(216, 228, 194, 0.2);
+	padding: 0 3em 0;
+	margin: .5em 0 0;
+	font-size: 2em;
+	border-top: 2px solid #9ba;
+}
+div a {
+	display: block;
+	padding: 0 0 0 2em;
+	margin: 0;
+	font-size: 130%;
+}
+p a {
+	padding: 0 0 0 4em;
+	margin: 0;
+	font-size: 100%;
+}
+
+.hide h2, .hide .steps {
+	display: none;
+}
+#container img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+#details {
+	display: block;
+	padding: 8px 15px 8px 15px;
+	margin: 1em auto;
+	font-size: 18px;
+	font-family: Arial;
+	text-decoration: none;
+	color: lightgrey;
+	background: white;/*#4894ab;*/
+	border: 2px #ddd solid;
+}
+#details:hover {
+	color: black;
+	text-decoration: none;
+	background: #f0f0f0;/*#54c2d1;*/
+}
+#details:active {
+	background: #eee;/*#59ACB7;*/
+}
+
+footer {
+	background: white;
+	margin: 1em;
+}
+nav a:hover span, nav a span::before {
+	background: #eee;
+}
+
+.main-menu, nav a span, nav a:hover span::before {
+	background: white;
+}
+		</style>
+	</head>
+	<body>
+<div id="container">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAADQsOGpRUG9zcVtYZEc0MoZtcI2PdHB4kVx5m3iImluBpWqIqHaIp3mRrYqSnImPj4WLp4iVqZOYqYiWspeWtZiosaqwtaCllaasyLvHz8zV0+rx7r3At3x/iwAAAAAAACH5BAAAAAAALAAAAAAZABMAAAX+4IAcBwOdVIqtEiW9UhQ7iVia05Sq0+y4sIhDQEqcYKnW6/BwwCozYvF0xLwqFgGxCZMMScXHI+goDwVN6AwchgQkGk3mcqlo7zDHNJE4BAIDGRwaGxsZFg8ZAwdqESQMJm4BDxYSFhx0FheHGYcvjiUQEwQBAgUFFocCdBp1F3IJEaAmAAEEBxQVGRoGDg91ApcZCRMRECQQAMqkp4SFElCsEcXGfwTMAgMDDh0PFQ98GrrTBxMNDabpA9MVEQlwD70aEmPuEA0M2toHojnuCRXmPRCHYME5fJASnsvBMEcrDLoQHFzAYAECBAob3GvAsJPBCgoaLBg58iLFjAcepxkUSZKkAgQvSUI6eK5lxZYKXl4sODKhz5M4dYYAADs=" class="lazy" data-src="fivetetrahedrons.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAADUyKC8oHlBIOWBTPklKR1ZYVlFRS2VZRXNqV2VnZXV3cV1hYEFAN4p5aXiDaY+IdqibeoWDXoaKh4ySjIyYkpOXk5ORjaqQi5WjnY+gmbaoipmqo8O2kcvNyr7BvQAAACH5BAAAAAAALAAAAAAZABMAAAX+oDVZ5GRKU1VN0vMoSpIsBW2kpnqyrCTBsoWwUDDoRhaVr9eKBYUJIkVFoWCUFJ8PGCwEExPMBkOuTrI9bpQYXSTFlY2O0rM0FI1u1FCYjitkFWY+dheGhmsEBlZVghmNEw8NF5OHF3wGBgSMGFVVnZEuoocCRJlWZBgZGWUtkjEIEBANmZoErBkmdFW5EREINbEQB3xEBA0NJgoPPzAIDgkACQcPswPFmhoXkg8VFj4uCgIECKICxKYEExoasxIqOjAwDgoABwgExgYo7BoPGx0CdqjwY4GAAAwQIMBEZIkGDu0edPDgwYIBAAACBBig8AABRQS0SHjYDpmCAQInMCK8p1CALXAtOHCAIKoBggMoBZxr+TGkvGUQZdF80FHnzgPjBIQAADs=" class="lazy" data-src="90modules.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAABkaFCguLS4fF0gwGUwwLWQwK2BNOFBNTG1sVG9ydGdhYm46SYtuUaR0appcW5FDPnKGdKyRb5iTZcKrfXZ/gKh4h3eEho2Sj66traOjmtKlnLLLp9LRmtLdzbHgxAAAACH5BAAAAAAALAAAAAAZABMAAAX+YCJSV2lmaIYdgvAwWNNsmGiR54UmGKYMA8PDQWzUEhaL6dKQXCCIjYYTLDyGjkfGpjQxIsCD4oKQRBjXooZbShAqDcQTglJEIkOjdIRrLQh0HhkMGSUaGg8NDhoRIyJlBgMCJQgtBxIZhxEyFxKOAQgIBQQBKAgHQQgcDBoyTQUKIgcAAQcEFwcQHhAKCAMMEwgNGigGsCK1F24Otx4dPl93hw0ZFQsJswc8EghZYx26HBESEhyDGQ0KCgEA7RIGEocHuQkQ4gMT5g4FDAUH7O0AsKqgQUIAAgogSGiBYBADAwwGJAAIgACBCBcwRGJwoYMCAQNQSFTAQEAAdgFYBDQIcgBDh3IbOrDoWMNipX/sGpwB4pIDzA0elCkoYEABCwXtLhpgMYCcgQQGoHggcIAoglgDAMw6lBKfGZ8MxNgSU6CACKoZAGg6RDSDuEIsLFpkwMBNCAA7" class="lazy" data-src="buckyball.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAABgNBBoUCRwWDyQXCyQYETAdEi4sGDg1JhwqGDVWNExQLmVlJXFSTFV1THVzZ2plTGQ6PY9waYJ7Mm6YO1uaYYydNJGtbJKXXprVeKJ7hHOVhnbTmaminsqgoKzImwAAACH5BAAAAAAALAAAAAAZABMAAAX3IEEMQikEAJquaeC+Q0CUL2C/yPHusDD8rtQh1dhQdDzYb2QrNCwOhZFCSSp/McDg4rFMJg2qoRHjYWMDgGGC2UwWlEdioTAkscyDxot5NxoJEQxWZwQOHB4cFhgVFQsHEBkdD0k+PwYaiF0XjhcXDBEcHXY7ZwMHihcWFo4LFgsMk3emChwRjREPFxIVoHVmSyMFHBwYHRAOGw4LUQekVz8FD4kdgocODRoHDqQnAaanCrER5A9hGwgpJzTgPwcMFxgWchQbCeo038EjBAWnVPcAIEDwYp2AEe2w1LFxgwQJFwnPqGAo4+GJAfzwFBBRZsdBEetCAAA7" class="lazy" data-src="curler.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQAhAPQAACQcGCkkHjY0LDItKBwXEUw3NGo3PEtEOXBAMmg8R1RSSW9QUHBua2VjVz1FPpBOVJJWbYxvbaxoc6NcaalVbKWIacmNd69xi49mgd5vlbKPjq+nlaShndejnuje1uK/uyH5BAAAAAAALAAAAAAZACEAAAX+YNMojqI0yxJ12HUxZnwqx8k0ZdFEapcskFdEZmIYb6ZCQRXRJBJBiYY3lB0xkETBYABmF52J5AL80RS3xVKS4D7eEEj4otFkDcib0gDZ8h9dCxJvdRdZJWgwPwh7ByoLDykGbxQPIzQwC4FcaigXEhBuD5ULNAcMB34PEmoKEQ12CikRrAs1CgI3B21dshoVETymKQ0wBwKnqAWyERUdFdC2qa4dHQsuKkciFRrPFRsVakrXLmMLUHUdGhsd4N8dFuEQKS4UYxMpHhEMGh8fzxs8VLMQ4UIHe6NcGILgYQODFR7+eYhYrVqGDG8eTKAAgeMGDgsmVOxAsVq/DRD+aIWUgHCEIAkVS/r7wIGDBhRvxEi4FMaCTw9SZtKsyYFBgUhvNtBYkvGNhAwVa2oouuRcgg8mGijxM4nCxSkROGxIZeBJAg0kBAQIMGBPRqgVOHzQytWAAwED1q5tO0mMwanKkHHBg1fvgMNHPwj8UKeBAFuQJnEofFhBAQEGJnxoInCsACUIJj0YUPgzAw4HDFxoVnDzss+yuOwNIEABzaoLun2rUBvXidoA9H7mMG7WRGin0FxSAKA5bQYbChxA4UjDxAiXc8EQQYBA8AIeUB8IRqwZLgHoizXg0L35gHXLGjZIdWwEabyn2LcHkEvERMfoCVDMYYcJyAAA+wEeMEAxHtiXl4AAPngCgt4FR5oIyNBG2mkM3DeACSEAADs=" class="lazy" data-src="bigcurler.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQAhAPQAADIcFTYnGzYwJRoRDUU6LE0sLlYqKTJpLktEMk1ELmBcHG9JTWJnVVFYSIdeZJRXO2ywc1maXmWMMJKXeZ+gW5GeMpV4hXzDh3KdjY6RiJuojam2mKiwlK21pqiVlrHUoiH5BAAAAAAALAAAAAAZACEAAAX+YCZmHsd16KZumralL6dlX8dN+FurnauhnRcq85NpcC4hq7U5+VKcpdEVrK6ArqiJmkquVr+iyfhqfqPmZdOUY6bH4xZc7qSjm8ijXTqVjTcQGhUfHzgmH2xTLYtjERCPFRSPFwoUlgsWi5oaJhGOFxSeEB8KCg8PBh4Tm5qiFxCeF6QKFQYLHoybFRWTjxEXEhK0Cw64W3oalqIHB57MFLQOCwhEnHoTjp/MEM0HDAQMAw0CDREtSI/pvhHNHwICDA3jDRgYODgMGOvOzO7wDQoIlGPA4J4Dggw8KTww6l2GAAGgEWyAL0MHCxl8IRiQEIGBAgQCJKCAsEFBixfIO1x4lWBBAQAQDQQoRXJiwQgcPoj4EOGlgZ8LFhgAYOtDPJMJkiZggPGnTFu2FsAkJi3AO6UIEDBAIZRqgQI/HVhY8K6s0gQIPHTAFDTqR5kJygqwijYptQ8OLgYAuyDAx4Nyr2JFQIBABwe2xtoSG/hdVgRoEcwN4KBYgQEDABSzGtguZMIQg2IeDaBAAAIJCqP+nLXw6a8BAMiGaVqA6sJnCc8lIGD2bIgQbaturXpybN++gw+/zRs4cuRWl9+2evz57+gEQgAAOw==" class="lazy" data-src="kusudama.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAAAsMBRUOBhkTCxEVFiMdFzQwKxsjHkU2LF5RMh1dalNTTmhjXRo4Ro12bKdoXINjNpuRb9awa7C3QWN4hzR2mJRxkGKQlzSox7OokZ2ZlsyuouLWpP3//PXz6+Xm16bP0CH5BAAAAAAALAAAAAAZABMAAAX+IOcVhmCewiAYhgq8QhCYWqGippEEbPy+stzghgokLqzCARH4xWZD2ClQmFwSykVG8JNBB7/ColBAWK7kxe4HmAXAANVh42kgrIzEOUHgAmUGSxISCBgbGhoQFxYfHhUWFgpNXgGIDQsRGgoLB2UQRx8TGQptkzIidgsaFQhlGxELDBSRQU2lIhAYGBANDRAbrw8JCZwHSwe2ARwcHc2jHxsdHg4LFxcVGQ0Z26bLzB8LCh+IHZfWDh8fGRMFyd4eG7sfGBERzR+z4QVdL97NHpnoSeiwYcGCBwTYwADgz4MHRAcgQOgAgQABBAgsJmQjDdihRBJ/YVCwyeCCBqQqfiBChEFDPEQQIkDYRnPbAja6JPrCgMBXSJvhFNjAqUFXTo0ah0RR+CIEADs=" class="lazy" data-src="stelatedicosahedron.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQAZAPQAADcTATI1MBc2FEsYCE8vCWMsMQlOFTRQLQ9ZMU1NB3BuLFxbJCBkU0xPSmhsX204R4pqYXmgL2yRH3mJY5OjJI6RbZiqUrXEI1iFhaKfn9HO0vz8++rl7dfS58C80It6iiH5BAAAAAAALAAAAAAZABkAAAX+oMdtmradm5etI4pyI5eNngiTznqa7sbVM06nAxNlGLlN5oPiCTWzjkZU60wYDBWGUap0XJwKp2TMaCpYxhbpEH99Fa/K8VllJggEkt3OODQ/ExVnKw8NdRh5DggNCwoKEAUKFSJtZxVLHw6bWAoIAgGPDpMVChMLFYIVDg2tB3qNCwUBCXV2o6SqFQ0Hva0ND7MBD4YBAQYJqIK3vL4NBcIFhqzJqBAfH8SGvQHQ0MatCAYCBwsLEA7B0A4M4gfewgECAgYGBw4Lmzl+W/X3CgkSjJt3r0GAf5vuNGBQr14DAgEHkmuV4J+dXQXMLUggIKBAib0cTJigYIUFBdCRPAak9XFgr3ISFFiwIIGCg4YAEhhjaWzeAgoRgiqgQEGChQMGJAwYcMAYgAE6M0qQEFQo0ZoyKQwgYFDA1qUHp4qNeZXChQsKth4QAAAAgaUFxk6NQEHBBbNnE0BN0DanWwJjq8a0QJQoAb993yYAPBVo0KKFiS4YsODwU72AKcyc+Thy3beV2w5IS6Bw1aAhAAA7" class="lazy" data-src="stelatedcolor.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAADgcEQs0FDQwDjg8N0QlGk0xG0ouJgZSKSJWKUhQGlRuM2d1NVRVKm5XU2pmVCxzRIp1bnaKSHqWWG2MUXOWW22CP4WZW4ObYoyKc4mlZ4yqcZGtcpiJgQAAAAAAAAAAACH5BAAAAAAALAAAAAAZABMAAAXgoCVaWaltm6aVmeq+22hdbNuq7OvGct1yHIxQKLHdZDMWBsiBOBrQBqWmQSYxkGjDwX0ypixr5rnVlgcPcOkyu7gvhrhB+xwc0rW3vkAgyBlbdncSRWtvIwwAfYtxB45phJEjbBYLBIqLBAGOdxSREhaEMhF9mH2bj5+goDISBQUAppubkKqshBEMpZizBwoTn6GsEcQMAoq8BwEIFROeorjEEQvGx7GaywrNE8CR0hEV1AkC5McBAQna3N3fxAviCfHl6errE+3h8PHxDAr+9tzavVuggAEDfv0UvAM4IQQAOw==" class="lazy" data-src="cuberosebefore.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAACsfJE8oNk0gLRZJPFRROGJYPGU3TV8xSilcU29uUXFKaV9iW4tlcniHaTWHfomSdpiifkpyh5FjjF+Vjymanpulh5ypk4molKKrlqaxmqKsiqKhmAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAZABMAAAX+IGaJVmme1kVdGJa9mvZmbXtWuEo5V+zLL5HNohltjpMFYpH5AWmno4RhEAQO2IDigcPNbBiGRGEAmM/ka7cSHIkY1LK1DDgo7usgybJhBAJmAgoHAFoKDDgQEDR7fH4AApAHEgGCCheJi0MWExMbCn8HApMKAgYKE5mbnAtTBllaYwcRK12NF51UfwGvdwoSFBQTD1woEw4OC69/rwbOBgjBxBA3DQjXC3CEpgaAA9HDXDjECQUEBAiHkbzeAwMOE4rE5Anl5wRVpoAA7u4O88Qa1Ktn7hwzBP36IWgwrwGDgQTNFQhAYIFFiw0YAnQIsVyBghUhZtz4sGPEjwMENQIMAQA7" class="lazy" data-src="cuberoseafter.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAACQcFikjGzInHSsnIjYtJDo0JzY5NBoUEUM4KUM6ME5JOHlhPnppSHdwVXR2Z11bSj5BNIV4WYFtT4h8ZnyHeIyGdI2FboeAXI+WiqavobjEuMTSxgAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAZABMAAAX+oDVNUTRW1Sg5zXS9JSMzTeVMVWRVYiWZkYuLdGEsjIxdSieaWJ4lV5ERmS0kKJSS+hSVviWJ7Jct5xoNWKSxbotLvIkjk8FgWAs2ek+L/NYoLBp1Dg90GRR7imgMDw9oCgp1GA8OGhoODgWbBQienwQICg+RlZGTmQqiCp2fCAUEkZEJrACIGY4KgxiqrZ+zCQgEAQAAFKQGFRt2D5wEBJsJ0ggJBQMBAQPFAA11FQ/Pwc8Ewa/VsALXAAcBDhQQAQIPyw/pnpzV0NbF2AQHAAEuZXAgQMCmcQifEcs24AC7B5SGBRg3gMCAAekUYrvI76IBgPEwFhw5Els2bAAZGzosdvGigHglt8kEYHHdtmsmTc6cmU1mCAA7" class="lazy" data-src="icosubdivrow.jpg">
+	<img src="data:image/gif;base64,R0lGODlhGQATAPQAACsQAzUkCk00CEw9IltGDmpSGGlaJ1xcWWJaT11jWmZkW3JpTltdYF1lZWhqZnh8eG53bDlLQIt1LYJ5YnmGem+AbpqOYZqFO32ShYiWiJuwop2woLHGuMDVyn99gQAAACH5BAAAAAAALAAAAAAZABMAAAX+oDV51mOeZpY9mQW9kBND5mSJL6pCFAXLjqBFIrFcJIaCAaGgZHw930yhQByNkkKBwCUYejDTK0i9YAsCAVegLShMPlfMQT0T0vh2YbPJ8OZUCkdoAkwIdwsTCxkbGowUFnSBF2gBCBRiPRocGpuODzwUdAcSBAEBaQNvEIwcHB0dHA4JPA+jlQC5AKgOfJuujhUJorMHBQG6ugEJGZ2/HCoVxAkHBAMPmJgPCg4Uzx0aFLQxCdQECKBk6LTOHc0YTw4NDgcHeKe63KyM4Y4ND/Oo2ROQDMA1EwYMDBgQQUY6BwzqpckVoYmYhMcC8MBADGKDamlY9ACF8diAH/ImGKg0lsYAtwULEiYxRcPWvAYJGAQxwEUmki13ApycI69BAwbzQgAAOw==" class="lazy" data-src="icosubdiv.jpg">
+</div>
+<footer>
+	<p class="steps"><img src="../favicon.ico" width=16 height=16>
+	<span itemprop="copyrightYear">2017</span>
+	<span itemprop="copyrightHolder">Kolumbetko</span>
+	</p>
+	<nav class="main-menu">
+		<ul>
+			<li><a href="http://kolumb.tk/"><span data-hover="Главная">Главная</span></a></li><li>
+			<a href="http://kolumb.tk/music/" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
+			<a href="http://kolumb.tk/trigonometry/" title="Интерактивная программа"><span data-hover="Тригонометрия">Тригонометрия</span></a></li><li>
+			<a href="http://kolumb.tk/xo2/" title="Крестики-нолики для изучения таблицы умножения"><span data-hover="XO2">XO2</span></a></li><li>
+			<a href="http://kolumb.tk/links/" title="Полезные ссылки"><span data-hover="Закладки">Закладки</span></a></li>
+		</ul>
+	</nav>
+</footer>
+<script src="../lazyload.js"></script>
+<script>
+if (document.location.hostname) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-52946302-3', 'auto');
+	ga('send', 'pageview');
+}
+</script>
+</body>
+</html>

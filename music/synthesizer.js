@@ -1,13 +1,3 @@
-Tools.addEventListener('click', function (event) {
-	var node = event.target.parentNode.firstChild.nextSibling;
-	if(node.type === 'checkbox') {
-		var module = node.id.substring(0,node.id.length-5);
-		node.checked ? window[module].show() : window[module].hide();
-	}
-}, false);
-
-
-
 var core = {
 	context: null,
 	gainNode: null,
@@ -97,6 +87,7 @@ var core = {
 				options.minor = msg.shiftKey ? -1 : 0;
 
 				if (cmd === 9){
+					console.log(note)
 					core.emitPlayNote(note - 32, true);
 					if (options.third) core.emitPlayNote(note - 32 + 4 + options.minor, true);
 					if (options.fifth) core.emitPlayNote(note - 32 + 7, true);
@@ -189,29 +180,25 @@ var keyboard = {
 		Keyboard.classList.add('hide');
 	},
 	mouseHandler: function(event){
-		if(event.type === 'mousedown'){
-			if(event.target.id) {
-				options.minor = event.shiftKey ? -1:0;
-				keyboard.mouseClicked = Number(event.target.id);
-				core.emitPlayNote(keyboard.mouseClicked, true);
-				if (options.fifth) {
-					core.emitPlayNote(keyboard.mouseClicked + 7, true);
-				}
-				if (options.third) {
-					core.emitPlayNote(keyboard.mouseClicked + 4 + options.minor, true);
-				}
+		if(event.type === 'mousedown' && event.target.id){
+			options.minor = event.shiftKey ? -1:0;
+			keyboard.mouseClicked = parseInt(event.target.id) + parseInt(options.transposition);
+			core.emitPlayNote(keyboard.mouseClicked, true);
+			if (options.fifth) {
+				core.emitPlayNote(keyboard.mouseClicked + 7, true);
 			}
-		} else if (event.type === 'mouseup'){
-			if(keyboard.mouseClicked) {
-				core.emitPlayNote(keyboard.mouseClicked, false);
-				if (options.fifth) {
-					core.emitPlayNote(keyboard.mouseClicked + 7, false);
-				}
-				if (options.third) {
-					core.emitPlayNote(keyboard.mouseClicked + 4 + options.minor, false);
-				}
-				keyboard.mouseClicked = '';
+			if (options.third) {
+				core.emitPlayNote(keyboard.mouseClicked + 4 + options.minor, true);
 			}
+		} else if (event.type === 'mouseup' && keyboard.mouseClicked){
+			core.emitPlayNote(keyboard.mouseClicked, false);
+			if (options.fifth) {
+				core.emitPlayNote(keyboard.mouseClicked + 7, false);
+			}
+			if (options.third) {
+				core.emitPlayNote(keyboard.mouseClicked + 4 + options.minor, false);
+			}
+			keyboard.mouseClicked = '';
 		}
 	}
 }
@@ -221,6 +208,7 @@ var options = {
 	minor: 0,
 	third: false,
 	fifth: false,
+	transposition: 0,
 	init: function () {
 		Options.addEventListener('click', this.clickHandler, false);	
 		volumeRange.addEventListener('change', function() {
@@ -241,10 +229,12 @@ var options = {
 			case 'perfectFifth':
 				options.fifth = event.target.checked;
 				break;
+			case 'selectTransposition':
+				options.transposition = 
+				selectTransposition.options[selectTransposition.selectedIndex].value;
 		}
 	}
 }
-
 
 
 var stave = {
@@ -428,7 +418,6 @@ var guitar = {
 
 		}
 	}
-	
 }
 
 
@@ -460,7 +449,7 @@ var harmonica = {
 		75: [0xddaadd, 39],	//B6
 		76: [0xffaabb, 38]	//C7
 	},
-	harmonyHoles: [32,35,35,39,40,42,44,45,47,49,52,51,52,54,56,57,59,61,64,63,44,47,47,51,52,54,56,57,59,61,64,63,64,66,68,69,71,73,75,76],
+	harmonyHoles: [32,35,35,39,40,42,44,45,47,49,52,51,52,54,56,57,59,61,64,63,44,47,47,51,52,54,56,57,59,61,64,63,64,66,68,69,71,73,76,75],
 	harmonyCanvas: document.getElementById('harmony'),
 	harmWidth: 0,
 	harmHeight: 0,
@@ -654,29 +643,31 @@ var wave = {
 }
 
 
-
 core.init();
 
 keyboard.init();
 keyboard.show();
-//keyboard.hide();
 
 options.init();
-// options.show();
 options.hide();
 
 stave.init();
 stave.show();
-//stave.hide();
 
 guitar.init();
-// guitar.show();
 guitar.hide();
 
 harmonica.init();
-// harmonica.show();
 harmonica.hide();
 
 wave.init();
-// wave.show();
 wave.hide();
+
+
+Tools.addEventListener('click', function (event) {
+	var node = event.target.parentNode.firstChild.nextSibling;
+	if(node.type === 'checkbox') {
+		var module = node.id.substring(0,node.id.length-5);
+		node.checked ? window[module].show() : window[module].hide();
+	}
+}, false);

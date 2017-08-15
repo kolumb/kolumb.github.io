@@ -20,11 +20,20 @@
 	top:0;
 	left:0;
 }
+#Canvas {
+	cursor: move;
+}
 #Checks {
 	display: block;
 	position: absolute;
 	bottom: 0.5em;
 	left: 0.5em;
+}
+#Types {
+	display: block;
+	position: absolute;
+	bottom: 0.5em;
+	right: 0.5em;
 }
 
 .check {
@@ -43,18 +52,21 @@
 	cursor: pointer;
 	transition: background 0.5s;
 }
-input:checked + .radL { background: #5577D2; 
-	color: #30B8B8;
-	background-color: white;
-	box-shadow: none;
-}
+input:checked + .radL { color: #30B8B8;}
 input:checked + .sinL { background: #5577D2; }
 input:checked + .cosL { background: #CE5555; }
 input:checked + .tanL { background: #5EA642; }
 input:checked + .ctnL { background: #E9B13F; }
 
+input:checked + .type { background: #844471; }
 
-input[type="checkbox"] {
+input:checked + .hide {
+	background: inherit;
+	box-shadow: none;
+}
+
+
+input[type="checkbox"], input[type="radio"] {
 	display: none;
 }
 .display {
@@ -104,7 +116,7 @@ nav a:hover span, nav a span::before {
 		<div id="Checks">
 			
 			<input id="rad" type="checkbox" checked=true/>
-			<label for="rad" class="check radL" id="Radian">Длина в rad</label>
+			<label for="rad" class="check radL hide" id="Radian">Длина в rad</label>
 			<input id="sin" type="checkbox" checked=true/>
 			<label for="sin" class="check sinL">Синус <span id="sinValue" class="display"></span></label>
 			<input id="cos" type="checkbox" />
@@ -114,10 +126,20 @@ nav a:hover span, nav a span::before {
 			<input id="ctn" type="checkbox" />
 			<label for="ctn" class="check ctnL">Котангенс <span id="ctnValue" class="display"></span></label>
 		</div>
+		<div id="Types">
+			<input id="Default" type="radio" name="displayType" value="default" checked/>
+			<label for="Default" class="check hide">По-умолчанию</label>
+			<input id="Radians" type="radio" name="displayType" value="radians" />
+			<label for="Radians" class="check type">Радианы</label>
+			<input id="Vectors" type="radio" name="displayType" value="vectors"/>
+			<label for="Vectors" class="check type">Векторы</label>
+			<input id="Percents" type="radio" name="displayType" value="percents" />
+			<label for="Percents" class="check type">Проценты</label>
+		</div>
 	</div>
 	<footer>
 		<p><img src="../favicon.ico" width=16 height=16>
-	 	<span itemprop="copyrightYear">2015</span>
+	 	<span itemprop="copyrightYear">2016</span>
 	 	<span itemprop="copyrightHolder">Kolumbetko</span>
 		</p>
 		<nav class="main-menu">
@@ -131,6 +153,16 @@ nav a:hover span, nav a span::before {
 		</nav>
 	</footer>
 	<script src="trigonometry.js"></script>
-</body>
+<script>
+if (document.location.hostname) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+	ga('create', 'UA-52946302-3', 'auto');
+	ga('send', 'pageview');
+}
+</script>
+</body>
 </html>

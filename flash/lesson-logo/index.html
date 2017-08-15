@@ -1,0 +1,48 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Урок по созданию анимации логотипа.">
+	<meta name="author" content="Danil Kolumbet">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+	<title>Анимация логотипа</title>
+	<style>.button{display: inline-block;padding: 0 .4em;font-family: Lucida, Arial, sans-serif;border-radius: .3em;background: #eee;box-shadow:0 .1em 0 #555, 0 .1em .2em #777;}
+object{
+    pointer-events: none;
+}</style>
+	<body>
+
+<p>
+В этом уроке мы создадим эффект блика на логотипе. А для этого воспользуемся средствами маскирования слоёв во Flash.</p>
+<p>	Вот, что должно получиться в результате:</p>
+<p>
+
+<a href="logotype.swf"><object class="mt-image-center" type="application/x-shockwave-flash" 
+ data="logotype.swf" 
+ width="550" height="200">
+ <param name="movie" value="logotype.swf" />
+ <param name="quality" value="high"/>
+ </object></a>
+<p>
+	Такой эффект возможен благодаря особому типу слоя: слой-маска.<br />
+	Но вначале создадим основу логотипа. Создадим текстовое поле и наберём текст логотипа. Я выбрал шрифт с засечками, чтобы блик получился натуральнее.<img alt="Logo1.png" class="mt-image-center" height="200" src="Logo1.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="570" /></p>
+<p>
+	Создадим новый слой и нарисуем высокий, но узкий прямоугольник.&nbsp;<img alt="Logo2.png" class="mt-image-center" height="200" src="Logo2.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="518" /></p>
+<p>
+	Для цвета выберем градиентную заливку в соответствующем окне (<span class="button">Shift</span> + <span class="button">F9</span>  ). Я выбрал переход из белого в белый. Но для одного из цветов установил нулевую прозрачность. Это наш блик, который мы будем перемещать над текстом логотипа.&nbsp;<img alt="Logo3.png" class="mt-image-center" height="301" src="Logo3.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="391" /></p>
+<p>
+	Один из краев получился довольно резким. Мы можем сменить тип Overflow у градиента, и уменшить его ширину специальным инструментом Gradient Transform Tool ( <span class="button">F</span> ). Таким образом получится размытая заливка блика: от прозрачного до непрозрачного, до, вновь, прозрачного (Alpha: 0% &mdash; 100% &mdash; 0%).<img alt="Logo4.png" class="mt-image-center" height="310" src="Logo4.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="456" /></p>
+<p>
+	Можно повернуть наш блик на небольшой угол ( <span class="button">Q</span> ). Расположим его с правого края текста. На временной линии (timeline) для обоих слоёв добавим несколько десятков кадров ( <span class="button">F5</span> ). На кадрах верхнего слоя с бликом создадим анимацию движения (Create motion tween). Вставим ключевой кадр в конец этой групы кадров ( <span class="button">F6</span> ) и переместим блик за левый край надписи. Сейчас можно проверить результат нажав клавишу <span class="button">Enter</span> .<img alt="Logo5.png" class="mt-image-center" height="327" src="Logo5.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="570" /></p>
+<p>
+	Теперь добавим новый слой, который будет служить маской. Маска необходима, чтобы блик был виден только над нужной нам областью логотипа. Первый блик на моём готовом примере виден только на узкой кромке текста. Для этого необходимо проделать несложные манипуляции над контуром текста.<img alt="Logo6.png" class="mt-image-center" height="92" src="Logo6.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="382" /></p>
+<p>
+	Выделим самый нижний слой с текстом логотипа и скопируем текстовое поле. Теперь выделим самый верхний слой &mdash; наша будущая маска. Вставим текстовое поле точно в то же место, где был оригинал (комбинация клавиш <span class="button">Ctrl</span> + <span class="button">Shift</span> + <span class="button">V</span> ). Сейчас цвет и прозрачность текста не имеет значения &mdash; Flash проигнорирует их. Для изменения контура текста сейчас необходимо дважды &laquo;разбить&raquo; эту групу контуров (комбинация клавиш <span class="button">Ctrl</span> + <span class="button">B</span> ) .<img alt="Logo7.png" class="mt-image-center" height="200" src="Logo7.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="570" /></p>
+<p>
+	Теперь скопируем полученые контуры и вставим в то же место. Важно раньше времени не снимать выделения. Передвиньте контуры на несколько пикселей, например, влево. Удобно воспользоваться стрелками на клавиатуре. Поменяйте цвет заливки, в окне свойств (<span class="button">Ctrl</span> + <span class="button">F3</span> ), на любой отличающийся. Теперь неоходимо снять выделение. В итоге произойдет вычетание верхнего контура из нижнего. Чтобы убедится в этом, выделим верхний &laquo;полноценный&raquo; контур текста и удалим его. Останутся только узкие области кромки текста.<img alt="Logo8.png" class="mt-image-center" height="200" src="Logo8.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="570" />Теперь осталось нажать правой клавишей мыши на название верхнего слоя. В этом контекстном меню сменим тип слоя на &laquo;Маска&raquo;. В этот момент, автоматически, нижележащий слой свяжется со слоем-маской, и оба они заблокирутся. Пока эти слои заблокированы, результат маскирования видно прямо на рабочей области. Можно проверить результат нажатием <span class="button">Ctrl</span> + <span class="button">Enter</span> .<img alt="Logo9.png" class="mt-image-center" height="93" src="Logo9.png" style="text-align: center; display: block; margin: 0 auto 20px;" width="381" /></p>
+<p>
+	P.S. Подобный эффект можно достичь <a href="http://davidwalsh.name/demo/sheen-effect.php">средствами CSS</a>.</p>
+
+</body>
+</html>
+

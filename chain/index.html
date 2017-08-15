@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang=ru prefix="og:http://ogp.me/ns#">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="Логическая игра для нескольких игроков.">
+	<meta name="author" content="Данил Колумбет">
+	<title>Цепная реакция</title>
+	<meta property="og:title" content="Цепная реакция" />
+	<meta property="og:description" content="Логическая игра для нескольких игроков." />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="http://kolumb.tk/chain/" />
+	<meta property="og:image" content="http://kolumb.tk/chain/chain-reaction.png" />
+	<style>
+#Canvas {
+	display: block;
+	margin: 0 auto;
+	outline: .1em dashed lightgrey;
+}
+
+	</style>
+</head>
+<body>
+<canvas id="Canvas"></canvas>
+<link rel="stylesheet" href="../style.css">
+<script type="text/javascript" src="parameters.js"></script>
+<script type="text/javascript" src="canvas.js"></script>
+<script type="text/javascript" src="dots.js"></script>
+<script type="text/javascript" src="field.js"></script>
+<script type="text/javascript" src="cell.js"></script>
+<script type="text/javascript" src="sound.js"></script>
+<script type="text/javascript" src="chain.js"></script>
+<script>
+if (document.location.hostname) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-52946302-3', 'auto');
+	ga('send', 'pageview');
+}
+</script>
+
+
+<!--
+Количество точек на поле - высота на ширину. Формируют узор в центре, потом небольшая турбуленция и разлетаются по своим местам.
+
+ожидание клика
+	случайный круг показывает свой настрой - сжимается, расширяется или смещаеся, если может атаковать.
+невалидный клик
+	кружки разлетаются - плохо, что похоже на валидный ход
+	кружки сжимаются к средине
+	или кружки на клетках игрока подпадают под турбуленцию, чтобы привлечь внимание
+
+валидный клик на точке 
+	появляется круг цвета игрока
+		плавное проявление или разрастание?
+		резкое - контрастирует с плавностью точек - похоже на взрыв
+	
+	добавляет к точке друзей 
+		первый раз - до 32
+		удваивает или
+		второй - еще 16
+		третий - 8
+		четвёртый - 4
+		пятый - 2
+		шестой и последующие - 1
+		А если 5 соседей - значит каждый раз по 16
+
+		откуда?
+			из центра
+				нужно ли оставить исходную?
+					так даже проще
+			из последней и по цепочке
+				вполне реализуемо
+	точки разлетаются под воздействием взрыва
+	точки подпадают под влияние потока
+	точки стремятся занять позицию фигуры
+
+взрыв
+	убираем круг
+		хотелось бы разрастающуюся пустоту из центра
+		растворение, лучше с расширением
+		уменьшение не годится
+		пока исчезновение
+	точки разлетаются под воздействием взрыва
+		хотелось бы и соседних задействовать
+	точки поддаются потоку
+	точки делятся на количество соседей
+		стремятся занять новую фигуру
+
+поле хранит состояние игры
+	клетка
+		размер
+		владелец
+
+
+
+e -> move(player, x, y)
+move -> check valid
+
+-->
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>Мои флешки.</title>
+		<meta name="author" content="Данил Колумбет">
+		<meta name="description" content="Флешки.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+<object id="FlashContainer" width="100%" height="100%" data="sound-button.swf">Alertnative Content Here</object>
+	<script>
+if(window.location.search) {
+	console.log(window.location.search.substring(1))
+	FlashContainer.data = window.location.search.substring(1)
+}
+
+	</script>
+
+	</body>
+</html>

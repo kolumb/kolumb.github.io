@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang=ru>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Эффектная кнопка во Flash</title>
+	<meta name="description" content="Урок по созданию кнопок в Flash.">
+	<meta name="author" content="Danil Kolumbet">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+	<style>
+html {font-size: 100%;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;}
+body {
+	margin: 0;
+	font: 1em Calibri, Helvetica, sans-serif;
+	background: #f8f8f8 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAIAAADZSiLoAAAAHElEQVQIHWP48+fP9+/f////zwCkgBwQC4ghAACODRqkCkEF0QAAAABJRU5ErkJggg==');
+}
+h1,footer {font-size: 2em;margin: 0;padding: 1em;background: #eee rgba(224,224,224,.4);}
+
+#main {margin: 0 1em;}
+
+h2 {font-size: 1.5em;margin: 0;padding: 1em;background: #f0f0f0 rgba(239,239,239,.4);}
+
+article {display: block;margin: 0 1em 1em;}
+
+.block {display: block; margin: 0 1em;}
+
+.vcard {
+	padding: 1em;
+	min-height: 3.5em;
+	position: relative;
+	left: 0;
+	border-top: 1px solid #eee;
+	border-left: 0 solid #999;
+	background: white;
+}
+	
+
+.org {
+	position: absolute;
+	left: 40%;
+	margin-left: 2em;
+}
+.email {
+	position: absolute;
+	left: 60%;
+}
+.tel {
+	display: block;
+	text-align: right;
+}
+.nested {
+	margin: 0 1em;
+}
+.mt-image-center {
+	display: block;
+	margin: 1em auto;
+}
+
+a {text-decoration: none;color: #16f;padding: 1em;}
+	a:visited {color: #97a;}
+	a:hover {text-decoration: underline;}
+	a:active {top: 1px;position: relative;}
+	a:focus {outline: 1px dotted #97a;}
+
+p {margin: 0;}
+	</style>
+</head>
+<body class="block">
+
+<!--
+
+flash-buttons
+Эффектная кнопка во Flash
+<p>Иногда, хочется чего-то по-интереснее, чем три кадра в кнопке.. В этом уроке создадим кнопку со звуком и анимацией.</p>
+
+  -->
+
+<object class="mt-image-center" type="application/x-shockwave-flash" 
+ data="buttons2.swf" 
+ width="648" height="380">
+ <param name="movie" value="buttons2.swf" />
+ <param name="quality" value="high"/>
+ </object>
+<p>Кнопка - это специализированный фрагмент ролика, который имеет только четыре кадра. Переключение между ними происходит в ответ на положение курсора. А последний кадр и вовсе никогда не отображается. Его содержание определяет участок, на котором курсор может взаимодействовать с кнопкой.</p>
+<p>Добавить кадры и нарисовать красивую анимацию привычным спобом не получиться. Но ограничения в количестве кадров можно обойти, воспользовавшись фрагментом ролика внутри кнопки.</p>
+<p>Моя кнопка имеет вот такую структуру.</p>
+<img src="Button1_Structure.png" class="mt-image-center" width=398 height=169 alt="Слои и ключевые кадры кнопки." />
+<p> В данном примере на нижележащем слое я поместил объекты со стрелками, которые содержат свою временную шкалу.</p>
+<img src="Button2_StructureVis.png" class="mt-image-center" width=367 height=333 alt="Четыре групы объектов в символе Button: Up, Over, Down и Hit." />
+<p>Если вставить экземпляр Графики, анимация не будет проигроваться, потому что временная шкала синхронизирована с временной шкалой родительского объекта. А если создать фрагмент ролика, то он будет зациклен, что в нашем случае не подходит по задумке.</p>
+<img src="Button3_HoverFrames.png" class="mt-image-center" width=543 height=128 alt="Слои с анимацией движения стрелок под кнопкой (при наведении на неё)." />
+<p>Поэтому, придется воспользоваться ActionScript. Я создал отдельный слой во фрагменте ролика и вконце добавил ключевой кадр. Таким образом скрипт будет действовать только в последнем кадре, а не во всей последовательности. Чтобы добавить код можно нажать правой кнопкой мыши на кадре. В контекстном меню будет пункт "Actions". В открывшемся окне скриптов напишем одну команду <code>stop();</code>. Это остановит проигрывание данного объекта.</p>
+<p>Кстати, в окне свойств есть удобная возможность подписать группу кадров.</p>
+<img src="Button4_DownFrames.png" class="mt-image-center" width=476 height=120 alt="Слои с анимацией движения стрелок под кнопкой (при нажатии на неё)." />
+<p>В свойствах любой группы кадров есть возможность добавить звук. Вначале необходимо импортировать звук (файл .mp3 или .wav) в Библиотеку символов. Так же как изображения, импортировать звук можно через меню  &ldquo;Файл&rdquo; &mdash;&gt; &ldquo;Импортировать&rdquo;, или простым перетаскиванием из папки на рабочую область.</p>
+<img src="Button5_Sound.png" class="mt-image-center" width=506 height=206 alt="Группа кадров имеет в окне свойств заданый звуковой эффект. В Библиотеке символов отображается звуковая дорожка." />
+<p>В свойствах кадра выставляем нужный звук. Есть возможность применить эффекты изменения громкости. Есть важная опция синхронизации: событие, старт, стоп и поток. По-умолчанию выбрано "событие". Например, каждый раз при наведении будет начинаться проигрывание звуковой дорожки. В таком режиме, если подвигать курсором над несколькими кнопками, накладываются несколько одинаковых звуков. Поэтому стоит выбрать опцию "старт". Тогда на сцене будет проигрываться только один экземпляр звука. Опция "стоп", наоборот остановит воспроизвидение именно данного звука. А "поток" синхронизирует звук с анимацией, подобно тому, как ведет себя Графика.</p>
+<p>Теперь, когда символ кнопки готов, можно создать пару экземпляров, украсить и добавить подписи.</p>
+<img src="Button6_Decorate.png" class="mt-image-center" width=393 height=76 alt="Несколько кнопок с украшением и надписями." />
+<!-- 
+
+Flash, interface
+
+Кнопка может содержать другие фрагменты ролика и звуки.
+	
+кнопка, символ, фрагмент ролика, вложеность 
+
+-->
+
+
+</body>
+</html>

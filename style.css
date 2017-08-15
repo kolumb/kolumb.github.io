@@ -44,7 +44,6 @@ nav a{
 		/*color: #555;*/
 	}
 	nav a:hover {
-		background: #f4fff4;
 		text-decoration: none;
 	}
 	nav a:focus {
@@ -116,9 +115,11 @@ nav a:focus span::before {
 }
 
 h1, h2, h3 {
-	font: 2.5em/1.2 Baskerville, "Baskerville old face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font: 2.5em/1.2 Baskerville, Garamond, serif;
 	padding: .3em;
 }
+h2 {font-size: 2em}
+h3 {font-size: 1.5em}
 a {
 		text-decoration: none;
 		color: #16f;
@@ -147,7 +148,6 @@ footer {
 	color: #333;
 	background: #eee;
 	padding: .5em;
-	bottom: 0;
 	line-height: 1.5em;
 	position: relative;
 	margin: 3em 4em;

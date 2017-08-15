@@ -1,0 +1,115 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Урок по созданию вложеной анимации.">
+	<meta name="author" content="Danil Kolumbet">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+	<title>Анимация роботизированной руки</title>
+	<style>
+html {font-size: 100%;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;}
+body {
+	margin: 0;
+	font: 1em Calibri, Helvetica, sans-serif;
+	background: #f8f8f8 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAIAAADZSiLoAAAAHElEQVQIHWP48+fP9+/f////zwCkgBwQC4ghAACODRqkCkEF0QAAAABJRU5ErkJggg==');
+}
+h1,footer {font-size: 2em;margin: 0;padding: 1em;background: #eee rgba(224,224,224,.4);}
+
+#main {margin: 0 1em;}
+
+h2 {font-size: 1.5em;margin: 0;padding: 1em;background: #f0f0f0 rgba(239,239,239,.4);}
+
+article {display: block;margin: 0 1em 1em;}
+
+.block {display: block; margin: 0 1em;}
+
+.vcard {
+	padding: 1em;
+	min-height: 3.5em;
+	position: relative;
+	left: 0;
+	border-top: 1px solid #eee;
+	border-left: 0 solid #999;
+	background: white;
+}
+	
+
+.org {
+	position: absolute;
+	left: 40%;
+	margin-left: 2em;
+}
+.email {
+	position: absolute;
+	left: 60%;
+}
+.tel {
+	display: block;
+	text-align: right;
+}
+.nested {
+	margin: 0 1em;
+}
+.mt-image-center {
+	display: block;
+	margin: 1em auto;
+}
+
+a {text-decoration: none;color: #16f;padding: 1em;}
+	a:visited {color: #97a;}
+	a:hover {text-decoration: underline;}
+	a:active {top: 1px;position: relative;}
+	a:focus {outline: 1px dotted #97a;}
+
+p {margin: 0;}
+object{
+    pointer-events: none;
+}
+	</style>
+</head>
+
+<body class="block">
+<p>В этом уроке мы создадим реалистичную анимацию манипулятора без использования ActioScript.</p>
+
+
+
+<a href="robotic-arm.swf"><object class="mt-image-center" type="application/x-shockwave-flash" 
+ data="robotic-arm.swf" 
+ width="900" height="900">
+ <param name="movie" value="robotic-arm.swf" />
+ <param name="quality" value="high"/>
+ </object></a>
+
+<p>Вначале нарисуем простой контур, чтобы сосредоточится на правильном положении сегментов будущего манипулятора. Конвертируем его в символ Графики, чтобы иметь возможность редактировать сразу все сегменты. Я выбрал регистрацию (Registration) центра символ с левого края, чтобы в будущем било легче находить положение оси поворота.</p>
+<img alt="Конвертирование конура (синий ромб) в символ графики." src="Arm1_Segment.png" class="mt-image-center" width=457 height=94 />
+<br />
+<p>Шаг А. Сразу же оборачиваем выделеный объект в фрагмент ролика. Внутри него сможем создать анимацию, которая буде иметь независимую временную шкалу.</p>
+<img alt="Конвертирование контура в символ фрагмента ролика." src="Arm2_Part1.png" class="mt-image-center" width=468 height=96 />
+<br />
+<p>Шаг Б. Выберем инструмент &ldquo;Свободное преобразование&rdquo; и изменим положение центра трансформации на крайнее левое.</p>
+<img alt="Редактирование центра трансформации инструментом Свободное преобразование." src="Arm3_TransformCenter.png" class="mt-image-center" width=366 height=64 />
+<br />
+<p>Шаг В. Теперь отредактируем эту часть манипулятора. На данный момент мы имеем такую структуру сцены: Сцена &rarr; Рука &rarr; Часть 1 &rarr; Сегмент.</p>
+<img alt="Рабочая область (Сцена - Рука - Часть 1) и свойства экземпляра графики." src="Arm4_Instance.png" class="mt-image-center" width=554 height=91 />
+<br />
+<p>Шаг Г. Скопируем в буфер обмена экземпляр графики и вставим на новом слое справа от оригинала.</p>
+<img alt="Два слоя с одинаковым содержимым, на нижнем объект смещен на длину объекта." src="Arm5_Layers.png" class="mt-image-center" width=569 height=74 />
+<br />
+<p>Теперь нужно повторить шаги А &mdash; Г несколько раз.</p>
+<p>Чтобы к концу манипулятор сужался, выделим сегмент и в окне Трансформация изменим масштаб на 80%. Если точка трансформации была виставлена в крайнее левое положение, то сегмент не придется двигать вбок. Эту процедуру необходимо проделать для всех сегментов (кроме последнего).</p>
+<img alt="В окне трансформации выставлен масштаб 80% для крайнего объекта." src="Arm6_Scale.png" class="mt-image-center" width=561 height=93 />
+<br />
+<p>Теперь у нас есть окончательное положение и масштаб всех частей анимации и можно занятся оформлением робототехники. Редактируем на месте символ сегмента. Это позволяет видеть соседние элементы. При внесении изменений в символ, они распространяются на все экземпляры, поэтому видно картину в целом.</p>
+<img alt="Нарисованый кружок в символе сегмента сразу виден и в остальных сегментах." src="Arm7_DrawingSegment.png" class="mt-image-center" width=541 height=88 />
+<br />
+<p>Например вот так.</p>
+<img alt="Готовый сегмент роботизированной руки." src="Arm8_DrawingSegment2.png" class="mt-image-center" width=541 height=88 />
+<br />
+<p>Теперь, наконец, займемся анимированием отдельных частей манипулятора. Внутри каждого фрагмента ролика на слое с вложеным фрагментом ролика создаем анимацию движения. Добавляем ключевые кадры посередине и вконце. Тогда поворачиваем на среднем ключевом кадре наш объект на некоторый угол.</p>
+<img alt="Анимация движения - поворот на 40 градусов и обратно." src="Arm9_MotionTween.png" class="mt-image-center" width=427 height=210 />
+<br />
+<p>Если в каждом фрагменте ролика мы добавляли одинаковое число кадров, то в итоге получили бы манипулятор, который сворачивается в спираль и разворачивается. То есть все фрагменты ролика синхронно начинаются и заканчиваются. Но чобы анимация была максимально рассинхронизированой необходимо использовать число кадров анимации каждого сегмента равным простому числу. Тогда для них будет наибольним НОК (наименьшее общее кратное). Напрмер, для итоговой анимации я использовал 31, 29, 23, 19, 17, 13 кадров. Значит всего есть 86822723 уникальных кадров. Это означает, что анимация повторится через 33 с половиной дня (FPS = 30). Другие примеры использования простых чисел можно увидеть в статье <a href="http://habrahabr.ru/post/117160/">"Принцип цикады"</a></p>
+<p>Чтобы движение было более плавным, можно отредактировать профиль анимации. Нажимаем на неключевой кадр и в окне свойств настраиваем, каким образом будет происходить динамика.</p>
+<img alt="Настройка анимации движения кривыми Безье." src="Arm10_CastomTween.png" class="mt-image-center" width=556 height=114 />
+</body>
+</html>

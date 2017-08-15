@@ -7,6 +7,14 @@
 			4: progection;
 			5: coordinates;
 	*/
+Math.sign = Math.sign || function(x) {
+  x = +x; // convert to a number
+  if (x === 0 || isNaN(x)) {
+    return x;
+  }
+  return x > 0 ? 1 : -1;
+}
+
 var Canvas = document.getElementById("Canvas"),
 ctx = Canvas.getContext('2d'),
 BufferCanvas = document.createElement('canvas'),
@@ -38,6 +46,8 @@ bSin = true,
 bCos = false,
 bTan = false,
 bCtn = false,
+
+selectedType = 'default',
 initCanvas = function() {
 	Canvas.width = BufferCanvas.width = Width = window.innerWidth-scrollBarWidth;
 	Canvas.height = BufferCanvas.height = Height = window.innerHeight;
@@ -56,37 +66,48 @@ initCanvas = function() {
 	frame();
 },
 drawBuffer = function() {
-
 	buffer.fillStyle = 'white';
 	buffer.fillRect(-halfWidth, -halfHeight, Width, Height);	
-	buffer.strokeStyle = '#6f789f';
-	buffer.lineCap = 'round';
-	buffer.fillStyle = '#6f789f';
 
-	buffer.beginPath(); //BigCircle
-	buffer.arc(0, 0, unitRadius, 0, Math.PI * 2);
+	switch(selectedType) {
+	case 'default':		
+	case 'radians':
+	case 'vectors':
+		buffer.strokeStyle = '#6f789f';
+		buffer.lineCap = 'round';
+		buffer.fillStyle = '#6f789f';
 
-	buffer.save(); //Top arrow
-	buffer.translate(0,-minSide*mainFactor);
-	buffer.moveTo(-microFactor*graphSize, graphSize*smallFactor);
-	buffer.quadraticCurveTo(0,graphSize*halfSmallFactor, 0,0);
-	buffer.quadraticCurveTo(0,halfSmallFactor*graphSize, microFactor*graphSize,graphSize*smallFactor);
-	buffer.fillText('sin α', graphSize*halfSmallFactor, graphSize*(smallFactor + microFactor));
-	buffer.restore();
+		buffer.beginPath(); //BigCircle
+		buffer.arc(0, 0, unitRadius, 0, Math.PI * 2);
+		buffer.save(); //Top arrow
+		buffer.translate(0,-minSide*mainFactor);
+		buffer.moveTo(-microFactor*graphSize, smallFactor*graphSize);
+		buffer.quadraticCurveTo(0,halfSmallFactor*graphSize, 0,0);
+		buffer.quadraticCurveTo(0,halfSmallFactor*graphSize, microFactor*graphSize,smallFactor*graphSize);
+		buffer.fillText('sin α', halfSmallFactor*graphSize, (smallFactor + microFactor)*graphSize);
+		buffer.restore();
 
-	buffer.save(); //Right arrow
-	buffer.translate(minSide*mainFactor,0);
-	buffer.moveTo(-graphSize*smallFactor, -microFactor*graphSize);
-	buffer.quadraticCurveTo(-graphSize * halfSmallFactor,0, 0,0);
-	buffer.quadraticCurveTo(-graphSize * halfSmallFactor,0, -graphSize*smallFactor,microFactor*graphSize);
-	buffer.fillText('cos α', -graphSize*(smallFactor + microFactor), graphSize*smallFactor);
-	buffer.restore();
+		buffer.save(); //Right arrow
+		buffer.translate(minSide*mainFactor,0);
+		buffer.moveTo(-graphSize*smallFactor, -microFactor*graphSize);
+		buffer.quadraticCurveTo(-halfSmallFactor*graphSize,0, 0,0);
+		buffer.quadraticCurveTo(-halfSmallFactor*graphSize,0, -smallFactor*graphSize,microFactor*graphSize);
+		buffer.fillText('cos α', -(smallFactor + microFactor)*graphSize, smallFactor*graphSize);
+		buffer.restore();
 
-	buffer.moveTo(0, minSide*mainFactor); //axes
-	buffer.lineTo(0, -minSide*mainFactor);
-	buffer.moveTo(-minSide*mainFactor, 0);
-	buffer.lineTo(minSide*mainFactor	, 0);
-	buffer.stroke();
+		buffer.moveTo(0, minSide*mainFactor); //axes
+		buffer.lineTo(0, -minSide*mainFactor);
+		buffer.moveTo(-minSide*mainFactor, 0);
+		buffer.lineTo(minSide*mainFactor	, 0);
+		buffer.stroke();
+		break;
+	case 'percents':	
+		buffer.strokeStyle = '#DFE2EF';
+		buffer.beginPath(); //BigCircle
+		buffer.arc(0, 0, unitRadius, 0, Math.PI * 2);
+		buffer.stroke();
+		break;
+	}	
 },
 frame = function() {
 	ctx.drawImage(BufferCanvas, -halfWidth, -halfHeight);
@@ -112,15 +133,27 @@ frame = function() {
 	ctx.fill();
 
 
-	ctx.beginPath();
 	ctx.fillStyle = '#6f789f';
-	var textPosX = minSide*halfSmallFactor;
-	var textPosY = minSide*halfSmallFactor * (angle < 0 ? 1.7 : -1);
-	if(Math.abs(angle)>0.5 && Math.abs(angle)<1.571) {
-		textPosX = minSide*smallFactor*Math.cos(angle/2) - lineWidth * 8;
-		textPosY = -minSide*smallFactor*Math.sin(angle/2) - lineWidth * (angle < 0 ? -5 : -7);
+	if(selectedType === 'percents') {
+		ctx.save();
+		if(Math.abs(angle) < Math.PI/2) {
+			ctx.rotate(-angle);
+			ctx.fillText('100%', unitRadiusFactor*unitRadius, -halfSmallFactor*unitRadius);
+		} else {
+			ctx.rotate(Math.PI - angle);
+			ctx.fillText('100%', -(1-unitRadiusFactor)*unitRadius, -halfSmallFactor*unitRadius);
+		}
+		ctx.restore();
+	} else {
+		ctx.beginPath();
+		var textPosX = minSide*halfSmallFactor;
+		var textPosY = minSide*halfSmallFactor * (angle < 0 ? 1.7 : -1);
+		if(Math.abs(angle)>0.5 && Math.abs(angle)<1.571) {
+			textPosX = minSide*smallFactor*Math.cos(angle/2) - lineWidth * 7;
+			textPosY = -minSide*smallFactor*Math.sin(angle/2) - lineWidth * (angle < 0 ? -5 : -7);
+		}
+		ctx.fillText(Math.round(angle/toDegree) + '°', textPosX, textPosY);
 	}
-	ctx.fillText(Math.round(angle/toDegree) + '°', textPosX, textPosY);
 
 	if(bRad) drawRad();
 	if(bSin) drawSin();
@@ -135,6 +168,7 @@ frame = function() {
 	ctx.closePath();
 },
 drawRad = function() {	
+	if(selectedType === 'percents') return;
 	ctx.strokeStyle = '#30B8B8';
 	ctx.lineWidth = lineWidth*3;
 	ctx.beginPath(); //Angle radian
@@ -145,18 +179,62 @@ drawRad = function() {
 drawSin = function() {
 	ctx.beginPath();
 	ctx.strokeStyle = '#1489ff';
-	ctx.lineWidth = lineWidth * 2;
-	ctx.moveTo(pointerX, pointerY);
-	ctx.lineTo(pointerX, 0);
+	var x = unitRadius, y = unitRadius;
+	switch(selectedType) {
+	case 'radians':
+	case 'vectors':
+		ctx.lineWidth = lineWidth * 3;
+		ctx.moveTo(0, pointerY);
+		ctx.lineTo(0, 0);
+		break;
+	case 'percents':
+		ctx.save();
+
+
+
+		/*if(Math.abs(angle) < Math.PI/2) {
+			ctx.rotate(Math.PI/2);
+			if(angle < 0) {
+				x = halfSmallFactor*unitRadius;
+			} else {
+				x = -mainFactor*unitRadius;
+			}
+			y = -Math.sign(Math.sin(angle))*unitRadius*(Math.cos(angle)+halfSmallFactor);
+		} else {
+			ctx.rotate(-Math.PI/2);
+			if(angle < 0) {
+				x = -0.5*unitRadius;
+			} else {
+				x = smallFactor*unitRadius;
+			}
+			y = Math.sign(Math.sin(angle))*unitRadius*(Math.cos(angle)-halfSmallFactor);
+		}*/
+		ctx.fillText(Math.round(100*Math.sin(angle)) + '%', x, y);
+		ctx.restore();
+	case 'default':
+		ctx.lineWidth = lineWidth * 2;
+		ctx.moveTo(pointerX, pointerY);
+		ctx.lineTo(pointerX, 0);
+	}
 	ctx.stroke();
 	sinValue.textContent = Math.sin(angle).toFixed(3);
 },
 drawCos = function() {
 	ctx.beginPath();
 	ctx.strokeStyle = '#ff6514';
-	ctx.lineWidth = lineWidth * 2;
-	ctx.moveTo(pointerX, pointerY);
-	ctx.lineTo(0, pointerY);
+	switch(selectedType) {
+	case 'radians':
+	case 'vectors':
+		ctx.lineWidth = lineWidth * 3;
+		ctx.moveTo(pointerX, 0);
+		ctx.lineTo(0, 0);
+		break;
+	case 'percents':
+	default:
+		ctx.lineWidth = lineWidth * 2;
+		ctx.moveTo(pointerX, pointerY);
+		ctx.lineTo(0, pointerY);
+	}
 	ctx.stroke();
 	cosValue.textContent = Math.cos(angle).toFixed(3);
 },
@@ -164,20 +242,36 @@ drawTan = function() {
 	ctx.beginPath();
 	ctx.strokeStyle = '#39ce33';
 	ctx.lineWidth = lineWidth*2;
-	ctx.moveTo(pointerX, pointerY);
-	ctx.lineTo(unitRadius/Math.cos(angle), 0);
+	switch(selectedType) {
+	case 'radians':
+	case 'vectors':
+		ctx.moveTo(unitRadius, 0);
+		ctx.lineTo(unitRadius, -unitRadius * Math.tan(angle));
+		break;
+	case 'percents':
+	default:
+		ctx.moveTo(pointerX, pointerY);
+		ctx.lineTo(unitRadius/Math.cos(angle), 0);
+	}
 	ctx.stroke();
-	;
 	if(Math.abs(tanValue.textContent = Math.tan(angle).toFixed(3))>100) tanValue.textContent = '∞';
 },
 drawCtn = function() {
 	ctx.beginPath();
 	ctx.strokeStyle = '#ffc134';
 	ctx.lineWidth = lineWidth*2;
-	ctx.moveTo(pointerX, pointerY);
-	ctx.lineTo(0, -unitRadius / Math.sin(angle));
+	switch(selectedType) {
+	case 'radians':
+	case 'vectors':
+		ctx.moveTo(0, -unitRadius);		
+		ctx.lineTo(unitRadius / Math.tan(angle), -unitRadius);
+		break;
+	case 'percents':
+	default:
+		ctx.moveTo(pointerX, pointerY);
+		ctx.lineTo(0, -unitRadius / Math.sin(angle));
+	}
 	ctx.stroke();
-	;
 	if(Math.abs(ctnValue.textContent = (1/Math.tan(angle)).toFixed(3))>100) ctnValue.textContent = '∞';
 },
 onDown = function(event) {
@@ -241,23 +335,28 @@ getScrollbarWidth = function() {
     return widthNoScroll - widthWithScroll;
 },
 Animator = function(config) {
-	var value = config.from;
-	var step = 0;
-	this.runing = true;
-	this.next = function() {
-		if(Math.abs(value-config.to) > .0001) {
-			step+=(config.to - value)/40;
-			step*=config.friction
-			value += step;
-		} else {
-			this.runing = false;
+	return {
+		value: config.from,
+		to: config.to,
+		friction: config.friction,
+		step: 0,
+		epsilon: config.epsilon || 0.0001,
+		runing: true,
+		next: function() {
+			if(Math.abs(this.value-this.to) > this.epsilon) {
+				this.step += (this.to - this.value)/40;
+				this.step *= this.friction;
+				this.value += this.step;
+			} else {
+				this.runing = false;
+			}
+			return this.value;
 		}
-		return value;
 	}
 },
 intro = function(config){
 	if(typeof config.from === 'number') {
-		anim = new Animator(config);
+		anim = Animator(config);
 	}
 	angle = anim.next();
 	if(anim.runing) {
@@ -289,6 +388,16 @@ Canvas.addEventListener("touchmove", function(e) {
 	e.target.dispatchEvent(moveEvt);
 }, false);
 Checks.addEventListener("click", checkFuncs);
+Types.addEventListener('click', function(event){
+	var types = document.getElementsByName("displayType");
+	for(var i = 0; i < types.length; i++) {
+	   if(types[i].checked == true) {
+	       selectedType = types[i].value;
+	   }
+	 }
+	 drawBuffer();
+	frame();
+},false)
 document.addEventListener("keydown", onKey, false);
 
 }());

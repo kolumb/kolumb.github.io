@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang=uk>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Как организовать сложную анимацию во Flash</title>
+	<meta name="description" content="Урок по созданию сложной анимации во Flash.">
+	<meta name="author" content="Danil Kolumbet">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+	<style>
+html {font-size: 100%;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;}
+body {
+	margin: 0;
+	font: 1em Calibri, Helvetica, sans-serif;
+	background: #f8f8f8 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAIAAADZSiLoAAAAHElEQVQIHWP48+fP9+/f////zwCkgBwQC4ghAACODRqkCkEF0QAAAABJRU5ErkJggg==');
+}
+h1,footer {font-size: 2em;margin: 0;padding: 1em;background: #eee rgba(224,224,224,.4);}
+
+#main {margin: 0 1em;}
+
+h2 {font-size: 1.5em;margin: 0;padding: 1em;background: #f0f0f0 rgba(239,239,239,.4);}
+
+article {display: block;margin: 0 1em 1em;}
+
+.block {display: block; margin: 0 1em;}
+
+.vcard {
+	padding: 1em;
+	min-height: 3.5em;
+	position: relative;
+	left: 0;
+	border-top: 1px solid #eee;
+	border-left: 0 solid #999;
+	background: white;
+}
+	
+
+.org {
+	position: absolute;
+	left: 40%;
+	margin-left: 2em;
+}
+.email {
+	position: absolute;
+	left: 60%;
+}
+.tel {
+	display: block;
+	text-align: right;
+}
+.nested {
+	margin: 0 1em;
+}
+.mt-image-center {
+	display: block;
+	margin: 0.5em auto 2em;
+}
+
+a {text-decoration: none;color: #16f;padding: 1em;}
+	a:visited {color: #97a;}
+	a:hover {text-decoration: underline;}
+	a:active {top: 1px;position: relative;}
+	a:focus {outline: 1px dotted #97a;}
+.button{display: inline-block;padding: 0 .4em;font-family: Lucida, Arial, sans-serif;border-radius: .3em;background: #eee;box-shadow:0 .1em 0 #555, 0 .1em .2em #777;}
+object{
+    pointer-events: none;
+}
+
+	</style>
+</head>
+<body class="block">
+<p>Flash позволяет организовать сложную анимацию при помощи иерархии объектов. Применим эту возможность для создания анимации машины с вращающимися колёсами.</p>
+<a href="car.swf"><object class="mt-image-center" type="application/x-shockwave-flash" 
+ data="car.swf" 
+ width="855" height="225">
+ <param name="movie" value="car.swf" />
+ <param name="quality" value="high"/>
+ </object></a>
+
+<p>Небольшой ликбез о фрагменте ролика.</p>
+
+<p>Созданную во Flash анимацию и графику можно сохранить в Библиотеку, чтобы затем многократно использовать. Объект в библиотеке называется символом. Если скопировать символ на рабочую область (например, простым перетаскиванием), он становится экземпляром символа. Изменения символа будут влиять на все экземпляры.</p>
+
+<p>Символы бывают трех типов - графика, кнопка и фрагмент ролика.</p>
+
+<p>Графика - используется для статических векторных изображений и анимации, которые привязаны к временной линии сцены.</p>
+
+<p>Кнопка - реагирует на движение и нажатие мыши, изменяя своё состояние. </p>
+
+<p>Фрагмент ролика (Movie Clip) - анимация с собственной независимой временной шкалой. Они могут содержать интерактивные элементы и управляться с помощью ActionScript. Экземпляр фрагмента ролика может также быть вложен в другой символ.</p>
+
+<a href="graphVSmovieDifference.swf"><object class="mt-image-center" type="application/x-shockwave-flash" 
+ data="graphVSmovieDifference.swf" 
+ width="600" height="330">
+ <param name="movie" value="graphVSmovieDifference.swf" />
+ <param name="quality" value="high"/>
+ </object></a>
+
+<p>Если фрагмент ролика вложен в другой фрагмент ролика или в документ, то он становится его потомком, а тот – его родителем. Между вложенными фрагментами ролика возникает иерархическая связь: изменения в родителе воздействуют на его потомков(положение, поворот, размер и т.п.) "Обзор ролика"(Movie Explorer <span class="button">Alt</span> + <span class="button">F3</span>) позволяет просмотреть иерархию вложенных фрагментов роликов в документе.</p>
+
+<p>Вначале нарисуем или импортируем изображение автомобиля.</p>
+<img class="mt-image-center" src="1Car_ImportCarImage.png" alt=""> 
+
+<p>Конвертируем его в фрагмент ролика(<span class="button">F8</span>). </p>
+<img src="2Car_ConvertToMovieClip.png" alt="" class="mt-image-center">
+
+<p>Двойным кликом входим в режим редактирования этого символа.</p>
+<img src="3Car_EditInPlace.png" alt="" class="mt-image-center">
+
+<p>Здесь есть своя временная шкала.</p>
+<img src="4Car_InsideCarMC.png" alt="" class="mt-image-center">
+
+<p>Рисуем или импортируем изображение колеса.</p>
+<img src="5Car_ImportConvertWheel.png" alt="" class="mt-image-center">
+
+<p>Это колесо можно либо анимировать на временной линии автомобиля на отдельном слое, либо единожды создать анимацию вращения колеса и дублировать экземпляр. Пойдем вторым путем. Колесо конвертируем в фрагмент ролика и внутри создаем анимацию вращения.</p> 
+<img src="6Car_EditWheel.png" alt="" class="mt-image-center">
+
+<p>Двойным кликом на пустой области выходим из режима редактирования символа колеса и копируем его в нужное положение.</p> 
+<img src="7Car_TwoCopiesWheels.png" alt="" class="mt-image-center">
+
+<p>Теперь, перемещая или масштабируя экземпляр автомобиля, колеса будут следовать за "родителем".</p>
+<img src="8Car_TweenOutlines.png" alt="" class="mt-image-center">
+
+</body>
+</html>

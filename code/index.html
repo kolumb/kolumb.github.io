@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang=ru prefix="og:http://ogp.me/ns#">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="Если есть желание программировать, но останавливает незнание английского.">
+	<meta name="author" content="Данил Колумбет">
+	<title>JavaScript на русском</title>
+	<meta property="og:title" content="JavaScript на русском" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="http://kolumb.tk/code/" />
+	<meta property="og:image" content="" />
+	<link rel="shortcut icon" href="../favicon.ico" />
+	<style>
+html, body, .full-height 
+	{ height: 100%
+	; margin: 0
+	; padding: 0
+	}
+#Container
+	{ display: flex
+	; flex-direction: row
+	; flex-wrap: nowrap
+	; align-items: stretch
+	; align-content: stretch
+	; width: 100%
+	; height: 100%
+	; margin: 0
+	}
+#Editor
+	{ flex-grow: 1
+	; flex-basis: 0
+	; display: flex
+	; flex-direction: column
+	; flex-wrap: nowrap
+	; padding: 0em
+	}
+#RusInput {
+	width:100%;
+	overflow: auto;
+	outline: .1em solid #adaeaa;
+}
+#EngOutput {
+	background-color: #f1f1f5;
+}
+#Editor textarea {
+	flex: 1 100%;
+	width: 100%;
+	margin: 0;
+	box-sizing: border-box;
+	padding: 0.5em;
+	overflow: auto;
+	font-family: 'PT Mono', 'Consolas', 'Courier', sans-serif;
+	background-color: #fdfefa;
+	border: 0;
+}
+#OutputWrapper {
+	flex-grow: 1;
+	flex-basis: 0;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+#CanvasWrapper{
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+
+}
+#Canvas {
+	border: 2px dashed grey;
+}
+button {
+	
+}
+.hide {
+	display: none;
+}
+
+#ConsoleWrapper {
+	flex-grow: 0;
+	width: 100%;
+	height: 0.5em;
+	overflow: auto;
+	transition: height 1s 0.2s;
+	background: lightgrey;
+}
+#ConsoleWrapper.expand-console {
+	height: 10em;
+}
+#Console {
+
+}
+
+@media (max-width: 600px) {
+	#Container {
+		flex-direction: column;
+	}
+}
+
+	</style>
+</head>
+<body>
+<div id="Container">
+	<div id="Editor">
+		<textarea id="RusInput" placeholder="Вводите код сюда." spellcheck="false" autofocus="autofocus"></textarea>
+		<textarea id="EngOutput" class="hide" spellcheck='false'></textarea>
+		<div>
+			<button id="CompileButton">Запустить</button>
+			<button id="ResultButton">JavaScript</button>
+			<button id="NewButton">Новый проект</button>
+			<br >
+
+			Загрузить код: <select id="ExampleSelect" name="Example">
+				<option value="0">Простой пример</option>
+				<option value="1">Координаты</option>
+				<option value="2">pong</option>
+			</select>
+			<button id="RenameButton">Переименовать</button>
+			<button id="ResetButton">Удалить всё</button>
+		</div>
+	</div>
+	<div id="OutputWrapper">
+		<div id="CanvasWrapper">
+			<canvas id="Canvas"></canvas>
+		</div>
+		<div id="ConsoleWrapper">
+			<div id="Console"></div>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="../style.css">
+<script src="code.js"></script>
+<script>
+if (document.location.hostname) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-52946302-3', 'auto');
+	ga('send', 'pageview');
+}
+</script>
+</body>
+</html>

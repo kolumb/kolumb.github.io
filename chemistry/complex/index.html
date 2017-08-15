@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ua">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>Розрахунок розподілу окремих форм комплексних йонів.</title>
+		<meta name="author" content="Данил Колумбет">
+		<meta name="description" content="Програма для розрахунку концентрацій різних форм комплексних йонів для виконання відповідної лабораторної роботи.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			body { font-size: 150%; }
+			#Constants label { display: block; }
+			input { padding: .2em .5em;}
+			button { font-size: 80%; padding: .5em .8em; margin: .5em;background-color: #eee;}
+		</style>
+	</head>
+	<body>
+		<div id="Constants">
+			<p>Константи нестійкості:</p>
+			<label for="const1" >K<sub>1</sub> = <input id="const1" type="number" value="7.1e-5"></label>
+			<label for="const2" >K<sub>2</sub> = <input id="const2" type="number" value="3.16e-4"></label>
+			<label for="const3" >K<sub>3</sub> = <input id="const3" type="number" value="1.29e-3"></label>
+			<label for="const4" >K<sub>4</sub> = <input id="const4" type="number" value="7.4e-3"></label>
+			<label for="const5" >K<sub>5</sub> = <input id="const5" type="number" value="4e-1"></label>
+			<label for="const6" >K<sub>6</sub> = <input id="const6" type="number" value="3"></label>
+		</div>
+		<button id="Plus">+ Додати константу</button>
+		<button id="Minus">- Відняти константу</button>
+		<div>
+			<p>Концентрація ліганду
+			<label for="ligandConcentrationMin">від </label><input type="number" id="ligandConcentrationMin" value="0.000001">
+			<label for="ligandConcentrationMax">до </label><input type="number" id="ligandConcentrationMax" value="10">
+			моль/л.
+		</div>
+		<button id="calc">Розрахувати</button> <br>
+		<canvas id="ConcentrationGraph"></canvas>
+	</body>
+	<script>
+// Zn2+, Co2+, Cu2+, Mn2+, Fe2+, Fe3+, Ni2+
+function log10(x) {
+  return Math.log(x) / Math.log(10);
+}
+var colors = ['#1f77b4','#ff7f0e','#2ca02c','#d62728','#17becf','#e377c2','#7f7f7f','#bcbd22','#9467bd','#8c564b'];
+//[L] Ligand concentration 10^-10 to 10^4
+var LIGAND_CONCENTRATION_MIN = 0.0000000001; //1e-10;
+var LIGAND_CONCENTRATION_MAX = 1000; //1e+4;
+// Max number of forms 10
+var MAX_FORMS = 10
+// monodentate ligands NH3, OH-, CL-, CH3COO-
+// instability constant
+var instablConsts = [];
+var constantsInput = document.getElementById('Constants');
+var plusButton = document.getElementById('Plus');
+var minusButton = document.getElementById('Minus');
+var labels = constantsInput.getElementsByTagName('label');
+var inputs = constantsInput.getElementsByTagName('input');
+inputs[0].focus();
+var ligandConcInputMin = document.getElementById('ligandConcentrationMin');
+var ligandConcInputMax = document.getElementById('ligandConcentrationMax');
+var ligandConcMin = parseFloat(ligandConcInputMin.value);
+var ligandConcMax = parseFloat(ligandConcInputMax.value);
+var ligandConc = 0.01;
+function addConstantInput(event){
+	if(inputs.length> MAX_FORMS-1){
+		console.log('Перевищено допустиму кількість форм катіонів.');
+		return;
+	}
+	var newLabel = document.createElement('label');
+	var newText = document.createTextNode('K');
+	var newEqText = document.createTextNode(' = ');
+	var newSub = document.createElement('sub');
+	var newIndexText = document.createTextNode((inputs.length+1));
+	var newInput = document.createElement('input');
+	newInput.type='number';
+	newLabel.appendChild(newText);
+	newSub.appendChild(newIndexText);
+	newLabel.appendChild(newSub);
+	newLabel.appendChild(newEqText);
+	newLabel.appendChild(newInput);
+	constantsInput.appendChild(newLabel);
+	newInput.focus();
+	updateInputs();	
+}
+function removeConstantInput(event) {
+	constantsInput.removeChild(labels[labels.length-1]);
+	updateInputs();
+}
+function updateInputs() {
+	instablConsts = [];
+	for(var i=0; i<inputs.length; i++){
+		instablConsts.push(inputs[i].value);
+		inputs[i].style.borderRight = '1em solid ' + colors[i];
+		//Color = colors[i];
+		//inputs[i].style.borderRightWidth = '3px';
+	}
+
+}
+
+plusButton.addEventListener('click', addConstantInput, false);
+minusButton.addEventListener('click', removeConstantInput, false);
+constantsInput.addEventListener('keypress', function (event) {
+	if(event.target === inputs[inputs.length-1]) {
+		if( event.keyCode === 13){
+			addConstantInput(event);
+		}
+	} else {
+		event.target.parentNode.nextSibling.nextSibling.getElementsByTagName('input')[0].focus();
+	}
+}, false);
+
+ligandConcInputMin.addEventListener('blur', function (event) {
+	ligandConcMin = parseFloat(ligandConcInputMin.value);
+	if(isNaN(ligandConcMin)) {
+		ligandConcInputMin.value = '';
+	} else if(ligandConcMin < LIGAND_CONCENTRATION_MIN) {
+		ligandConcInputMin.value = LIGAND_CONCENTRATION_MIN;
+	} else if(ligandConcMin > LIGAND_CONCENTRATION_MAX) {
+		ligandConcInputMin.value = LIGAND_CONCENTRATION_MAX;
+	}
+}, false);
+ligandConcInputMax.addEventListener('blur', function (event) {
+	ligandConcMax = parseFloat(ligandConcInputMax.value);
+	if(isNaN(ligandConcMax)) {
+		ligandConcInputMax.value = '';
+	} else if(ligandConcMax < LIGAND_CONCENTRATION_MIN) {
+		ligandConcInputMax.value = LIGAND_CONCENTRATION_MIN;
+	} else if(ligandConcMax > LIGAND_CONCENTRATION_MAX) {
+		ligandConcInputMax.value = LIGAND_CONCENTRATION_MAX;
+	}
+}, false);
+
+
+var cnv = document.getElementById('ConcentrationGraph');
+var ctx = cnv.getContext('2d');
+cnv.width = window.innerWidth;
+cnv.height = 400;
+ctx.translate(0,cnv.height);
+
+
+
+var firstTime = true;
+
+var alphas = [];
+
+function calculate (event) {
+	updateInputs();
+	ctx.clearRect(0,0,cnv.width, -cnv.height)
+	ligandConc = ligandConcMin;
+	var lgConcMin = Math.log10(ligandConcMin);
+	var lgConcMax = Math.log10(ligandConcMax);
+	var ligandConcAdder = (lgConcMax - lgConcMin)/cnv.width;
+	var ligandConcCount = lgConcMin;
+	for(var pixel = 0; pixel< cnv.width; pixel++){
+		ligandConcCount += ligandConcAdder;
+		ligandConc = Math.pow(10, ligandConcCount);
+		alphas = [];
+		var divider = 0;
+		for(var i = 0; i <= inputs.length; i++){
+			var adder = 1;
+			for(var j = 0; j < i; j++){
+				adder *= ligandConc;
+			}
+			for(var j = i; j < inputs.length; j++){
+				adder *= instablConsts[j];
+			}
+			divider += adder;
+		}
+
+		for(var i = 0; i <= inputs.length; i++){
+
+			var value = 1;
+			for(var j = 0; j < i; j++){
+				value *= ligandConc;
+			}
+			for(var j = i; j < inputs.length; j++){
+				value *= instablConsts[j];
+			}
+			ctx.fillStyle = i===0? "#222222":colors[i-1];
+			ctx.fillRect(pixel, -5-(190*value/divider),1.5,1.5)
+		}
+	}
+}
+var calcButton = document.getElementById('calc');
+calcButton.addEventListener('click', calculate, false);
+
+
+calculate(null);
+
+
+
+/*function stackedArea() {
+  var stack = d3.layout.stack()
+      .values(function(d) { return d.values; })
+      .x(function(d) { return d.date; })
+      .y(function(d) { return d.price; })
+      .out(function(d, y0, y) { d.price0 = y0; })
+      .order("reverse");
+
+  stack(symbols);
+
+  y
+      .domain([0, d3.max(symbols[0].values.map(function(d) { return d.price + d.price0; }))])
+      .range([h, 0]);
+
+  line
+      .y(function(d) { return y(d.price0); });
+
+  area
+      .y0(function(d) { return y(d.price0); })
+      .y1(function(d) { return y(d.price0 + d.price); });
+
+  var t = svg.selectAll(".symbol").transition()
+      .duration(duration)
+      .attr("transform", "translate(0,0)")
+      .each("end", function() { d3.select(this).attr("transform", null); });
+
+  t.select("path.area")
+      .attr("d", function(d) { return area(d.values); });
+
+  t.select("path.line")
+      .style("stroke-opacity", function(d, i) { return i < 3 ? 1e-6 : 1; })
+      .attr("d", function(d) { return line(d.values); });
+
+  t.select("text")
+      .attr("transform", function(d) { d = d.values[d.values.length - 1]; return "translate(" + (w - 60) + "," + y(d.price / 2 + d.price0) + ")"; });
+
+  setTimeout(streamgraph, duration + delay);
+}*/
+	</script>
+<script>
+if (document.location.hostname) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-52946302-3', 'auto');
+	ga('send', 'pageview');
+}
+</script>
+</html>

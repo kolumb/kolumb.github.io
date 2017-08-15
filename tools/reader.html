@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset=utf-8>
+	<title>Онлайн читалка текста</title>	
+	<style>
+body, pre, code {
+	margin: 0;
+	padding: 0;
+}
+.relative {	
+	position: relative;
+}
+#container {
+	box-sizing: border-box;
+	width:100%;
+	padding: 2em 1em;
+	margin: 0;
+	font-family: "Book Antiqua", Cambria, Georgia, serif;
+	text-indent: 1.5em;
+	overflow: auto;
+}
+#panel {
+	position: absolute;
+	padding: 0.5em;
+	font-size: 150%;
+	top:0;
+	right: 0;
+	display: block;	
+}
+#say {
+	font-size: 100%;
+	font-family: "Book Antiqua", Cambria, Georgia, serif;
+	color: #444;
+	border:none;
+	border-radius: 0.3em;
+	display: inline-block;
+	padding: 0.2em 0.5em;
+	cursor: pointer;
+	background-color: rgba(200,150,200,.1);
+	transition: transform 300ms, box-shadow 300ms;
+}
+#say:hover {
+	transform: translate(0px, -3px);
+	box-shadow: 0 0.1em 1em rgba( 182, 182, 165, 0.5 );
+	color:black;
+}
+#say:focus {
+	outline: none;
+}
+#helper {
+	position: absolute;
+	font-size: 200%;
+	top:0;
+	right: 0;
+	display: block;
+	padding: 0.5em;
+}
+
+style {
+	padding: 1em;
+	margin: 0;
+}
+#style {
+	display: block;
+	font-size: 200%;
+}
+	</style>
+</head>
+<body>
+	<textarea id="container" class="relative" placeholder="Вставьте сюда текст для комфортного чтения" spellcheck="false" autofocus="autofocus"></textarea>
+	<div id="panel"><button id="say">Озвучить</button> голосом <select></select></div>
+
+	<div class="relative">
+		<div id="helper"> Наверх &uarr; </div>
+	</div>
+	<pre><code>
+	<style id="style" contenteditable="true">/*
+    Настройки шрифта и фона:
+*/
+
+#container {
+	font-size: 200%;
+	line-height: 1.3;
+	color: #000;
+	background-color: rgba( 252, 252, 245, 1 );
+}</style></code></pre>
+
+<script>
+"use strict"
+var synth = window.speechSynthesis
+var voices
+var selection = document.querySelector('select')
+var reader = 2
+var states = {stoped: 0, plaing: 1, paused: 2}
+var state = states.stoped
+var text = ''
+var sentences = []
+var phrases = []
+var getVoices = function(){
+	voices = synth.getVoices()
+	if(voices.length === 0) {
+		console.count('Failed to load voices.')
+		setTimeout(getVoices, 10)
+	}
+	for(var i = 0; i< voices.length; i++){
+		var newOption = document.createElement("option")
+		newOption.innerText = voices[i].name
+		newOption.value = i
+		selection.appendChild(newOption)
+	}
+}
+window.addEventListener('load', getVoices)
+
+selection.addEventListener('click', function(e){
+	reader = e.target.selectedIndex
+	phrases.map(setVoices)
+})
+
+
+var setVoices = function(phrase){
+	phrase.voice = voices[reader]
+   	return phrase
+}
+var getText = function(){
+	text = container.value
+	sentences = text.split('.')
+	if(sentences[sentences.lenght-1] === undefined) sentences.pop()
+	phrases = sentences.map(x => new SpeechSynthesisUtterance(x))
+		.map(setVoices)
+}
+container.addEventListener('paste', function (e) {
+    e.target.style.height = "1px"    
+    setTimeout(function(){
+    	e.target.style.height = (e.target.scrollHeight + 8*32)+"px"
+    	getText()
+    }, 10)
+})
+	
+var speak = function(i){
+	if(!phrases[i]) {
+		console.log("Выговорился")
+		state = states.stoped
+		document.getElementById('say').innerText = 'Озвучить'
+		return
+	}
+	synth.speak(phrases[i])
+	console.info("Начал говорить", phrases[i].text)
+	phrases[i].onend = function(){
+		console.log("Завершил говорить",this.text)
+		if(state === states.plaing) speak(i+1)		
+	}	
+}
+document.getElementById('say').addEventListener('click',
+function() {
+	switch(state) {
+		case states.stoped:
+			console.log("Молчал, а теперь говорю")
+			state = states.plaing
+			this.innerText = 'Остановить'
+			getText()
+			speak(0)
+			break;
+		case states.plaing:
+			console.log("Говорил, но меня поставили на паузу")
+			state = states.paused
+			this.innerText = 'Продолжить'
+			synth.pause()
+			break;
+		case states.paused:
+			console.log("Продолжаю после паузы")
+			state = states.plaing
+			this.innerText = 'Остановить'
+			synth.resume()
+			break;
+	}
+
+})
+
+document.getElementById('helper').addEventListener('click', function() {	
+	window.scrollTo(0,0)
+})
+
+</script>
+
+<script>
+if (document.location.hostname) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-52946302-3', 'auto');
+	ga('send', 'pageview');
+}
+</script>
+</body>
+</html>
