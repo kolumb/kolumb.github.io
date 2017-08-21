@@ -162,6 +162,7 @@ var keyboard = {
 		}, false);
 
 		Keyboard.addEventListener('mouseup', this.mouseHandler, false);
+		Keyboard.addEventListener('mouseout', this.mouseHandler, false);
 		Keyboard.addEventListener('touchend', function(e) {
 			e.preventDefault();
 			var clkEvt = document.createEvent('MouseEvent');
@@ -190,7 +191,7 @@ var keyboard = {
 			if (options.third) {
 				core.emitPlayNote(keyboard.mouseClicked + 4 + options.minor, true);
 			}
-		} else if (event.type === 'mouseup' && keyboard.mouseClicked){
+		} else if ((event.type === 'mouseup' || event.type === 'mouseout') && keyboard.mouseClicked){
 			core.emitPlayNote(keyboard.mouseClicked, false);
 			if (options.fifth) {
 				core.emitPlayNote(keyboard.mouseClicked + 7, false);
