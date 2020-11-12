@@ -1,3 +1,9 @@
+var Keyboard = document.getElementById('Keyboard')
+var Tools = document.getElementById('Tools')
+var Options = document.getElementById('Options')
+var Stave = document.getElementById('Stave')
+var Harmonica = document.getElementById('Harmonica')
+var Wave = document.getElementById('Wave')
 var core = {
 	context: null,
 	gainNode: null,
