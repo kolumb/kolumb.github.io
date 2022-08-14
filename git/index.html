@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no"
+        />
+        <meta name="theme-color" content="#c6c6c2" />
+        <title>Git visual edu tool</title>
+        <style>
+            body 
+                { margin: 0
+                ; overflow: hidden
+                }
+            .horisontal-wrapper
+                { display: flex
+                }
+                .horisontal-wrapper > *
+                    { flex-grow: 1
+                    ; width: 50%
+                    }
+            #Canvas
+                { display: block
+                ; background: lightgrey
+                }
+            .terminal
+                { display: flex
+                ; flex-direction: column
+                ; justify-content: flex-end
+                ; color: white
+                ; background: #333
+                }
+                #CommandLineInput
+                    { background: black
+                    ; color: white
+                    }
+            @media screen and (max-width: 950px)
+                {
+                }
+        </style>
+    </head>
+    <body>
+        <div class="horisontal-wrapper">
+            <canvas id="Canvas"></canvas>
+            <div class="terminal">
+                <ul id="HistoryElem"></ul>
+                <input type="text" id="CommandLineInput" placeholder="$ > (only implemented git commit)">
+            </div>
+        </div>
+        <script src="vector.js"></script>
+        <script src="commit.js"></script>
+        <script src="utils.js"></script>
+        <script src="input.js"></script>
+        <script src="frame.js"></script>
+        <script src="listeners.js"></script>
+        <script src="init.js"></script>
+    </body>
+</html>

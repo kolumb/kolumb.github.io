@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Starships and planets</title>
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        background: #191919;
+      }
+      #Canvas {
+        display: block;
+      }
+      .hover {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="Canvas"></canvas>
+    <script src="vector.js"></script>
+    <script src="ship.js"></script>
+    <script src="ship.update.js"></script>
+    <script src="ship.draw.js"></script>
+    <script src="planet.js"></script>
+    <script src="init.js"></script>
+    <script src="gameloop.js"></script>
+    <script>
+      addEventListener("keydown", e => {
+        switch (e.code) {
+          case "ArrowUp":
+          case "KeyW":
+            Input.up = true;
+            break;
+          case "ArrowLeft":
+          case "KeyA":
+            Input.left = true;
+            break;
+          case "ArrowRight":
+          case "KeyD":
+            Input.right = true;
+            break;
+        }
+      });
+      addEventListener("keyup", e => {
+        switch (e.code) {
+          case "ArrowUp":
+          case "KeyW":
+            Input.up = false;
+            break;
+          case "ArrowLeft":
+          case "KeyA":
+            Input.left = false;
+            break;
+          case "ArrowRight":
+          case "KeyD":
+            Input.right = false;
+            break;
+        }
+      });
+      let selectedPlanet;
+      let selected = false;
+      let selectionDiff;
+      addEventListener("mousemove", e => {
+        Input.pos = new Vector(e.pageX, e.pageY);
+        if (selected) {
+          Canvas.style.cursor = 'move'
+          selectedPlanet.pos = Input.pos.add(selectionDiff);
+        } else {
+          if(selectedPlanet) Canvas.style.cursor=''
+          selectedPlanet = undefined;
+          planets.map(pl => {
+            if (Input.pos.dist(pl.pos) < pl.radius) {
+              selectedPlanet = pl;
+              selectionDiff = pl.pos.sub(Input.pos);
+              Canvas.style.cursor='pointer'
+              return;
+            }
+          });
+        }
+      });
+      addEventListener("click", e => {
+        if (!selectedPlanet) {
+          if(e.shiftKey) {
+            for(let i = 0; i<10; i++) createShip(Input.pos);
+          } else {
+            createShip(Input.pos);
+          }
+        }
+      });
+      addEventListener("mousedown", e => {
+        if (e.pageX < 105 && e.pageY > height - 30) {
+          planets.push(
+            new Planet(
+              Math.random() * width,
+              Math.random() * height,
+              10 + Math.random() * 50
+            )
+          );
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        if (selectedPlanet) {
+          Canvas.style.cursor = 'move'
+          selected = true;
+        }
+      });
+      addEventListener("mouseup", e => {
+        if (selectedPlanet) {selected = false;
+          Canvas.style.cursor = 'auto'
+        }
+      });
+      Canvas.addEventListener("mouseleave", e => {
+        if (selectedPlanet) {selected = false;
+          Canvas.style.cursor = 'auto'
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+  <title>Inverse Kinematics</title>
+	<style>
+html, body
+  { margin: 0
+  ; padding: 0
+  }
+#Canvas
+  { display: block
+  ; background-color: rgb(41, 60, 78)
+  }
+.controls
+  { position: fixed
+  ; top: 0
+  ; right: 0
+  ; background-color: rgba(30, 45, 58, 0.4)
+  ; user-select: none
+  }
+  .button
+    { width: 1.5em
+    ; height: 1.5em
+    ; border: 2px solid rgb(30, 45, 58)
+    ; background-color: rgba(30, 45, 58, 0.4)
+    ; color: white
+    ; font-size: 2em
+    }
+    .button:hover
+      { background-color: rgba(30, 45, 58, 0.8)
+      }
+    .button:active
+      { color: rgba(30, 45, 58, 0.8)
+      ; background-color: rgba(180, 200, 220, 0.8)
+      }
+    .button:focus
+      { outline: 2px solid rgba(30, 45, 58, 0.8)
+      }
+  .display
+    { font-size: 2em
+    ; color: white
+    ; padding: 0 .25em;
+    }
+.hide
+  { display: none
+  }
+	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
+</head>
+<body>
+<canvas id="Canvas"></canvas>
+<div class="controls">
+  <button class="button" id="AddBar">+</button>
+  <span class="display" id="BarOutput">0</span>
+  <button class="button" id="RemoveBar">-</button>  
+</div>
+<script src="script.js"></script>
+</body>
+</html>

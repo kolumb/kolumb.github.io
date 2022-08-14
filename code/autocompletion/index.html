@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search with autocompletion from most common phrases in English, Russian and Ukrainian languages</title>
+    <style>
+body {
+    padding-left: 0.9em;
+}
+#inputElem {
+    width: 80px;
+}
+#FoundCounterElem {
+    color: grey;
+}
+#WidthMeasurer, #inputElem {
+    font: inherit;
+}
+.outputWrapper {
+    display: flex;
+    font-family: "Times New Roman", serif;
+    font-size: 16px;
+    margin-left: 0.25em;
+}
+#outputQueryElem {
+    display: inline-block;
+    font-family: "Times New Roman", serif;
+    font-style: normal;
+    color: grey;
+}
+pre {
+    margin: 0;
+}
+#autocompletionElem {
+    display: inline-block;
+    vertical-align: top;
+}
+#autocompletionElem pre {
+    font-family: "Times New Roman", serif;
+    font-style: italic;
+}
+#autocompletionElem pre:first-child {
+    min-height: 1em;
+}
+#fullPhraseElem {
+    margin: 1.5em 0;
+    color: green;
+}
+.button {
+    margin-top: 2em;
+    cursor: pointer;
+    min-height: 2em;
+}
+
+.visually-hide {
+    position: absolute;
+    height: 0;
+    overflow: hidden;
+    white-space: pre;
+}
+
+    </style>
+</head>
+<body>
+<input id="inputElem" placeholder="Search"> <span id="FoundCounterElem"></span>
+<span id="WidthMeasurer" class="visually-hide"></span>
+<div class="outputWrapper">
+    <pre id="outputQueryElem"></pre>
+    <div id="autocompletionElem"></div>
+</div>
+<div id="fullPhraseElem"></div>
+
+<script>
+"use strict"
+
+const smallSample = `https://soundcloud.com/dearhankandjohn/003-who-knows-more-about-wwi
+https://soundcloud.com/dearhankandjohn/0033-who-knows-more-about-wwi
+https://soundcloud.com/dearhankandjohn/00333-who-knows-more-about-wwi
+https://soundcloud.com/dearhankandjohn/003333-who-knows-more-about-wwi
+https://soundcloud.com/dearhankandjohn/004-whats-in-a-name
+https://soundcloud.com/dearhankandjohn/episode-2-its-a-humor-podcast
+https://soundcloud.com/dearhankandjohn/the-debut-do-you-pee-on-your-own-head
+`
+// https://www.englishspeak.com/en/english-phrases
+const mostCommonEnglishPhrases = `Be careful.
+Be careful driving.
+Can you translate this for me?
+Chicago is very different from Boston.
+Don't worry.
+Everyone knows it.
+Everything is ready.
+Excellent.
+From time to time.
+Good idea.
+He likes it very much.
+Help!
+He's coming soon.
+He's right.
+He's very annoying.
+He's very famous.
+How are you?
+How's work going?
+Hurry!
+I ate already.
+I can't hear you.
+I'd like to go for a walk.
+I don't know how to use it.
+I don't like him.
+I don't like it.
+I don't speak very well.
+I don't understand.
+I don't want it.
+I don't want that.
+I don't want to bother you.
+I feel good.
+If you need my help, please let me know.
+I get off of work at 6.
+I have a headache.
+I hope you and your wife have a nice trip.
+I know.
+I like her.
+I'll call you when I leave.
+I'll come back later.
+I'll pay.
+I'll take it.
+I'll take you to the bus stop.
+I lost my watch.
+I love you.
+I'm an American.
+I'm cleaning my room.
+I'm cold.
+I'm coming to pick you up.
+I'm going to leave.
+I'm good, and you?
+I'm happy.
+I'm hungry.
+I'm married.
+I'm not busy.
+I'm not married.
+I'm not ready yet.
+I'm not sure.
+I'm sorry, we're sold out.
+I'm thirsty.
+I'm very busy. I don't have time now.
+I need to change clothes.
+I need to go home.
+I only want a snack.
+Is Mr. Smith an American?
+Is that enough?
+I think it's very good.
+I think it tastes good.
+I thought the clothes were cheaper.
+It's longer than 2 miles.
+I've been here for two days.
+I've heard Texas is a beautiful place.
+I've never seen that before.
+I was about to leave the restaurant when my friends arrived.
+Just a little.
+Just a moment.
+Let me check.
+Let me think about it.
+Let's go have a look.
+Let's practice English.
+May I speak to Mrs. Smith please?
+More than that.
+Never mind.
+Next time.
+No.
+Nonsense.
+No, thank you.
+Nothing else.
+Not recently.
+Not yet.
+Of course.
+Okay.
+Please fill out this form.
+Please take me to this address.
+Please write it down.
+Really?
+Right here.
+Right there.
+See you later.
+See you tomorrow.
+See you tonight.
+She's pretty.
+Sorry to bother you.
+Stop!
+Take a chance.
+Take it outside.
+Tell me.
+Thanks for everything.
+Thanks for your help.
+Thank you.
+Thank you miss.
+Thank you sir.
+Thank you very much.
+That looks great.
+That's alright.
+That's enough.
+That's fine.
+That's it.
+That smells bad.
+That's not fair.
+That's not right.
+That's right.
+That's too bad.
+That's too many.
+That's too much.
+The book is under the table.
+They'll be right back.
+They're the same.
+They're very busy.
+This doesn't work.
+This is very difficult.
+This is very important.
+Try it.
+Very good, thanks.
+We like it very much.
+Would you take a message please?
+Yes, really.
+You're beautiful.
+You're very nice.
+You're very smart.
+Your things are all here.
+Certainly!
+Good afternoon.
+Good evening sir.
+Good Luck.
+Good morning.
+Great.
+Happy Birthday.
+Have a good trip.
+Hello.
+Nice to meet you
+Please call me.
+About 300 kilometers.
+A one way ticket.
+Are you going to help her?
+A round trip ticket.
+At what time?
+Can I make an appointment for next Wednesday?
+Can you repeat that please?
+Does this road go to New York?
+Do you have enough money?
+Do you know how to cook?
+Do you know what this says?
+Do you want me to come and pick you up?
+Follow me.
+From here to there.
+Go straight ahead.
+Have you arrived?
+Have you been to Boston?
+How do I get there?
+How do I get to Daniel Street?
+How do I get to the American Embassy?
+How long does it take by car?
+How long does it take to get to Georgia?
+How long is the flight?
+How was the movie?
+I'd like to make a phone call.
+I'd like to make a reservation.
+I have a question I want to ask you./ I want to ask you a question.
+I'll take that one also.
+I'm coming right now.
+I'm going home in four days.
+I'm leaving Tomorrow.
+I'm looking for the post office.
+Is this pen yours?
+I wish I had one.
+One ticket to New York please.
+One way or round trip?
+Please speak slower.
+Please take me to the airport.
+That way.
+The plane departs at 5:30P.
+They arrived yesterday.
+Turn around.
+Turn left.
+Turn right.
+What time are you going to the bus station?
+When did this happen?
+When did you arrive in Boston?
+When does he arrive?
+When does it arrive?
+When does the bank open?
+When does the bus leave?
+When do we arrive?
+When do we leave?
+Where can I mail this?
+Where is she from?
+Where is the bathroom?
+Why not?
+Will you remind me?
+11 dollars.
+52 cents.
+A few.
+A little.
+Call the police.
+Did your wife like California?
+Do you have any coffee?
+Do you have anything cheaper?
+Do you take credit cards?
+How are you paying?
+How many people are there in New York?
+How much are these earrings?
+How much does it cost per day?
+How much does this cost?
+How much do I owe you?
+How much is it to go to Miami?
+How much money do you make?
+I'd like to eat at 5th street restaurant.
+I don't have a girlfriend.
+I don't have any money.
+I have a reservation.
+I'll have the same thing.
+I'll pay for dinner.
+I'll pay for the tickets.
+I'm 26 years old.
+I need to practice my English.
+Isn't it?
+Is that ok?
+Is there any mail for me?
+It's 11:30pm.
+It's is a quarter past nine.
+Please come in.
+Sorry, we don't accept credit cards.
+Sorry, we only accept Cash.
+That restaurant is not expensive.
+That's too expensive.
+There are many people here.
+They charge 26 dollars per day.
+What's the exchange rate for dollars?
+What's the phone number?
+Where can I buy tickets?
+Where would you like to meet?
+Which one is better?
+Across from the post office.
+At 3 o'clock.
+Be quiet.
+Can you recommend a good restaurant?
+Here it is.
+Here you are.
+He's in the kitchen.
+He studies at Boston University.
+How far is it?
+How far is it to Chicago?
+How many miles is it to Pennsylvania?
+I'd like a single room.
+I like to watch TV.
+It's delicious!
+It's half past 11.
+It's less than 5 dollars.
+It's more than 5 dollars.
+It's near the Supermarket.
+it's not suppose to rain today.
+It's ok.
+It's on 7th street.
+It's really hot.
+It's suppose to rain tomorrow.
+I was going to the library.
+I was in the library.
+Let's go.
+Maybe.
+More than 200 miles.
+My house is close to the bank.
+Near the bank.
+On the left.
+On the right.
+On the second floor.
+Outside the hotel.
+Over here.
+Over there.
+The book is behind the table.
+The book is in front of the table.
+The book is near the table.
+The book is next to the table.
+The book is on top of the table.
+There are some books on the table.
+There's a book under the table.
+We're from California.
+What's the address?
+Where are you going?
+Where is it?
+Where would you like to go?
+Who won?
+Can I see your passport please?
+Can I take a message?
+Can I try it on?
+Can we sit over there?
+Did you come with your family?
+Do you think it's possible?
+Here's my number.
+He's not in right now.
+Hi, is Mrs. Smith there, please?
+I'd like some water too, please.
+I'd like to buy a bottle of water, please.
+I'd like to buy something.
+I'd like to go to the store.
+I'd like to rent a car.
+I'd like to send a fax.
+I'd like to send this to America.
+I'd like to speak to Mr. Smith please.
+I have three children, two girls and one boy.
+I'll be right back.
+I'll call back later.
+I'll call you on Friday.
+I'll teach you.
+I'm ok.
+I need some tissues.
+Is there an English speaking guide?
+I want to give you a gift.
+Male or female?
+My cell phone doesn't have good reception.
+My cell phone doesn't work.
+Please take off your shoes.
+Sorry, I think I have the wrong number.
+What is the area code?
+What's the name of the company you work for?
+What's wrong?
+What's your address?
+Where can I find a hospital?
+Where's the closest restaurant?
+Where's the pharmacy?
+Who are you?
+Who is that?
+Who would you like to speak to?
+Will you take me home?
+Would you like water or milk?
+11 days ago.
+2 hours.
+All day.
+A long time ago.
+Are they coming this evening?
+Are you comfortable?
+Are your children with you?
+As soon as possible.
+At 3 o'clock in the afternoon.
+At 5th street.
+At 7 o'clock at night. (evening)?
+At 7 o'clock in the morning.
+At what time did it happen?
+Can I help you?
+Do you have a swimming pool?
+Do you have this in size 11?
+Do you think you'll be back by 11:30?
+Everyday I get up at 6AM.
+Every week.
+Expiration date.
+Have you been waiting long?
+He'll be back in 20 minutes.
+His family is coming tomorrow.
+How about Saturday?
+How long are you going to stay?
+How long are you going to stay in California?
+How long will it take?
+How much altogether?
+How much will it cost?
+I don't have enough money.
+I'm getting ready to go out.
+I'm just looking. (Shopping)
+I'm worried too.
+It'll be cold this evening.
+It rained very hard today.
+It's 17 dollars.
+It's 6AM.
+It's 8:45.
+It's a quarter to 7.
+It's going to snow today.
+It's here.
+It's there.
+I've already seen it.
+John is going on vacation tomorrow.
+My birthday is August 27th.
+Now or later?
+October 22nd.
+She wants to know when you're coming.
+Sometimes I go to sleep at 11PM, sometimes at 11:30PM.
+There's plenty of time.
+The whole day.
+We're late.
+What day are they coming over?
+What day of the week is it?
+What is today's date?
+What's your religion?
+What time are they arriving?
+What time did you get up?
+What time did you go to sleep?
+What time did you wake up?
+What time does it start?
+What time do you think you'll arrive?
+What time is it?
+When are they coming?
+When are you coming back?
+When are you going to pick up your friend?
+When are you leaving?
+When are you moving?
+When is the next bus to Philidalphia?
+When is your birthday?
+When I went to the store, they didn't have any apples.
+When was the last time you talked to your mother?
+When will he be back?
+When will it be ready?
+Where are you going to go?
+Are you busy?
+Can we have some more bread please?
+Do you have any money?
+For how many nights?
+How long will you be staying?
+I'd like a map of the city.
+I'd like a non-smoking room.
+I'd like a room.
+I'd like a room with two beds please.
+I need a doctor.
+Is there a nightclub in town?
+Is there a restaurant in the hotel?
+Is there a store near here?
+Sorry, we don't have any vacancies.
+Take me to the Marriott Hotel.
+What's the charge per night? (Hotel)
+What time is check out?
+Where is the airport?
+Where's the mail box?
+Are you here alone?
+Can I bring my friend?
+Can I have a receipt please?
+Can it be cheaper?
+Can we have a menu please.
+Can you hold this for me?
+Do you have any children?
+Do you know how much it costs?
+Have you eaten at that restaurant?
+Have you eaten yet?
+Have you ever had Potato soup?
+He likes juice but he doesn't like milk
+Here is your salad.
+Here's your order.
+How does it taste?
+How many people? (restaurant)
+I agree.
+I'd like a table near the window.
+I'd like to call the United States.
+I haven't been there.
+I haven't finished eating.
+I like it.
+I'll give you a call.
+I'll have a cup of tea please.
+I'll have a glass of water please.
+I'm from America.
+I'm going to bed.
+I'm here on business.
+I'm sorry.
+I only have 5 dollars.
+I think I need to see a doctor.
+It's August 25th.
+I understand.
+June 3rd.
+The food was delicious.
+There are some apples in the refrigerator.
+There's a restaurant near here.
+There's a restaurant over there, but I don't think it's very good.
+Waiter!
+Waitress!
+We can eat Italian or Chinese food.
+We'll have two glasses of water please.
+What are you going to have?
+What do you recommend?
+What's your email address?
+What would you like to drink?
+What would you like to eat?
+Where is an ATM?
+Where is there a doctor who speaks English?
+Which one?
+Would you ask him to come here?
+Would you like a glass of water?
+Would you like coffee or tea?
+Would you like something to drink?
+Would you like some water?
+Would you like some wine?
+Would you like to go for a walk?
+Would you like to watch TV?
+Are you American?
+Are you coming this evening?
+Are you free tonight?
+Are you going to take a plane or train?
+Are you hungry?
+Are you sure?
+Are you working Tomorrow?
+Business is good.
+Cheers!
+Did it snow yesterday?
+Did you get my email?
+Did you take your medicine?
+Do you feel better?
+Do you go to Florida often?
+Do you have another one?
+Do you know where there's a store that sells towels?
+Do you like it here?
+Do you like the book?
+Do you need anything?
+Do you play any sports?
+Do you sell medicine? (store)
+Do you study English?
+Do you want to come with me?
+Do you want to go with me?
+Excuse me.
+Give me a call.
+Has your brother been to California?
+Have they met her yet?
+Have you done this before?
+How long have you been here?
+How long have you been in America?
+How long have you lived here?
+How many children do you have?
+How many languages do you speak?
+How many people do you have in your family?
+How much would you like?
+How old are you?
+I bought a shirt yesterday.
+I don't feel well.
+I have pain in my arm.
+I have to wash my clothes.
+I have two sisters.
+I'll tell him you called.
+I'm 32.
+I'm 6'2".
+I'm allergic to seafood.
+I'm American.
+I'm a size 8.
+I'm fine, and you?
+I'm not afraid.
+I'm sick.
+I remember.
+I speak a little English.
+Is your house like this one?
+Is your husband also from Boston?
+It's not very expensive.
+I've been there.
+Let's share.
+My daughter is here.
+My father has been there.
+My father is a lawyer.
+My grandmother passed away last year.
+My name is John Smith.
+My son.
+My son studies computers.
+No, I'm American.
+No, this is the first time.
+Our children are in America.
+She's an expert.
+She's older than me.
+That car is similar to my car.
+This is Mrs. Smith.
+This is my mother.
+This is the first time I've been here.
+We have two boys and one girl.
+What are you going to do tonight?
+What are your hobbies?
+What do you study?
+What do you want to do?
+What school did you go to?
+What's your favorite movie?
+What's your last name?
+What's your name?
+Where are the t-shirts?
+Where did you go?
+Where did you learn English?
+Where did you work before you worked here?
+Where do you live?
+Where were you?
+Who sent this letter?
+Would you like to buy this?
+Your children are very well behaved.
+Your daughter.
+You're smarter than him.
+You speak English very well.
+Are there any concerts?
+Do you want to go to the movies?
+Have you seen this movie?
+He said you like to watch movies.
+How tall are you?
+Is the bank far?
+Is there a movie theater nearby?
+What do people usually do in the summer in Los Angeles?
+What kind of music do you like?
+What's your favorite food?
+What time does the movie start?
+Who was your teacher?
+Would you like to have dinner with me?
+Would you like to rent a movie?
+Can I have a glass of water please?
+Can I use your phone?
+Do you have any vacancies?
+Do you have the number for a taxi?
+Do you know her?
+Do you know where she is?
+Do you play basketball?
+Fill it up, please. (gas station)
+He needs some new clothes.
+How much is that?
+How much is this?
+I believe you.
+I'd like the number for the Hilton Hotel please.
+I'd like to buy a phone card please.
+I'd like to go home.
+I'd like to go shopping.
+If you like it I can buy more.
+I'm a beginner.
+I'm full.
+I'm just kidding.
+I'm single.
+I speak two languages.
+I thought he said something else.
+It's not too far.
+I usually drink coffee at breakfast.
+Sorry, we don't have any.
+The books are expensive.
+Try it on.
+What do you want to buy?
+What size?
+What time does the store open?
+When does the plane arrive?
+Where are you?
+Would you like something to eat?
+Am I pronouncing it correctly?
+Can you do me a favor?
+Can you help me?
+Can you please say that again?
+Can you show me?
+Can you throw that away for me?
+Does anyone here speak English?
+Don't do that.
+Do you believe that?
+Do you have a pencil?
+Do you smoke?
+Do you speak English?
+Excuse me, what did you say?
+Forget it.
+How do you pronounce that?
+How do you say it in English?
+How do you spell it?
+How do you spell the word "Seattle?"
+I can swim.
+I can't hear you clearly.
+I don't mind.
+I don't speak English very well.
+I don't think so.
+I don't understand what your saying.
+Is there air conditioning in the room?
+I think you have too many clothes.
+I trust you.
+I understand now.
+Let's meet in front of the hotel.
+Please sit down.
+Please speak English.
+Please speak more slowly.
+Sorry, I didn't hear clearly.
+That means friend.
+That's wrong.
+Try to say it.
+What does this mean?
+What does this say?
+What does this word mean?
+What's the exchange rate?
+Whose book is that?
+Why aren't you going?
+Why are you laughing?
+Why did you do that?
+Are you allergic to anything?
+Are you ready?
+Call me.
+Did you send me flowers?
+Do you sell batteries?
+I don't care.
+I give up.
+I got in an accident.
+I have a cold.
+I have one in my car.
+I made this cake.
+I'm a teacher.
+I'm self-employed.
+I still have a lot to do.
+I still haven't decided.
+It depends on the weather.
+It's very cold today.
+My luggage is missing.
+My stomach hurts.
+My throat is sore.
+My watch has been stolen.
+Take this medicine.
+The accident happened at the intersection.
+There has been a car accident.
+Where can I exchange U.S. dollars?
+Where do you work?
+Where's the nearest hospital?
+Where's the post office?
+And you?
+Anything else?
+Are they the same?
+Are you afraid?
+Are you going to attend their wedding?
+Are you married?
+Are you okay?
+Are you sick?
+Behind the bank.
+Can I borrow some money?
+Can I have the bill please?
+Can you call back later?
+Can you call me back later?
+Can you carry this for me?
+Can you fix this?
+Can you give me an example?
+Can you speak louder please?
+Can you swim?
+Does he like the school?
+Do you accept U.S. Dollars?
+Do you have a girlfriend?
+Do you have an appointment?
+Do you have a problem?
+Do you hear that?
+Do you know how to get to the Marriott Hotel?
+Do you know what this means?
+Do you know where I can get a taxi?
+Do you know where my glasses are?
+Do you like your co-workers?
+Do you need anything else?
+Do you understand?
+Give me the pen.
+How do you know?
+How is she?
+How long is it?
+How many?
+How much is it?
+I have a lot of things to do.
+In 30 minutes.
+Is anyone else coming?
+Is everything ok?
+Is it cold outside?
+Is it far from here?
+Is it hot?
+Is it raining?
+Is there anything cheaper?
+Is your son here?
+Should I wait?
+The big one or the small one?
+The cars are American.
+Were there any problems?
+Were you at the library last night?
+What are you doing?
+What are you thinking about?
+What are you two talking about?
+What did you do last night?
+What did you do yesterday?
+What did you think?
+What do they study?
+What do you have?
+What do you think?
+What happened?
+What is it?
+What is that?
+What should I wear?
+What's in it?
+What's the temperature?
+What's this?
+What's up?
+Where are you from?
+Where can I rent a car?
+Where did it happen?
+Where did you learn it?
+Where is he?
+Where is he from?
+Which is better, the spaghetti or chicken salad?
+Which one do you want?
+Which one is cheaper?
+Which one is the best?
+Which school does he go to?
+Who are they?
+Who are you looking for?
+Who is it? (Inquiring about who is on the phone)
+Who's calling?
+Who's that man over there?
+Who taught you that?
+Why did you say that?
+Will you pass me the salt please?
+Will you put this in the car for me?
+Would you ask him to call me back please?
+Yes.
+You have a very nice car.
+You look like my sister.
+6 dollars per hour.
+Are you waiting for someone?
+Are you working today?
+Bring me my shirt please.
+Do you like to watch TV?
+Do you like your boss?
+Have you finished studying?
+He's an Engineer.
+He's very hard working.
+He works at a computer company in New York.
+How long have you worked here?
+How many hours a week do you work?
+How much money do you have?
+How's the weather?
+How was the trip?
+I forget.
+I'm good.
+I'm ready.
+I still have a lot of things to buy.
+I've seen it.
+What does he do for work?
+What does your father do for work?
+What do you do for work?
+What do your parents do for work?
+What's the matter?
+What time do you go to work everyday?
+When do you arrive in the U.S.?
+When do you get off work?
+Where did you put it?
+Where does it hurt?
+Where do you want to go?
+Come here.
+Does it often snow in the winter in Massachusetts?
+Do you think it'll rain today?
+Do you think it's going to rain tomorrow?
+How's business?
+Is it close?
+Is it possible?
+Is it ready?
+It costs 20 dollars per hour.
+It hurts here.
+It's far from here.
+It's going to be hot today.
+It's north of here.
+It's over there.
+It's raining.
+It's too late.
+It's very important.
+It will arrive shortly.
+The roads are slippery.
+What's the room rate?
+What will the weather be like tomorrow?
+Amy is John's girlfriend.
+He always does that for me.
+He broke the window.
+He doesn't look like a nurse.
+He has a nice car.
+He never gives me anything.
+He said this is a nice place.
+He's an American.
+He's a very good student.
+He's faster than me.
+He thinks we don't want to go.
+His room is very small.
+His son.
+How are your parents?
+How do I use this?
+I came with my family.
+I'd like to exchange this for Dollars.
+I'd like to use the internet
+I don't have time right now.
+I don't know.
+I have money.
+I haven't had lunch yet.
+I have to go to the post office.
+I like Italian food.
+I live in California.
+I'll talk to you soon.
+I made a mistake.
+I'm bored.
+I'm going to America next year.
+I'm going to go have dinner.
+I'm tired.
+I'm very well, thank you.
+I need another key.
+I need this to get there by tomorrow.
+I need to go now.
+Is it suppose to rain tomorrow?
+Is John there please? (phone call)
+Is this a safe area?
+Is this Mr. Smith?
+Is this the bus to New York?
+Is this your book?
+I still have to brush my teeth and take a shower.
+Is your father home?
+I think so.
+I think those shoes are very good looking.
+It's very windy.
+It takes 2 hours by car.
+I've never done that.
+I've worked there for five years.
+I want to buy something.
+I want to contact our embassy.
+I want to send this package to the United States.
+I want to show you something.
+I went to the supermarket, and then to the computer store.
+My car isn't working.
+Nobody is helping us.
+Nobody is there right now.
+One like that.
+Open the door.
+Open the window.
+Pick up your clothes.
+Please.
+Please count this for me.
+Please tell her John called.
+Please tell me.
+Please wait for me.
+She's going with me tomorrow.
+Some books.
+Someone does that for me.
+Someone is coming.
+Sorry, I don't have a pencil.
+Start the car.
+Take me downtown.
+Tell him that I need to talk to him.
+That car over there is mine.
+That looks old.
+That's a good school.
+That's her book.
+That's not enough.
+The car is fixed.
+These books are ours.
+The TV is broken.
+They haven't met her yet.
+They're planning to come next year.
+They're waiting for us.
+This room is a mess.
+Those men are speaking English.
+What color is that car?
+What do you think of these shoes?
+When would you like to meet?
+Where does your wife work?
+Where is Main Street?
+Where is my shirt?
+Where is the bus station?
+Which road should I take?
+You're right.
+Your house is very nice.`
+
+// https://ru.speaklanguages.com/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/%D1%84%D1%80%D0%B0%D0%B7%D1%8B/
+const mostCommonRussianPhrases = `Да.
+Нет.
+Может быть.
+Возможно.
+Пожалуйста.
+Спасибо.
+Большое спасибо.
+Пожалуйста.
+Не за что.
+Не стоит благодарности.
+Привет.
+Здравствуйте.
+Доброе утро.
+Добрый день.
+Добрый вечер.
+Пока.
+До свидания.
+Спокойной ночи.
+Увидимся!
+До скорого!
+Хорошего дня!
+Хороших выходных!
+Простите.
+Извините.
+Ничего страшного.
+Все в порядке.
+Не стоит беспокойства.
+Вы говорите по-русски?
+Я не говорю по-русски.
+Я не очень хорошо говорю по-русски.
+Я только чуть-чуть говорю по-русски.
+Я немного говорю по-русски.
+Пожалуйста, говорите медленнее.
+Пожалуйста, напишите это.
+Не могли бы вы повторить?
+Я понимаю.
+Я не понимаю.
+Я знаю.
+Я не знаю.
+Извините, где здесь туалет?
+Вход.
+Выход.
+Запасной выход.
+От себя.
+На себя.
+Туалет.
+Туалеты.
+Мужчины.
+Женщины.
+Свободно.
+Занято.
+Не работает.
+Не курить.
+Частная собственность.
+Вход воспрещен.
+Помогите!
+Будьте осторожны!
+Осторожно!
+Пожалуйста, помогите мне.
+Вызовите скорую помощь!
+Мне нужен доктор.
+Произошёл несчастный случай.
+Пожалуйста, поторопитесь!
+Я порезался.
+Я обжёгся.
+Вы в порядке?
+Все в порядке?
+Держите вора!
+Вызовите полицию!
+Мой кошелёк украли.
+Мой ноутбук украли.
+Я хотел бы заявить о краже.
+Мою машину вскрыли.
+Меня ограбили.
+На меня напали.
+Пожар!
+Вызовите пожарных!
+Вы чувствуете запах гари?
+Там пожар.
+Здание горит.
+Я заблудился.
+Мы заблудились.
+Я не могу найти мои ключи.
+Я не могу найти мой паспорт.
+Я не могу найти мой мобильный телефон.
+Я потерял мой кошелёк.
+Я потерял мой фотоаппарат.
+Моя машина закрылась, а ключи внутри.
+Моя комната закрылась, а ключи внутри.
+Пожалуйста, оставьте меня в покое.
+Уйдите!
+Как дела?
+Как ты?
+Как оно?
+Как поживаешь?
+Как жизнь?
+Прекрасно, спасибо.
+Отлично, спасибо.
+Нормально, спасибо.
+Неплохо, спасибо.
+Ничего, спасибо.
+Не очень хорошо.
+А ты как?
+Чем сейчас занимаешься?
+Чем занимался?
+Чем занималась?
+Много работал.
+Много учился.
+Я был очень занят.
+Тем же, чем обычно.
+Ничем особенным.
+Я только что вернулся из Египта.
+Где ты?
+Я дома.
+Я на работе.
+Я в городе.
+Я на природе.
+Я в магазине.
+Я в поезде.
+Я у Владимира.
+У тебя есть планы на лето?
+Что ты делаешь на Рождество?
+Что ты делаешь на Новый год?
+Что ты делаешь на Пасху?
+Ты куришь?
+Вы курите?
+Да, я курю.
+Нет, я не курю.
+Ты не против, если я закурю?
+Вы не против, если я закурю?
+Желаешь сигарету?
+Хочешь сигарету?
+У тебя нет сигареты?
+У тебя есть прикурить?
+У тебя есть пепельница?
+Я прекратил курить.
+Я бросил.
+Я пытаюсь бросить.
+Как тебя зовут?
+Меня зовут Михаил.
+Меня зовут Оксана.
+Я Игорь.
+Я Жанна.
+Это Светалана.
+Это моя жена.
+Это мой муж.
+Это мой друг.
+Это моя подруга.
+Это мой сын.
+Это моя дочь.
+Извини, я не расслышал как тебя зовут.
+Вы знакомы?
+Рад познакомиться.
+Приятно познакомиться.
+Очень приятно.
+Как вы познакомились?
+Мы вместе работаем.
+Мы вместе работали.
+Мы вместе учились в школе.
+Мы вместе учимся в университете.
+Мы вместе учились в университете.
+Через друзей.
+Откуда ты?
+Из каких ты мест?
+Я из Англии.
+Откуда в Канаде ты?
+Из какой части Италии ты?
+Где ты живешь?
+Я живу в Лондоне.
+Я живу во Франции.
+Я родился в Австралии, но вырос в Англии.
+Как ты оказался в России?
+Я в отпуске.
+Я по работе.
+Я живу здесь.
+Я работаю здесь.
+Я учусь здесь.
+Как долго ты здесь живешь?
+Недавно приехал.
+Несколько месяцев.
+Около года.
+Чуть больше двух лет.
+Три года.
+Как долго ты собираешься здесь оставаться?
+До августа.
+Несколько месяцев.
+Еще год.
+Я точно не знаю.
+Тебе здесь нравится?
+Да, очень нравится!
+Очень нравится.
+Нормально.
+Что тебе здесь нравится?
+Мне нравится/нравятся еда.
+Мне нравится/нравятся погода.
+Мне нравится/нравятся люди.
+Сколько тебе лет?
+Мне двадцать два.
+Мне тридцать восемь.
+Когда у тебя день рождения?
+Он 16 мая.
+С кем ты живешь?
+Ты живешь с кем-то?
+Я живу со своим другом.
+Я живу со своей подругой.
+Я живу со своим сожителем.
+Я живу со своим мужем.
+Я живу со своей женой.
+Я живу со своими родителями.
+Я живу с другом.
+Я живу с друзьями.
+Я живу с родственниками.
+Ты живешь отдельно?
+Я живу отдельно.
+Я живу с одним человеком.
+Я живу с двумя другими.
+Я живу с тремя другими.
+Какой у тебя номер телефона?
+Какой у тебя электронный адрес?
+Какой твой адрес?
+Можно записать твой номер телефона?
+Можно записать твой электронный адрес?
+Ты зарегистрирован в Facebook?
+Ты зарегистрирован в Skype?
+Ты зарегистрирован во Вконтакте?
+Ты зарегистрирован в Telegram?
+Какое у тебя там имя?
+У тебя есть брат или сестра?
+Да, у меня есть брат.
+Да, у меня есть сестра.
+Да, у меня есть старший брат.
+Да, у меня есть младшая сестра.
+Да, у меня есть два брата.
+Да, у меня есть две сестры.
+Да, у меня есть брат и две сестры.
+Нет, я единственный ребенок.
+У тебя есть дети?
+Да, у меня мальчик и девочка.
+Да, у меня малыш.
+Да, у меня три ребенка.
+У меня нет детей.
+У вас есть внуки?
+Твои родители еще живы?
+Где живут твои родители?
+Чем занимаются твои родители?
+Чем занимается твой отец?
+Чем занимается твоя мать?
+Твои бабушка и дедушка еще живы?
+Где они живут?
+У тебя есть парень?
+У тебя есть девушка?
+Ты женат?
+Ты замужем?
+Ты холостой?
+Ты незамужняя?
+Ты с кем-нибудь встречаешься?
+Я холостой (незамужняя).
+Я обручен(а).
+Я женат (замужем).
+Я в разводе.
+Я я живу отдельно.
+Я вдова.
+Я вдовец.
+У меня уже кто-то есть.
+У тебя есть домашние животные?
+У меня собака и две кошки.
+Как его зовут?
+Его зовут Юрий.
+Как ее зовут?
+Ее зовут Виктория.
+Как их зовут?
+Их зовут Максим и Анастасия.
+Сколько ему лет?
+Ему двенадцать.
+Сколько ей лет?
+Ей пятнадцать.
+Сколько им лет?
+Им шесть и восемь.
+Что тебе нравится делать в свободное время?
+Мне нравится смотреть телевизор.
+Мне нравится слушать музыку.
+Мне нравится гулять.
+Мне нравится бегать.
+Мне в некоторой степени нравится готовить.
+Мне в некоторой степени нравится играть в шахматы.
+Мне в некоторой степени нравится заниматься йогой.
+Мне очень нравится плавать.
+Мне очень нравится танцевать.
+Я люблю театр.
+Я люблю кино.
+Я люблю тусоваться.
+Я люблю клубы.
+Я люблю путешествовать.
+Мне не нравятся шумные бары.
+Мне не нравятся ночные клубы.
+Я ненавижу ходить по магазинам.
+Я терпеть не могу футбол.
+Я интересуюсь фотографией.
+Я интересуюсь историей.
+Я интересуюсь языками.
+Я много читаю.
+Ты читал какие-нибудь хорошие книги в последнее время?
+Ты смотрел какие-нибудь хорошие фильмы в последнее время?
+Ты занимаешься спортом?
+Да, я играю в футбол.
+Да, я играю в теннис.
+Я член спортклуба.
+Нет, я не особенно спортивный.
+Мне нравится смотреть футбол.
+Меня не интересует футбол.
+Ты играешь на каких-либо музыкальных инструментах?
+Да, я играю на гитаре.
+Да, я играю на фортепьяно пять лет.
+Я играю в группе.
+Я пою в хоре.
+Какая музыка тебе нравится?
+Какую музыку ты слушаешь?
+Поп.
+Рок.
+Танцевальную.
+Классическую.
+Любую.
+Разных стилей и направлений.
+У тебя есть любимые исполнители?
+Позавчера.
+Вчера.
+Сегодня.
+Завтра.
+Послезавтра.
+Утром.
+Днём.
+Вечером.
+Ночью.
+Вчера утром.
+Вчера днём.
+Вчера вечером.
+Сегодня утром.
+Сегодня днём.
+Сегодня вечером.
+Завтра утром.
+Завтра днём.
+Завтра вечером.
+На прошлой неделе.
+В прошлом месяце.
+В прошлом году.
+На этой неделе.
+В этом месяце.
+В этом году.
+На следующей неделе.
+В следующем месяце.
+В следующем году.
+Сейчас.
+Тогда.
+Потом.
+Немедленно.
+Прямо сейчас.
+Скоро.
+Раньше.
+Позже.
+Недавно.
+Пять минут назад.
+Полчаса назад.
+Час назад.
+Неделю назад.
+Две недели назад.
+Месяц назад.
+Год назад.
+Давным-давно.
+Через десять минут.
+Через час.
+Через неделю.
+Через десять дней.
+Через три недели.
+Через два месяца.
+Через десять лет.
+В предыдущий день.
+На предыдущей неделе.
+В предыдущем месяце.
+В предыдущем году.
+На следующий день.
+На следующей неделе.
+В следующем месяце.
+В следующем году.
+Я жил в Швеции шесть месяцев.
+Я работаю здесь девять лет.
+Завтра я уезжаю во Францию на две недели.
+На прошлой неделе мы ездили в Нью-Йорк на три дня.
+Мы долго плавали.
+Никогда.
+Редко.
+Порой.
+Иногда.
+Часто.
+Обычно.
+Всегда.
+Каждый день.
+Ежедневно.
+Каждую неделю.
+Еженедельно.
+Каждый месяц.
+Ежемесячно.
+Каждый год.
+Ежегодно.
+Сколько времени?
+Который час?
+Скажите, пожалуйста, сколько времени?
+Не подскажете который час?
+Вы знаете сколько сейчас времени?
+Сейчас ...
+Ровно ...
+Примерно ...
+Почти ...
+Немного больше, чем ...
+Час.
+Два часа.
+Три часа.
+Четыре часа.
+Пять часов.
+Шесть часов.
+Семь часов.
+Восемь часов.
+Девять часов.
+Десять часов.
+Одиннадцать часов.
+Двенадцать часов.
+Четверть второго.
+Четверть третьего.
+Половина второго.
+Половина третьего.
+Без четверти два.
+Без четверти три.
+Пять минут второго.
+Десять минут второго.
+Двадцать минут второго.
+Двадцать пять минут второго.
+Без пяти два.
+Без десяти два.
+Без двадцати два.
+Без двадцати пяти два.
+Десять часов пятнадцать минут.
+Десять часов тридцать минут.
+Десять часов сорок пять минут.
+Десять часов утра.
+Шесть часов вечера.
+Полдень.
+Полночь.
+Десять сорок два утра.
+Четыре пятнадцать дня.
+Мои часы спешат.
+Мои часы отстают.
+Эти часы немного спешат.
+Эти часы немного отстают.`
+
+// http://www.onepagephrasebook.com/?language=2&translation=33
+const mostCommonUkrainianPhrases = `Бесіда.
+Я.
+Ви.
+Так.
+Ні.
+Добре.
+Погано.
+Здрастуйте.
+До побачення.
+Добрий ранок.
+Добраніч.
+Спасибі.
+Будь ласка.
+Даруйте.
+Як вас звуть?
+Дозвольте пройти.
+Підкажіть.
+Допоможіть, будь ласка.
+Напишіть це.
+Повторіть.
+Я не розумію.
+Ви розмовляєте англійською?
+Цифри.
+Один.
+Два.
+Три.
+Десять.
+Сто.
+Тисяча.
+Дата.
+Рік.
+День.
+Вихідний.
+Тиждень.
+Понеділок.
+Вівторок.
+Середа.
+Четверг.
+Субота.
+Неділя.
+Місяць.
+Січень.
+Лютий.
+Березень.
+Квітень.
+Травень.
+Червень.
+Липень.
+Серпень.
+Вересень.
+Жовтень.
+Листопад.
+Грудень.
+Готель.
+Номер.
+Кімната.
+Проживання.
+Ніч.
+День.
+Я замовляв номер.
+Холодно.
+Спекотно.
+Ключ.
+Дитина.
+Дорослий.
+Паспорт.
+Не турбувати.
+Розбудіть мене в ...
+Автомобіль.
+Дорога.
+Поворот.
+Перехрестя.
+Стоп.
+Проїзд заборонений.
+Стоянка.
+Заправка.
+Заправте повний бак.
+Бензин.
+Штраф.
+Документи.
+Прокат.
+Оренда машин.
+У мене зламалася машина.
+Автосервіс.
+Покажчики.
+Увага.
+Вхід.
+Вихід.
+Наліво.
+Направо.
+Закрито.
+Відкрито.
+Зайнято.
+Вільно.
+Заборонено.
+Дозволено.
+Початок.
+Кінець.
+Тягнути.
+Штовхати.
+Тут.
+Там.
+Не палити.
+Небезпечно.
+Обережно.
+Перерва.
+Перехід.
+Інформація.
+Туалет.
+Транспорт.
+Де знаходиться місто.
+Де знаходиться вулиця.
+Де знаходиться будинок.
+Де знаходиться каса.
+Де знаходиться квиток.
+Де знаходиться карта міста.
+Я хотів би викликати Таксі.
+Автобус.
+Зупинка.
+Аеропорт.
+Літак.
+Рейс.
+Багаж.
+Потяг.
+Напрям.
+Відправлення.
+Прибуття.
+Схід.
+Захід.
+Північ.
+Південь.
+Служби.
+Паспортний контроль.
+Митниця.
+Я загубив документи.
+Лікарня.
+Аптека.
+Лікар.
+Швидка допомога.
+Пожежна служба.
+Поліція.
+Пошта.
+Ресторан.
+Кафе.
+Бар.
+Офіціант.
+Я хочу замовити столик.
+Меню.
+Дитяче меню.
+Холодний.
+Гарячий.
+Підігріти.
+Смачного!
+Склянка.
+Чашка.
+Пляшка.
+Келих.
+Без.
+З.
+Вода.
+Вино.
+Пиво.
+Кава.
+Молоко.
+Чай.
+Сік.
+Хліб.
+Суп.
+Сир.
+Каша.
+Млинці.
+Цукор.
+Сіль.
+Перець.
+Баранина.
+Яловичина.
+Свинина.
+Курка.
+Варений.
+Смажений.
+Гриль.
+Гостре.
+Десерт.
+Фрукти.
+Яблуко.
+Виноград.
+Банан.
+Абрикос.
+Персик.
+Апельсин.
+Лимон.
+Полуниця.
+Гранат.
+Овочі.
+Салат.
+Картопля.
+Лук.
+Перець.
+Рис.
+Часник.
+Оплата.
+Гроші.
+Рахунок, будь ласка.
+Ціна.
+Я хочу сплатити кредитною картою.
+Здача.
+Без здачі.
+Чайові.
+Магазин.
+Продукти.
+Що це таке?
+Покажіть ...
+Скільки коштує кілограм.
+Скільки коштує великий.
+Скільки коштує маленький.
+Скільки коштує літр.
+Скільки коштує метр.
+Дешево.
+Дорого.
+Знижка.
+Колір.
+Світлий.
+Темний.
+Білий.
+Чорний.
+Сірий.
+Червоний.
+Синій.
+Блакитний.
+Жовтий.
+Зелений.
+Коричневий.
+Помаранчевий.
+Фіолетовий.
+Хвороба.
+В мене болить голова.
+В мене болить горло.
+В мене болить живіт.
+В мене болить зуб.
+В мене болить нога.
+В мене болить рука.
+В мене болить спина.
+В мене висока температура.
+Викличте лікаря.
+zzz zzz zzz`
+
+// const txt = smallSample
+const txt = (mostCommonEnglishPhrases + "\n" + mostCommonRussianPhrases + "\n" + mostCommonUkrainianPhrases).toLowerCase()
+const txtOriginal = mostCommonEnglishPhrases + "\n" + mostCommonRussianPhrases + "\n" + mostCommonUkrainianPhrases + "\n"
+
+const maxCount = Math.ceil(Math.log(txt.length) / Math.log(2))
+
+// inputElem.insertAdjacentHTML("afterEnd", ` Text length is ${txt.length}. Number of phrases is ${txt.split("\n").length - 1} (English: ${mostCommonEnglishPhrases.split("\n").length}, Russian: ${mostCommonRussianPhrases.split("\n").length}, Ukrainian: ${mostCommonUkrainianPhrases.split("\n").length}). Max search iterations is ${maxCount}`)
+inputElem.insertAdjacentHTML("beforeBegin", `<p>Search the most common phrases. Text length is ${txt.length} characters. Number of phrases is 1648 (English: 953, Russian: 452, Ukrainian: 244). Max search iterations using binary search from suffix array: ${maxCount}.</p>`)
+
+const suffixes = []
+for (let i = txt.length - 1; i >= 0; i--) {
+    const text = txt.slice(i)
+    if (text.trim()) suffixes.push(text)
+}
+const suffixArray = suffixes
+    .sort((a, b) => {
+        if (a < b) {
+            return -1
+        } else if (a === b) {
+            return 0
+        }
+        return 1
+    })
+    .map(suffix => txt.length - suffix.length)
+inputElem.focus()
+
+
+function fixInput(input) {
+    WidthMeasurer.textContent = input.value
+    input.style.width = Math.max(WidthMeasurer.offsetWidth + 20, 80) + "px"
+}
+let maxQueryInput = 200
+const resultsDisplayLimit = 70
+let showTheRestOfResultsButton
+const results = []
+inputElem.addEventListener("input", e => {
+    if (e.target.tagName === "INPUT") {
+        fixInput(e.target)
+    }
+    const query = e.target.value.toLowerCase()
+    let confirmedBigInput = false
+    if (query.length > maxQueryInput) {
+        if (confirm(`The length of search query is ${query.length}. Are you sure that you want to continue?`)) {
+            confirmedBigInput = true
+            maxQueryInput *= 2
+        }
+    }
+    if (query.length === 0 || (query.length > maxQueryInput && confirmedBigInput === false)) {
+        e.target.value = ""
+        outputQueryElem.textContent = ""
+        autocompletionElem.innerHTML = ""
+        FoundCounterElem.textContent = ""
+        fullPhraseElem.innerHTML = ""
+        return
+    }
+    let min = 0
+    let max = txt.length - 1
+    let count = 0
+    let guess
+    while(count < maxCount && max !== min) {
+        count++
+        guess = min + Math.floor((max - min) / 2)
+        const index = suffixArray[guess]
+        // console.log(min, guess, max)
+        let probe = txt.slice(index, index + query.length)
+        // console.log(query, probe)
+        if (query === probe) {
+            // console.log("query === probe")
+            max = guess
+            // break
+            // return guess
+        } else if (query < probe) {
+            max = guess
+        } else if (query > probe) {
+            min = guess + 1
+        }
+    }
+    guess = min
+    if (count > maxCount) {
+        throw new Error("StackOverflow")
+    }
+    results.length = 0
+    // console.log("suffixArray.length, guess, suffixArray.length - guess", suffixArray.length, guess, suffixArray.length - guess)
+    for (let i = 0; i < suffixArray.length - guess; i++) {
+        const index = suffixArray[guess + i]
+        const probe = txt.slice(index, index + query.length)
+        if (probe === query) {
+            const autocompletionStart = index + query.length
+            const autocompletion = txtOriginal.slice(autocompletionStart, txtOriginal.indexOf("\n", autocompletionStart))
+            // if (autocompletion.length > 0)
+                results.push(autocompletion)
+        } else {
+            break
+        }
+    }
+    outputQueryElem.textContent = e.target.value
+    autocompletionElem.innerHTML = "<pre>" + results.slice(0, resultsDisplayLimit).join("</pre><pre>") + "</pre>"
+    if (results.length - 1 > resultsDisplayLimit) {
+        showTheRestOfResultsButton = document.createElement("button")
+        showTheRestOfResultsButton.classList.add("button")
+        showTheRestOfResultsButton.innerText = `Show the rest ${results.length - resultsDisplayLimit} autocompletion results`
+        showTheRestOfResultsButton.addEventListener("click", handleShowRestResults)
+        autocompletionElem.appendChild(showTheRestOfResultsButton)
+    }
+    fullPhraseElem.innerHTML = ""
+    if (results.length === 1 || (results.length && results[results.length - 1].length === 0)) {
+        for (let i = 0; i < results.length; i++) {
+            const queryStart = suffixArray[guess + i]
+            const phraseStart = txtOriginal.lastIndexOf("\n", queryStart - 1)
+            fullPhraseElem.innerHTML += txtOriginal.slice(phraseStart, queryStart) + "<strong>" + txtOriginal.slice(queryStart, queryStart + query.length) + "</strong>" + results[i] + "<br>"
+        }
+    }
+    FoundCounterElem.textContent = `Found ${results.length} variant${results.length === 1 ? "" : "s"} for autocompletion:`
+})
+function handleShowRestResults(e) {
+    showTheRestOfResultsButton.removeEventListener("click", handleShowRestResults)
+    autocompletionElem.removeChild(showTheRestOfResultsButton)
+    autocompletionElem.innerHTML += "<pre>" + results.slice(resultsDisplayLimit).join("</pre><pre>") + "</pre>"
+}
+
+</script>
+</body>
+</html>

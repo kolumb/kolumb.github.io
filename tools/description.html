@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Шаблон для описания наборов</title>
+  <meta name="author" content="Danil Kolumbet">
+  <style>
+* {
+ -webkit-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ box-sizing: border-box;
+}
+html {
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #efefef;
+  overflow-y: scroll; 
+}
+::placeholder {  
+    color: #7ca91e;
+}
+:invalid {
+  border: solid #d22;
+}
+@keyframes highlight {
+  30%{
+    background-color: rgba(20, 200, 10, 0.4);
+  }
+  100%{
+    background-color: transparent;
+  }
+}
+.run-animation {
+    /*background-color: rgba(20, 200, 10, 0);*/
+    animation: highlight .3s;
+}
+.dimm .list-header, .dimm .hide-ua-sku, .dimm .add-sku, .dimm .row-sku-name, .dimm #ContaminationOutput, .dimm #CopyContamination {
+    opacity: 0.3;
+}
+.dimm .hide-ua-sku:first-of-type {
+    opacity: 1 !important;
+}
+.header {
+    margin: .5em;
+}
+.row {
+    display: flex;
+    margin: 10px 0;
+}
+.row > * {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+.row .AddSKUUA {
+    flex-grow: 0;
+}
+input, textarea {
+    margin: 0 0 0 10px;
+}
+textarea {
+    font-family: Helvetica, Arial, sans-serif;
+    padding: 5px 7px;
+}
+input {
+    padding-left: 10px;
+}
+input:placeholder-shown {
+    background: white
+}
+.description {
+    height: 150px;
+}
+.description, .output {
+    margin-bottom: 10px;
+}
+#SKUList {
+    padding: 0;
+    margin: 0;
+}
+.list-decoration {
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    margin-left: 11px;
+}
+.RUName, .UAName, #ContaminationInput, #ContaminationOutput {
+    flex-grow: 2;
+}
+#AddSKU {
+    font-size: 200%;
+    color: #555;
+    margin-left: 10px;
+}
+#RemoveSKU {
+    font-size: 178%;
+    color: #555;
+    margin-left: 10px;
+    margin-right: 17px;
+    max-width: 80px;
+    padding-bottom: 2px;
+}
+#RUOutput, #UAOutput {
+    overflow: auto;
+    padding: 10px;
+    font-size: 80%;
+}
+.output {
+    margin-bottom: 30px;
+    margin-left: 10px;
+}
+.output > * {
+    width: 50%;
+}
+.row-sku-name {
+    margin-left: 10px;
+    margin-bottom: 50px;
+}
+#SKURUName, #SKUUAName {
+    padding: 10px
+}
+#DescriptionWrapper {
+    border-bottom: 2px solid #bcbfbe;
+}
+.contamination {
+    height: 100px;
+}
+#ContaminationOutput {
+    padding: 10px;
+}
+
+
+button {
+    cursor: pointer;
+    user-select: none;
+}
+.big-button {
+    width: 300px;
+    height: 50px;
+    background-color: #b7e2b9;
+    border-color: #ddf1e0;
+    border-radius: 5px;
+    color: #193c23;
+    font-size: 100%;
+    text-shadow: 0px 1px 2px grey;
+}
+.SKUUA {
+    transition: max-width 300ms, opacity 300ms;
+    max-width: 200px;
+    opacity: 1;
+}
+.hide-ua-sku .SKUUA {
+    max-width: 0px;
+    opacity: 0;
+    margin: 0;
+}
+#SKUUA {
+    transition: opacity 300ms, visibility 300ms;
+    opacity: 1;
+    visibility: visible;
+    /*transition-property: visibility;*/
+    /*transition-duration: 300ms;*/
+    /*transition-delay: 300ms;*/
+    /*transition-timing-function: linear;*/
+}
+#SKUUA.slowly-hide {
+    opacity: 0;
+    visibility: hidden;
+}
+.hide {
+    display: none;
+}
+
+  </style>
+</head>
+<body>
+<div id="DescriptionWrapper" class="dimm">
+<h3 class="header">Шаблон описания для наборов <button id="ClearElem">Очистить</button></h3>
+<div class="row description">
+    <textarea id="RUDescription" placeholder="Русское описание"></textarea>
+    <textarea id="UADescription" placeholder="Український опис"></textarea></div>
+
+<div class="row list-header">
+    <input type="text" id="RUListHeader" value="В состав набора входят следующие косметические средства">
+    <input type="text" id="UAListHeader" value="До складу набору входять наступні косметичні засоби">
+</div>
+
+<ul id=SKUList>
+    <li class="row hide-ua-sku">
+        <span class="list-decoration">-</span>
+        <input type="text" class="RUName" placeholder="Рус название составляющей">
+        <input type="text" class="UAName" placeholder="Укр назва складової">
+        <input type="url" class="Link" placeholder="Ссылка" pattern="\s*http.?://.*">
+        <input type="text" class="SKURU" placeholder="Характеристика">
+        <button class="AddSKUUA" title="Додати український варіант">+ UA</button>
+        <input type="text" class="SKUUA" placeholder="Укр характеристика">
+    </li>
+    <li class="row hide-ua-sku">
+        <span class="list-decoration">-</span>
+        <input type="text" class="RUName" placeholder="Рус название составляющей">
+        <input type="text" class="UAName" placeholder="Укр назва складової">
+        <input type="url" class="Link" placeholder="Ссылка" pattern="\s*http.?://.*">
+        <input type="text" class="SKURU" placeholder="Характеристика">
+        <button class="AddSKUUA" title="Додати український варіант">+ UA</button>
+        <input type="text" class="SKUUA" placeholder="Укр характеристика">
+    </li>
+</ul>
+
+<div class="row add-sku">
+    <span class="list-decoration">-</span>
+    <button id="AddSKU">+</button>
+    <button id="RemoveSKU">–</button>
+</div>
+
+<div class="row output">
+    <div>
+        <div id="RUOutput">Результат на русском</div>
+        <button id="CopyRUDescription" class="big-button">Копировать</button>
+    </div>
+    <div>
+        <div id="UAOutput">Результат на українській</div>
+        <button id="CopyUADescription" class="big-button">Скопіювати</button>
+    </div>
+</div>
+
+<div class="row row-sku-name">
+    <div>
+        <div type="text" id="SKURUName">Название характеристики</div>
+        <button id="CopyRUSKU" class="big-button">Копировать</button>
+    </div>
+    <div id="SKUUA" class="slowly-hide">
+        <div type="text" id="SKUUAName">Назва характеристики</div>
+        <button id="CopyUASKU" class="big-button">Скопіювати</button>
+    </div>
+</div>
+</div>
+<div class="row contamination dimm">
+    <textarea id="ContaminationInput" placeholder="Вставте состав"></textarea>
+    <div id="ContaminationOutput">Упорядоченный состав</div>
+    <button id="CopyContamination" class="big-button">Копировать состав</button>
+</div>
+<script>
+RUDescription.focus();
+let ruOutput = '';
+let uaOutput = '';
+let uaSkuNameNeed = false
+const regex_cyrillic = /[а-яА-ЯЁёієїґІЄЇҐ]/;
+function normalizeSpaces(txt) {
+    return txt.trim()
+        .replace(/\t+/g,' ')
+        .replace(/^\s+/g,'')
+        .replace(/\n\s+/g,'\n')
+        .replace(/\s*\n/g,'\n')
+        .replace(/\s+&/g,'')
+        .replace(/\n\n+/g,'\n')
+        .replace(/\n/g,'</p>\n<p>')
+        .replace(/  +/g,' ')
+        .replace(/ё/g, 'е')
+}
+function prepareName(name) {
+    const firstLetter = name[0];
+    if(regex_cyrillic.test(firstLetter)){
+        return firstLetter.toLowerCase() + name.slice(1);
+    } else {
+        return name;
+    }
+}
+function cutParfume(name) {
+    let result
+    if (name.indexOf('вода') < 0 && name.indexOf('духи') < 0) {
+        result = name;
+    } else {
+        const checkForVolume = name.match(/.*?(\d.*)/)
+        if(checkForVolume) {
+            result = checkForVolume[1];
+        } else {
+            result = name;
+        }
+    }
+    return fixShuk(result)
+}
+function fixShuk(name) {
+    return name.replace(/(\d)шт/, '$1 шт').replace(/ шт$/, ' шт.')
+}
+function updateOutput() {
+    ruOutput = `<p>${normalizeSpaces(RUDescription.value)}</p>\n`;
+    uaOutput = `<p>${normalizeSpaces(UADescription.value)}</p>\n`;
+    const ruNames = document.querySelectorAll('.RUName');
+    const uaNames = document.querySelectorAll('.UAName');
+    if(!ruNames[0].value && !uaNames[0].value) {
+        RUOutput.innerText = ruOutput;
+        UAOutput.innerText = uaOutput;
+        return;
+    }
+    DescriptionWrapper.classList.remove('dimm')
+    const skuLinks = document.querySelectorAll('.Link');
+    const skuRuNames = document.querySelectorAll('.SKURU');
+    const skuUaNames = document.querySelectorAll('.SKUUA');
+    const normalizedRuSkus = Array.prototype.slice.call(skuRuNames).map((skuName, i) => fixShuk(normalizeSpaces(skuName.value)));
+    const normalizedUaSkus = Array.prototype.slice.call(skuUaNames).map((skuName, i) => fixShuk(normalizeSpaces(skuName.value)));
+
+    ruOutput += `<p><span style="font-weight: bold;">${normalizeSpaces(RUListHeader.value)}:</span></p>\n`;
+    uaOutput += `<p><span style="font-weight: bold;">${normalizeSpaces(UAListHeader.value)}:</span></p>\n`;
+    Array.prototype.slice.call(SKUList.children).map((row, i) => {
+        let tagStart = '<span style="text-decoration: underline;">'
+        let tagEnd = '</span>'
+        if(skuLinks[i].value) {
+            tagStart = `<a href="${skuLinks[i].value}">`
+            tagEnd = '</a>'
+        }
+        ruOutput += `<p>- ${tagStart + prepareName(normalizeSpaces(ruNames[i].value)) + tagEnd}, ${normalizeSpaces(normalizedRuSkus[i])}${i + 1 === SKUList.children.length ? '.' : ';'}</p>\n`;
+        uaOutput += `<p>- ${tagStart + prepareName(normalizeSpaces(uaNames[i].value)) + tagEnd}, ${normalizeSpaces(uaSkuNameNeed ? normalizedUaSkus[i] : normalizedRuSkus[i])}${i + 1 === SKUList.children.length ? '.' : ';'}</p>\n`;
+    });
+
+    RUOutput.innerText = ruOutput.replace(/\.\./g, '.');
+    UAOutput.innerText = uaOutput.replace(/\.\./g, '.');
+
+    const fixedRuSkus = normalizedRuSkus.map(cutParfume)
+    const fixedUaSkus = normalizedUaSkus.map(cutParfume)
+    const numberOfSKU = Math.max(ruNames.length, uaNames.length);
+    let skuSetRuName = numberOfSKU + ' шт. (';
+    let skuSetUaName = numberOfSKU + ' шт. (';
+    if (numberOfSKU < 3) {
+        fixedRuSkus.map((skuName, i) => {
+            skuSetRuName += (i > 0 ? '+' : '') + skuName
+        })
+        fixedUaSkus.map((skuName, i) => {
+            skuSetUaName += (i > 0 ? '+' : '') + skuName
+        })
+    } else {
+        const uniqueNormalizedRuSkus = [];
+        for (var i = 0; i < fixedRuSkus.length; i++) {
+            const name = uniqueNormalizedRuSkus.find(n => n.name === fixedRuSkus[i])
+            if (name) {
+                name.count++
+            } else {
+                uniqueNormalizedRuSkus.push({name: fixedRuSkus[i], count: 1})
+            }
+        }
+        const uniqueNormalizedUaSkus = [];
+        for (var i = 0; i < fixedUaSkus.length; i++) {
+            const name = uniqueNormalizedUaSkus.find(n => n.name === fixedUaSkus[i])
+            if (name) {
+                name.count++
+            } else {
+                uniqueNormalizedUaSkus.push({name: fixedUaSkus[i], count: 1})
+            }
+        }
+        uniqueNormalizedRuSkus.map((uniqueSkuName, i) => {
+            skuSetRuName += (i > 0 ? '+' : '') + (uniqueSkuName.count>1 ? uniqueSkuName.count+'x':'') + uniqueSkuName.name
+        })
+        uniqueNormalizedUaSkus.map((uniqueSkuName, i) => {
+            skuSetUaName += (i > 0 ? '+' : '') + (uniqueSkuName.count>1 ? uniqueSkuName.count+'x':'') + uniqueSkuName.name
+        })
+    }
+    skuSetRuName += ')';
+    skuSetUaName += ')';
+    SKURUName.innerText = skuSetRuName;
+    SKUUAName.innerText = skuSetUaName;
+}
+
+const storedRUListHeader = localStorage.getItem('RUListHeader')
+if(storedRUListHeader) RUListHeader.value = storedRUListHeader
+const storedUAListHeader = localStorage.getItem('UAListHeader')
+if(storedUAListHeader) UAListHeader.value = storedUAListHeader
+RUListHeader.addEventListener('change', e=>{
+    if(e.target.value.length < 2000) {
+        localStorage.setItem('RUListHeader', e.target.value)
+    }
+})
+UAListHeader.addEventListener('change', e=>{
+    if(e.target.value.length < 2000) {
+        localStorage.setItem('UAListHeader', e.target.value)
+    }
+})
+
+function clickAddUaSku(button) {
+    if(button.parentElement.classList.contains('hide-ua-sku')) {
+        button.parentElement.classList.remove('hide-ua-sku')
+        button.innerText = '- UA';
+    } else {
+        button.parentElement.classList.add('hide-ua-sku')
+        button.innerText = '+ UA';
+    }
+    if (Array.prototype.slice.call(document.querySelectorAll("#SKUList .row")).filter(skuRow => 
+        !skuRow.classList.contains('hide-ua-sku')).length === 0)
+    {
+        SKUUA.classList.add('slowly-hide')
+        uaSkuNameNeed = false
+    } else {
+        SKUUA.classList.remove('slowly-hide')
+        uaSkuNameNeed = true
+    }
+}
+SKUList.addEventListener('click', e => {
+    if (e.target.classList.contains('AddSKUUA')) {
+        Array.prototype.slice.call(document.querySelectorAll('.AddSKUUA')).map(button => clickAddUaSku(button))
+    }
+    updateOutput()
+})
+
+AddSKU.addEventListener('click', e => {
+    SKUList.insertAdjacentHTML('beforeend', `<li class="row hide-ua-sku">
+        <span class="list-decoration">-</span>
+        <input type="text" class="RUName" placeholder="Рус название составляющей">
+        <input type="text" class="UAName" placeholder="Укр назва складової">
+        <input type="url" class="Link" placeholder="Ссылка" pattern="\\s*http.?://.*">
+        <input type="text" class="SKURU" placeholder="Характеристика">
+        <button class="AddSKUUA" title="Додати український варіант">+ UA</button>
+        <input type="text" class="SKUUA" placeholder="Укр характеристика">
+    </li>`);
+    if (uaSkuNameNeed) {
+        clickAddUaSku(Array.prototype.slice.call(document.querySelectorAll('.AddSKUUA')).pop());
+    }
+    updateOutput();
+})
+RemoveSKU.addEventListener('click', e => {
+    if(SKUList.children.length > 1) {
+        SKUList.removeChild(SKUList.lastElementChild);
+        updateOutput();
+    }
+})
+
+function playAnimation(elem, anim){
+  elem.classList.remove(anim)
+  void elem.offsetWidth
+  elem.classList.add(anim)
+}
+
+CopyRUDescription.addEventListener('click', e => {
+    copyToClipboard(RUOutput.textContent)
+    playAnimation(RUOutput, 'run-animation')
+})
+CopyUADescription.addEventListener('click', e => {
+    copyToClipboard(UAOutput.textContent)
+    playAnimation(UAOutput, 'run-animation')
+})
+CopyRUSKU.addEventListener('click', e => {
+    copyToClipboard(SKURUName.textContent)
+    playAnimation(SKURUName, 'run-animation')
+})
+CopyUASKU.addEventListener('click', e => {
+    copyToClipboard(SKUUAName.textContent)
+    playAnimation(SKUUAName, 'run-animation')
+})
+DescriptionWrapper.addEventListener('change', updateOutput);
+DescriptionWrapper.addEventListener('paste', ()=>setTimeout(updateOutput, 100));
+let lastInput = 0;
+let requested = false
+function requestUpdate() {
+    const currentInput = performance.now();
+    if(currentInput - lastInput > 300) {
+        requested = false
+        setTimeout(updateOutput, 50)
+        lastInput = currentInput
+    } else {
+        if(requested === false) {
+            requested = true;
+            setTimeout(requestUpdate, 350)
+        }
+    }
+}
+DescriptionWrapper.addEventListener('input', requestUpdate);
+document.addEventListener('keydown', e => {
+  if(e.altKey) e.preventDefault();
+})
+
+ClearElem.addEventListener('click', e => {
+    Array.prototype.slice.call(document.querySelectorAll('input')).map(el => el.value = "")
+    Array.prototype.slice.call(document.querySelectorAll('textarea')).map(el => el.value = "")
+    RUListHeader.value = "В состав набора входят следующие косметические средства";
+    UAListHeader.value = "До складу набору входять наступні косметичні засоби";
+    localStorage.removeItem('RUListHeader');
+    localStorage.removeItem('UAListHeader');
+    location.reload();
+})
+
+// код для копирования текста по клику взят отсюда:
+// https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
+function copyToClipboard(str) {
+  const el = document.createElement('textarea');
+  el.value = str;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  const selected =            
+    document.getSelection().rangeCount > 0
+      ? document.getSelection().getRangeAt(0)
+      : false;
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  if (selected) {
+    document.getSelection().removeAllRanges();
+    document.getSelection().addRange(selected);
+  }
+};
+
+// =======================================================
+
+function normalizeContamination(txt) {
+    return txt.trim()
+        .replace(/^\s+/g,'')
+        .replace(/\n\s+/g,'\n')
+        .replace(/\s*\n/g,'\n')
+        .replace(/\s+&/g,'')
+        .replace(/\n\n+/g,'\n')
+        .replace(/\t+/g,' ')
+        .replace(/  +/g,' ')
+}
+function updateContamination(e) {
+    document.querySelector('.contamination').classList.remove('dimm')
+    let output = normalizeContamination(ContaminationInput.value)
+        .replace(/ё/g, 'е')
+        .replace( /(.)\s*,\s*(.)/g, '$1, $2' ) // fix spaces around coma
+        .replace( /(\d)\s*,\s*(\d)/g, '$1,$2' ) // fix spaces between digits
+        .replace(/\w+/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()) // To Title Case
+        .replace(/\s*\/\s*/g, '/')
+        .replace(/edta/gi, 'EDTA')
+        .replace(/hcl/gi, 'HCl')
+        .replace(/vp/gi, 'VP')
+        .replace(/\/va\s/gi, '/VA ')
+        .replace(/pg/gi, 'PG')
+        .replace(/peg/gi, 'PEG')
+        .replace(/pca/gi, 'PCA')
+        .replace(/pga/gi, 'PGA')
+        .replace(/bht/gi, 'BHT')
+        .replace(/bha/gi, 'BHA')
+        .replace(/\srna/gi, ' RNA')
+        .replace(/dna/gi, 'DNA')
+        .replace(/hdi/gi, 'HDI')
+        .replace(/\sdea,/gi, ' DEA,')
+        .replace(/\smea,/gi, ' MEA,')
+        .replace(/d\&c /gi, 'D&C ')
+        .replace(/dmdm/gi, 'DMDM')
+        .replace(/smdi/gi, 'SMDI')
+        .replace(/mipa/gi, 'MIPA')
+        .replace(/ se,/gi, ' SE,')
+        .replace(/amp.acrylates/gi, 'AMP-Acrylates') //－
+        .replace(/ci\s?(\d)/gi, 'CI $1')
+        .replace(/\(and\)/gi, '(and)')
+        .replace(/\(nano\)/gi, '(nano)')
+        .replace(/ppm/gi, 'ppm')
+    if (/[^.!?]/.test(output.slice(-1))) {
+        output += '.'
+    }
+    ContaminationOutput.innerText = output;
+}
+ContaminationInput.addEventListener('change', updateContamination);
+ContaminationInput.addEventListener('paste', ()=>setTimeout(updateContamination, 100));
+let lastContaminationInput = 0;
+let requestedContamination = false
+function requestContaminationUpdate() {
+    const currentContaminationInput = performance.now();
+    if(currentContaminationInput - lastContaminationInput > 300) {
+        requestedContamination = false
+        setTimeout(updateContamination, 50)
+        lastContaminationInput = currentContaminationInput
+    } else {
+        if(requestedContamination === false) {
+            requestedContamination = true;
+            setTimeout(requestContaminationUpdate, 350)
+        }
+    }
+}
+ContaminationInput.addEventListener('input', requestContaminationUpdate)
+CopyContamination.addEventListener('click', e => {
+    copyToClipboard(ContaminationOutput.textContent)
+    playAnimation(ContaminationOutput, 'run-animation')
+})
+
+</script>
+
+
+</body>
+</html>

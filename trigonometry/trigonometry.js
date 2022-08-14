@@ -1,5 +1,18 @@
 (function () {
 	'use strict';
+	const lang = location.pathname.match(/^\/(\w\w)\//)?.[1] || "uk"
+	const translations =
+		{ radians:
+			{ uk: "радіан"
+			, ru: "радиан"
+			, en: "radians"
+			}
+		, arcLength:
+			{ uk: "Довжина дуги"
+			, ru: "Длина дуги"
+			, en: "Arc length"
+			}
+		}
 	/*
 		5 regimes: 
 			2: procents;
@@ -49,7 +62,7 @@ bCtn = false,
 
 selectedType = 'default',
 initCanvas = function() {
-	Canvas.width = BufferCanvas.width = Width = window.innerWidth-scrollBarWidth;
+	Canvas.width = BufferCanvas.width = Width = window.innerWidth//-scrollBarWidth;
 	Canvas.height = BufferCanvas.height = Height = window.innerHeight;
 	halfWidth = Math.round(Width / 2);
 	halfHeight = Math.round(Height / 2);
@@ -174,7 +187,7 @@ drawRad = function() {
 	ctx.beginPath(); //Angle radian
 	ctx.arc(0, 0, unitRadius, 0, -angle, angle>0);
 	ctx.stroke();
-	Radian.textContent = '∠ ' + angle.toFixed(3) + ' радиан';
+	Radian.textContent = '∠ ' + angle.toFixed(3) + ' ' + translations.radians[lang];
 },
 drawSin = function() {
 	ctx.beginPath();
@@ -313,7 +326,7 @@ onKey = function (event) {
 },
 checkFuncs = function(event) {
 	bRad = document.getElementById("rad").checked;
-	if(!bRad) Radian.textContent = 'Длина дуги'
+	if(!bRad) Radian.textContent = translations.arcLength[lang]
 	bSin = document.getElementById("sin").checked;
 	bCos = document.getElementById("cos").checked;
 	bTan = document.getElementById("tan").checked;
@@ -389,13 +402,19 @@ Canvas.addEventListener("touchmove", function(e) {
 }, false);
 Checks.addEventListener("click", checkFuncs);
 Types.addEventListener('click', function(event){
-	var types = document.getElementsByName("displayType");
-	for(var i = 0; i < types.length; i++) {
-	   if(types[i].checked == true) {
-	       selectedType = types[i].value;
-	   }
-	 }
-	 drawBuffer();
+	if(event.target.nodeName !== "INPUT") return;
+	if (event.target.value === selectedType) {
+		event.target.checked = true;
+	} else {
+		selectedType = event.target.value
+		var types = document.querySelectorAll("#Types>input");
+		for(var i = 0; i < types.length; i++) {
+		    if(types[i].value !== selectedType) {
+		        types[i].checked = false;
+		    }
+		}
+	}
+	drawBuffer();
 	frame();
 },false)
 document.addEventListener("keydown", onKey, false);

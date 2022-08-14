@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Поиск похожих названий</title>
+  <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAACoUExURQAAAODg4P///////////////////////////////////wEBARoaGk1NTf///////////////wUFBf///7a2tg4ODllZWScnJ////6+vr////9bW1v////T09JiYmDo6Ov///////3d3d21tbf///////4WFhf///6Ojo8bGxkNDQ////+rq6ldXV////6qqqrCwsF1dXZ+fn7CwsGNjYwAAAOjo6I+Pj3A2NJAAAAA1dFJOUwD9ujDaSB7+9Opo+vTz4a4Cy/Sh9v7171XwJ/WU/PDxiYbr7wp68RT68Ok58ORy19Lcz8rHVl4I+wAAA0JJREFUWMPtl2t3ojAQhgWCmYAGI164ioIgiNrt7lr//z/bcFGxDdiWsx/2nJ1PSn0fZjK3dDD4+7Z1VG759nvqobUxZYoQYoan5V9VTywDAfbdmZ3a2RsGIp+GzzQ5U2+fNQZgR8HoXNp8uVhJmHrdoeyoT2qCI4Ob1OKrTRczQFpnyGSVQEnQwA+n54+2d7HZBUCpvioIHravb1+Ow8slWQTz6qseAht2AGZnfUXUGEK9UicuPzxugKV0Xz0LfDTsAnACRcdKnmLCvNhylPy0kSlk4+qx20ooAWf9JaqdpaZ6P3VnjaAKbHRA2y5AHawNhvMuSRtyCEofwHwKmGYgSJjDyL746xHHTwBTl+2EPzGh9GFGnCcAGzliL2UozmGJvSchVPUgqlaSFem0hS48HGIbQYOo1YUmoJ3A/KLIM1EqHwCtBKt0IQJLAKD2Q+uERETYIrc4Zl8WAHgLX+6WRBKISs7EQZDYIsDkVHbOzQC0iQCgYh8TagoLRcmVhuUttaDJseoM/lvHYNTUlh21+4TaMWW+TCwhmCHTaJgsGvA58aU0kpgIYEDmSndzJSzwNMYR71WbDoUt8DI9z2+mL0RTSSGXYnvgjcgFFX42d80YC2KYsAP3QHfpTtyGPxqEhQgwOOFF4QIIXXgkiAFVq/KBpTwliAHchXHZ7EycZpX9GnUDtkgqZmbQtjo88toN4GedlHscDEEuJx5NnoQwGGzIsSJQ7WMA17XdBTCr/XdeZsCs5kTLTSKVi+38W28HTOS36ynp4QGYZzk8lKFjxTLBqzIF+k9U5EIMuOqrZI1Cfr+gyDAQJVhaLeutRzzGq1oIuOoXblS7EUTpTJJmaTiu7ziBSy1+0i/TQAC46seEEXt5q7n5/H5RSzBVyopK9nBq1fM+03jEy/d3tFH4BvU0t0DytVZ90QmKSXAWNRijcfoG8m3WqMSbdOlLBAJw01V4PEaXNPOBys1RtWt9//r+G4tftSlfUHxhMSNWOm/WAn353HHUONYc5clEbdN/1hz2Lv4vmkL7vX9LD8s+egUder1foVKv+PkM6+V/bvjzPvqB4sGxj57bGl7178ZfT2qwe+mLf7HWg35m/cMXqj/EDqMn89/oawAAAABJRU5ErkJggg==">
+  <meta name="author" content="Danil Kolumbet">
+  <style type="text/css">
+* {
+ -webkit-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ box-sizing: border-box;
+}
+html {
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #efefef;
+  overflow-y: scroll; 
+}
+#ListsWrapper {
+  /*margin-bottom: .1em;*/
+}
+#ListsWrapper textarea {
+  color: grey;
+  padding: 2px;
+}
+#ListsWrapper textarea:focus {
+  color: black;
+  outline: 2px solid #25b4af;
+}
+#QueueInputWrapper {
+  vertical-align: top;
+  display: inline-block;
+  width: 0;
+  opacity: 0;
+  height: 13em;
+  overflow: hidden;
+  transition: width 1s, opacity 1s;
+  position: relative;
+}
+#DataInputWrapper {
+  vertical-align: top;
+  display: inline-block;
+  width: calc(100% - 10em);
+  height: 13em;
+  overflow: hidden;
+  transition: width 1s, opacity 1s;
+  position: relative;
+}
+
+#QueueProgress {
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 3em;
+  background: #25b4af;
+  height: .2em;
+  transition: right 200ms;
+}
+
+#QueueLinksInput {
+  /*display: none;*/
+  display: inline-block;
+  vertical-align: top;
+  width: 0;
+  height: 12em;
+  transition: width 1s, opacity 1s;
+  border: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+.open-list>#QueueLinksInput, .open-list>#DataCharsInput {
+  width: calc(50% - 2em);
+  opacity: 1;
+}
+
+#QueueInput {
+  display: inline-block;
+  border: 0;
+  vertical-align: top;
+  /*width: 100%;*/
+  width: calc(100% - 10.7em);
+  height: 12em;
+  margin-bottom: 0.3em;
+  transition: width 1s;
+}
+.open-list>#QueueInput, .open-list>#DataListInput {
+  width: calc(50% - 2em);
+}
+.button {
+  padding: 0;
+  line-height: 2.7em;
+  cursor: pointer;
+  transition: width 1s, opacity 1s, background-color 1s;
+  overflow: hidden;
+}
+button span:focus {
+  outline: none;
+}
+
+#LinkButton, #PreviewButton {
+  opacity: 0;
+  width: 0;
+  height: 3em;
+}
+.queue-controls {
+  transition: width 1s, opacity 1s, background-color .3s;
+  width: 49%;
+}
+.button:disabled {
+  /*border: none;*/
+  border: 2px solid #ddd;
+}
+.run-wrong{
+  animation: wrong .7s;
+}
+.open-list>.queue-controls {
+  width: 30%;
+}
+#iFrameButton {
+  display: none;
+}
+.open-list>#LinkButton, .open-list>#PreviewButton {
+  width: 20%;
+  opacity: 1;
+}
+
+.add-queue-button {
+  overflow: hidden;
+  /*display: inline-flex;*/
+  font-family: inherit;
+  /*font-size: 100%;*/
+  line-height: 1.15;
+  /*margin: 0 .2em;*/
+  /*vertical-align: top;*/
+  /*display: inline-block;*/
+  width: 10em;
+  transition: width 1s;
+  height: 15em;
+  padding: 0;
+}
+#AddQueueLinksButton {
+  /*display: none;*/
+  height: 12em;
+}
+.open-list>.add-queue-button {
+  width: 3em;
+}
+.queue-button-name {
+  padding-bottom: 0em;
+  width: 10em;
+  display: inline-block;
+  transition: transform 1s, padding-bottom 1s;
+}
+.open-list>.add-queue-button>.queue-button-name {
+  padding-bottom: 7.5em;
+  transform: rotate(-90deg);
+  transition: transform 1s, padding-bottom 1s;
+}
+#DataListInputWrapper {
+  vertical-align: top;
+  display: inline-block;
+  transition: width 1s;
+  height: 15em;
+}
+.open-list #DataInputWrapper {
+  width: calc(50% - 2em);
+}
+.open-list #QueueInputWrapper {
+  width: calc(50% - 2em);
+  opacity: 1;
+}
+#DataListInput {
+  vertical-align: top;
+  transition: width 1s;
+  width: calc(100% - 10em);
+  display: inline-block;
+  height: 15em;
+  color: grey;
+}
+
+#DataCharsInput {
+  display: inline-block;
+  vertical-align: top;
+  width: 0;
+  height: 15em;
+  transition: width 1s, opacity 1s;
+  border: 0;
+  padding: 0;
+  opacity: 0;
+}
+.open-list>#DataCharsInput {
+  width: calc(50% - 2em);
+  opacity: 1;
+}
+
+
+#InputForm {
+  position: relative;
+  padding-bottom: .15em;
+}
+#InputForm::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  background: #25b4af;
+  height: .2em;
+}
+.run-copied-input {
+  animation: highlight .4s;
+}
+#InputForm.run-animation::before {
+  animation: update-1 .7s;
+}
+@keyframes update-1 {
+  50%{
+    right: 0%;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+@keyframes wrong {
+    8%, 41% {
+        -webkit-transform: translateX(-10px);
+    }
+    25%, 58% {
+        -webkit-transform: translateX(10px);
+        background: rgba(191, 81, 81, 0.3);
+    }
+    75% {
+        -webkit-transform: translateX(-5px);
+    }
+    92% {
+        -webkit-transform: translateX(5px);
+    }
+    0%, 100% {
+        -webkit-transform: translateX(0);
+    }
+}
+@keyframes highlight {
+  50%{
+    background-color: #c9e8e7;
+  }
+  100%{
+    background-color: #fafafa;
+  }
+}
+
+
+.active-queue::after {
+  content: "C = copy";
+  position: absolute;
+  top: 0;
+  right: 2em;
+  font-size: 2em;
+  color: rgba(0,0,0, 0.15);
+  pointer-events: none;
+  line-height: 1.7em;
+}
+
+#ClearElem {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: .1em;
+  width: 1.2em;
+  font-size: 3em;
+  color: lightgrey;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  cursor:pointer;
+}
+#ClearElem:hover {
+  background-color: rgba(200,200,200,.5);
+  color: grey;
+}
+#ClearElem:active {
+  background-color: rgba(150,150,150,.5);
+}
+
+#SearchInput {
+  padding: 0.5em;
+  font: 1.5em Helvetica, Arial, sans-serif;
+  width: 100%;
+  color: #25b4af;
+  background-color: #fafafa;
+  display: inline-block;
+}
+#SearchInput:focus {
+  outline: 1px solid #25b4af;
+}
+
+#UpdateElem {
+  /*display: inline-block;*/
+  display: none;
+  width: 6.5em;
+  padding: .5em 1em;
+  margin-left: 0.3em;
+  border: transparent;
+  background-color: #25b4af;
+  color: white;
+  text-decoration: none;
+  border-radius: 2px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.5em;
+  outline: 0;
+}
+
+#UpdateElem:hover {
+  background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+}
+#UpdateElem:active {
+  box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset, 0 0 6px rgba(0,0,0,.2) inset;
+}
+#ResultElem {
+  font: 1.5em Helvetica, Arial, sans-serif;
+  padding: 0;
+}
+ /*✂ 📋*/
+/*#ResultElem button {
+  position: absolute;
+  top:0;
+  left:0;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAUVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABcqRVCAAAAGnRSTlMAaFDA8Mg4gIhgD/Xc0suTtasI4pBbOzcsGffPsZkAAACISURBVDjL7dDLEoIwDIXh0EjbULCI9/P+DyoDjgZsNrrEf5HVN5lMaDud8IobC9XguSOwbyy0o7kIVspEPhfU4ESkVYgy6rU6A2NvJN4zZIUqZLUpYKr6QE7ddA8xxoOJVO6PfkIpqIyP91jmSmi4+mdtGseNCkjVTdd9iTpWpSK6JCzqaTM9AJXmDWQaju4ZAAAAAElFTkSuQmCC');
+  opacity: .3;
+  transition: background-color 300ms, opacity 300ms;
+  background-color: rgba(239, 239, 239, 0);
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+}
+#ResultElem button:hover {
+  opacity: 1;
+  background-color: rgba(201, 232, 231, 1);
+}
+#ResultElem button:active {
+  top:.2em;
+  outline: none;
+}*/
+#ResultElem li {
+  width: fit-content;
+  list-style: none;
+  line-height: 1.5em;
+  position: relative;
+  padding-left: .6em;
+  padding-right: .5em;
+}
+#ResultElem li:hover {
+  background-color: rgba(201, 232, 231, .2);
+}
+.match {
+  color: #25b4af;
+}
+.selected-line .match {
+  color: #009994;
+}
+.semi-match {
+  color: #70a151;
+}
+.very-similar {
+  color: #bb9063;
+}
+.similar {
+  color: #6b0f88;
+}
+.not-very-similar {
+  color: #420c13;
+}
+#ResultElem li.selected-line {
+  background: #c9e8e7;
+}
+.selected-line:after {
+  content: 'Скопировано.';
+  position: absolute;
+  color: #25b4af;
+  background-color: #c9e8e7;
+  padding-left: 1em;
+  padding-right: .5em;
+  /*right: -7em;*/
+  bottom:0;
+}
+.pseudo-button {
+  display: block;
+  cursor: pointer;
+  padding: 1em;
+  text-align: center;
+}
+.pseudo-button:hover {
+  background: #c9e8e7;
+}
+
+#iFrameWrapper {
+  position: fixed;
+  right: -8em;
+  /*bottom: 1em;*/
+  overflow: hidden;
+  width: 35em;
+  height: 27em;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+  top: -6em;
+  /*scale: 0.5;*/
+  /*zoom: 50%;*/
+  transform: scale(0.5);
+  z-index: 1;
+}
+  #iFrameWrapper.show {
+    opacity: 1;
+    transition-delay: 1s;
+    box-shadow: lightgrey 0 0 2em 1em;
+    pointer-events: auto;
+  }
+
+#iFrame {
+  /*display: none;*/
+  width: 100%;
+  height: 39em;
+  position: relative;
+  top: -8em;
+  border: none;
+}
+
+#iFrameWrapperAfter {
+  position: fixed;
+  right: 0.75em;
+  top: 0.75em;
+  background: white;
+  width: 0;
+  height: 0;
+}
+#iFrameWrapper.show+#iFrameWrapperAfter{
+  transition: width 1s, height 1s;
+  width: 17.5em;
+  height: 13.5em;
+}
+#FocusElem {
+  position: fixed;
+  bottom: 0;
+  left:0;
+  font-size: 200%;
+  padding: 1em;
+  color: grey;
+  background: rgba(255,255,255,.8)
+}
+.hide {
+  display: none;
+}
+
+#OptionsButton {
+  display: none;
+  margin: 0;
+  padding: 0;
+  line-height: .5em;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  border: 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+#OptionsButton:hover {
+  background-color: rgba(200,200,200,.5);
+}
+#OptionsButton:hover path{
+  fill: #25b4af;
+}
+
+#OptionsIcon {
+  width: 5em;
+  height: 5em;
+}
+
+@media (max-width: 999px) {
+  #SearchInput {
+    font-size: 1em;
+  }
+  #InputForm::after {
+    display: none;
+  }
+  #ClearElem {
+    font-size: 2em;
+  }
+  #ResultElem li {
+    padding-left: 30px;
+  }
+  #ResultElem {
+    font-size: 1em;
+  }
+  .selected-line:after {
+    display: none;
+  }
+  #ResultElem button {
+    width: 1.8em;
+    height: 1.8em;
+    background-size: cover;
+  }
+  .button {
+    font-size: .7em;
+  }
+}
+
+
+
+
+  </style>
+</head>
+<body>
+<div id="ListsWrapper">
+  <div class="" id="QueueInputWrapper"><textarea id="QueueLinksInput" placeholder="Вставте список ссылок для каждого запроса."></textarea><button class="add-queue-button" id="AddQueueLinksButton" tabindex="3">
+      <span class="queue-button-name" id="QueueLinksButtonName">+<br>Ссылки</span>
+    </button>
+    <textarea id="QueueInput" placeholder="Вставте очередь для поиска."></textarea>
+    <div id="QueueProgress"></div><button class="button" id="LinkButton" disabled tabindex="6">Открыть ссылку (Z)</button><button class="button" id="PreviewButton" disabled tabindex="7">Посмотреть фото (X)</button><button class="button queue-controls" id="PreviousButton" disabled tabindex="8">Прошлый (A ← W ↑)</button><button class="button queue-controls" id="NextButton" disabled tabindex="9">Следующий (↓ S → D)</button></div>
+  <button class="add-queue-button" id="AddQueueButton" tabindex="1">
+    <span class="queue-button-name" id="QueueButtonName">+<br>Очередь поиска</span>
+  </button>
+  <div class="" id="DataInputWrapper">
+    <textarea id="DataListInput" placeholder="Вставте все названия товаров."></textarea><button class="add-queue-button" id="AddDataCharsButton" tabindex="2">
+        <span class="queue-button-name" id="DataCharsButtonName">+<br>Характеристики</span>
+      </button><textarea id="DataCharsInput" placeholder="Вставте список всех характеристик."></textarea>
+  </div>
+</div>
+<div id="InputForm">
+  <input type="text" id="SearchInput" value=""placeholder="Поиск" tabindex="4">
+  <button id="ClearElem" tabindex="5">×</button>
+  <button id="UpdateElem">Обновить</button>
+</div>
+<ul id="ResultElem"></ul>
+<div id="iFrameWrapper">
+  <iframe src="" id="iFrame"></iframe>
+</div>
+<div id="iFrameWrapperAfter">
+</div>
+<div id="FocusElem" class="hide">Фокус потерян</div>
+<button id="OptionsButton"><svg id="OptionsIcon" viewBox="0 0 80 80">
+    <g transform="translate(105,24)">
+      <path d="m-67.64-3.58-1.13 5.85-4 1.65-4.93-3.35-3.49 3.47 3.33 4.95-1.65 4-5.85 1.14 0 4.92 5.85 1.14 1.65 3.98-3.33 4.95 3.49 3.47 4.92-3.33 4.01 1.65 1.13 5.85 4.92 0 1.14-5.85 4-1.65 4.93 3.33 3.49-3.47-3.35-4.95 1.65-3.98 5.85-1.14 0-4.92-5.85-1.14-1.65-3.98 3.35-4.96-3.49-3.47-4.95 3.35-3.98-1.65-1.14-5.85-4.92 0zm2.46 11.47c4.81 0 8.69 3.9 8.69 8.71 0 4.81-3.88 8.71-8.69 8.71-4.81 0-8.69-3.9-8.69-8.71 0-4.81 3.88-8.71 8.69-8.71z" inkscape:connector-curvature="0" fill="rgba(150,150,150,.5)"/>
+    </g>
+  </svg></button>
+
+<script type="text/javascript">
+'use strict'
+const listWrapperElem = document.getElementById('ListsWrapper')
+const queueLinksElem = document.getElementById('QueueLinksInput')
+const queueElem = document.getElementById('QueueInput')
+const progressElem = document.getElementById('QueueProgress')
+const previousElem = document.getElementById('PreviousButton')
+const nextElem = document.getElementById('NextButton')
+const addQueueElem = document.getElementById('AddQueueButton')
+const addQueueLinksElem = document.getElementById('AddQueueLinksButton')
+const addDataCharsElem = document.getElementById('AddDataCharsButton')
+const inputForm = document.getElementById('InputForm')
+const dataListElem = document.getElementById('DataListInput')
+const dataCharsElem = document.getElementById('DataCharsInput')
+const searchElem = document.getElementById('SearchInput')
+const updateElem = document.getElementById('UpdateElem')
+const resultElem = document.getElementById('ResultElem')
+
+let usingQueue = false
+let inputSearchLines = []
+let searchIndex = 0
+let links = []
+function updateQueueList(){
+  if(queueLinksElem.value) {
+    links = queueLinksElem.value.split('\n')
+    LinkButton.disabled = false
+    PreviewButton.disabled = false
+  } else {
+    LinkButton.disabled = true
+    PreviewButton.disabled = true
+  }
+  previousElem.disabled = true
+  searchIndex = 0
+  progressElem.style.right = '100%'
+  inputSearchLines = queueElem.value.split('\n')
+  searchElem.value = inputSearchLines[searchIndex]
+  switch (inputSearchLines.length){
+  case 0:
+    nextElem.disabled = true
+    break
+  case 1:
+    nextElem.disabled = true
+    updateInputList()
+    break
+  default:
+    nextElem.disabled = false
+    updateInputList()
+  }
+  iFrameWrapper.classList.remove('show')
+}
+
+
+function previousSearch(e) {
+  if(searchIndex === 0){ // first
+    playAnimation(previousElem, 'run-wrong')
+    window.scroll(0, 0)
+    return
+  }
+  if (!usingQueue) {
+    return
+  }
+  if (searchIndex === 1) {
+    previousElem.disabled = true
+  }
+  if (searchIndex === inputSearchLines.length - 1) { // last
+    nextElem.disabled = false
+  }
+  searchIndex--
+  progressElem.style.right = (100 - (searchIndex / (inputSearchLines.length - 1))*100) + '%'
+  searchElem.value = inputSearchLines[searchIndex]
+  // if (links.length) currentLink = 
+  searchNewName()
+  iFrameWrapper.classList.remove('show')
+  if(queueLinksElem.value) PreviewButton.disabled = false
+  // iFrame.src = ''
+  window.scroll(0, 0)
+}
+
+function nextSearch(e) {
+  if (searchIndex === inputSearchLines.length - 1 || !ResultElem.childNodes[0]) { // last
+    playAnimation(nextElem, 'run-wrong')
+    window.scroll(0, 0)
+    return
+  }
+  if (!usingQueue) {
+    return
+  }
+  if (searchIndex === inputSearchLines.length - 2) { // penultimate
+    nextElem.disabled = true
+  }
+  if (searchIndex === 0) {
+    previousElem.disabled = false
+  }
+  searchIndex++
+  progressElem.style.right = (100 - (searchIndex / (inputSearchLines.length - 1))*100) + '%'
+  searchElem.value = inputSearchLines[searchIndex]
+  searchNewName()
+  iFrameWrapper.classList.remove('show')
+  if(queueLinksElem.value) PreviewButton.disabled = false
+  // iFrame.src = ''
+  ResultElem.childNodes[0].classList.add('selected-line')
+  copyToClipboard(ResultElem.childNodes[0].originalLine)
+  window.scroll(0, 0)
+}
+
+function playAnimation(elem, anim){
+  elem.classList.remove(anim)
+  void elem.offsetWidth
+  elem.classList.add(anim)
+}
+
+let dataTextLines = []
+let dataCharsLines
+let chars
+let useChars = false
+function updateInputList(){
+  if(dataCharsElem.value && useChars) {
+    chars = true
+    dataCharsLines = dataCharsElem.value.split('\n')
+    dataTextLines = dataListElem.value.split('\n')
+  } else {
+    chars = false
+    dataTextLines = uniq(dataListElem.value.split('\n').filter(String))
+  }
+  searchNewName()
+}
+
+let now, before
+let paused = false
+let elems = []
+function searchNewName(){
+  // skip frequent typing
+  now = performance.now()
+  if(now - before < 100) {
+    if(paused === false){
+      paused = true
+      setTimeout(searchNewName,100)
+    }
+    return
+  }
+  paused = false
+  before = now
+  if(!searchElem.value) return;
+  const newNameWords = searchElem.value
+    .replace(/[\"\'’`\.,?!\(\)]/g,'')
+    .replace(/é/g,'e')
+    .replace(/[\/+]/g,' ')
+    .toLowerCase()
+    .split(' ').filter(String)
+  if(newNameWords.length === 0 || dataTextLines.length === 0) {return}
+  playAnimation(InputForm, 'run-animation')
+  resultElem.innerHTML = ''
+  elems = dataTextLines.map((line, i) => {
+    const liElem = document.createElement('li')
+    // liElem.appendChild(document.createElement('button'))
+    liElem.originalLine = line
+    if(chars && dataCharsLines[i]) line+= ' ' + dataCharsLines[i].replace(/[\/+]/g,' ')
+    liElem.words = line.replace(/[\/+]/g,' ').split(' ').filter(String)
+    liElem.spans = []
+    liElem.words = liElem.words.map(word => {
+      const span = document.createElement('span')
+      span.textContent = word
+      span.word = word.replace(/[\"\'’`\.,?!\(\)]/g,'').replace(/é/g,'e').toLowerCase()
+      span.minDistance = Infinity
+      liElem.appendChild(span)
+      liElem.spans.push(span)
+      liElem.appendChild(document.createTextNode(' '))
+      return word
+    })
+    return liElem
+  }).map(liElem =>{
+    newNameWords.map(newWord => {
+      const lineDistArr = liElem.spans.map(span => {
+        let distance = dist(newWord, span.word)
+        if(span.word.length !== newWord.length){
+          if(newWord.length > 2 && span.word.includes(newWord)){
+            distance = .5
+          }
+          if(span.word.length > 2 && newWord.includes(span.word)){
+            distance = .5
+          }
+        }
+        if(span.minDistance > distance){
+          span.minDistance = distance
+        }
+        return distance
+      })
+    })
+    let result = 0
+    liElem.spans.map(span => {
+      let spanDist = span.minDistance
+      let wordLength = span.word.length
+      switch (spanDist) {
+      case 0:
+        result += wordLength * 8
+        span.classList.add('match')
+        break
+      case 0.5:
+        result += wordLength * 5
+        if (wordLength > 1) span.classList.add('semi-match')
+        break
+      case 1:
+        result += wordLength * 4
+        if (wordLength > 1) span.classList.add('very-similar')
+        break
+      case 2:
+        result += wordLength * 2
+        if (wordLength > 2) span.classList.add('similar')
+        break
+      case 3:
+        result += wordLength * 1
+        if (wordLength > 3) span.classList.add('not-very-similar')
+      default:
+        result += 1 / spanDist
+      }
+    })
+    liElem.dist = result
+    return liElem
+  }).sort((a, b) => {
+    return b.dist - a.dist
+  })
+  elems.map((liElem, i) => {
+    // liElem.appendChild(document.createTextNode(liElem.dist)) // DEBUG
+    if(i>200) return;
+    resultElem.appendChild(liElem)
+  })
+  if(elems.length>200+1){
+    const showRestButton = document.createElement('div')
+    showRestButton.classList.add('pseudo-button')
+    const restCount = elems.length - 200-2
+    const lastDigit = restCount%10
+    const ending = lastDigit === 1 ? "" : lastDigit >1 && lastDigit<5 ?"а":"ов"
+    const ending0 = lastDigit === 1 ? "ийся" : "иеся"
+    showRestButton.textContent = `Показать оставш${ending0} ${restCount} результат${ending}`
+    resultElem.appendChild(showRestButton)
+    showRestButton.addEventListener('click', e => {
+      showRestButton.remove()
+      elems.map((liElem, i) => {
+        // liElem.appendChild(document.createTextNode(liElem.dist)) // DEBUG
+        if(i<200) return;
+        resultElem.appendChild(liElem)
+      })
+    })
+  }
+}
+
+queueLinksElem.addEventListener('change', updateQueueList)
+queueLinksElem.addEventListener('focus', e => queueLinksElem.select())
+queueLinksElem.addEventListener('paste', () => setTimeout(updateQueueList, 100))
+
+queueElem.addEventListener('change', updateQueueList)
+queueElem.addEventListener('focus', e => queueElem.select())
+queueElem.addEventListener('paste', () => setTimeout(updateQueueList, 100))
+
+document.addEventListener('keyup', e => {
+  if(e.target.tagName === 'INPUT'){
+    if(e.code === 'Escape') {
+      e.target.blur()
+    }
+  }
+  if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.ctrlKey || e.shiftKey || e.altKey) {
+    return
+  }
+  switch (e.code) {
+  case 'ArrowUp' :
+  case 'ArrowLeft' :
+  case 'KeyW' :
+  case 'KeyA' :
+    if(usingQueue) previousSearch()
+    break
+  case 'ArrowDown' :
+  case 'ArrowRight' :
+  case 'KeyS' :
+  case 'KeyD' :
+    if(usingQueue) nextSearch()
+    break
+  case 'KeyZ' :
+    LinkButton.click()
+    break
+  case 'KeyX' :
+    PreviewButton.click()
+    break
+  case 'KeyC' :
+    // copyToClipboard(SearchInput.value)
+    playAnimation(searchElem, 'run-copied-input')
+    copyToClipboard(inputSearchLines[searchIndex])
+    break
+  case 'KeyO' :
+    QueueButtonName.click()
+    DataCharsButtonName.click()
+    QueueLinksButtonName.click()
+    dataListElem.focus()
+    break
+  }
+})
+
+LinkButton.addEventListener('click', e => {
+  if(links[searchIndex] && links[searchIndex].search(/\./) > -1 && links[searchIndex].search(/\//) > -1) {
+    open(links[searchIndex], '_blank')
+  } else {
+    playAnimation(LinkButton, 'run-wrong')
+  }
+})
+PreviewButton.addEventListener('click', e => {
+  if(links[searchIndex] && links[searchIndex].search(/\./) > -1 && links[searchIndex].search(/\//) > -1) {
+    iFrameWrapper.classList.add('show')
+    iFrame.src = links[searchIndex]
+    PreviewButton.disabled = true
+  } else {
+    playAnimation(PreviewButton, 'run-wrong')
+  }
+})
+ResultElem.addEventListener('mouseup', e => {
+  if(getSelection().type === 'Caret') {
+    if(e.target.nodeName === 'SPAN') {
+      copyLine(e.target.parentElement)
+    } else if(e.target.nodeName === 'LI') {
+      copyLine(e.target)
+    }
+  }
+})
+
+previousElem.addEventListener('click', previousSearch)
+nextElem.addEventListener('click', nextSearch)
+
+
+addQueueElem.addEventListener('click', e => {
+  listWrapperElem.classList.toggle('open-list')
+  if(listWrapperElem.classList.contains('open-list')) {
+    QueueButtonName.innerHTML = "–<br>Очередь поиска"
+    queueElem.placeholder = "Вставте очередь для поиска."
+  } else {
+    QueueButtonName.innerHTML = "+<br>Очередь поиска"
+    queueElem.placeholder = ""
+  }
+  if (usingQueue) {
+    usingQueue = false
+    inputForm.classList.remove('active-queue')
+  } else {
+    usingQueue = true
+    inputForm.classList.add('active-queue')
+    queueElem.focus()
+  }
+})
+addQueueLinksElem.addEventListener('click', e => {
+  QueueInputWrapper.classList.toggle('open-list')
+  if(QueueInputWrapper.classList.contains('open-list')) {
+    QueueLinksButtonName.innerHTML = "–<br>Ссылки"
+    QueueLinksInput.placeholder = "Вставте список ссылок для каждого запроса."
+    QueueLinksInput.focus()
+  } else {
+    QueueLinksButtonName.innerHTML = "+<br>Ссылки"
+    QueueLinksInput.placeholder = ""
+  }
+})
+
+addDataCharsElem.addEventListener('click', e => {
+  DataInputWrapper.classList.toggle('open-list')
+  if(DataInputWrapper.classList.contains('open-list')) {
+    DataCharsButtonName.innerHTML = "–<br>Характеристики"
+    DataCharsInput.placeholder = "Вставте список всех характеристик."
+    useChars = true
+    DataCharsInput.focus()
+  } else {
+    DataCharsButtonName.innerHTML = "+<br>Характеристики"
+    DataCharsInput.placeholder = ""
+    useChars = false
+  }
+  updateInputList()
+})
+
+dataListElem.addEventListener('change', updateInputList)
+dataListElem.addEventListener('focus', e => dataListElem.select())
+dataListElem.addEventListener('paste', () => setTimeout(updateInputList, 100))
+
+dataCharsElem.addEventListener('change', updateInputList)
+dataCharsElem.addEventListener('focus', e => dataCharsElem.select())
+dataCharsElem.addEventListener('paste', () => setTimeout(updateInputList, 100))
+
+searchElem.addEventListener('input', searchNewName) 
+searchElem.addEventListener('focus', e => searchElem.select())
+
+ClearElem.addEventListener('click', function(){
+  searchElem.value = ''
+  searchElem.select()
+})
+UpdateElem.addEventListener('click', updateInputList)
+
+// ResultElem.addEventListener('click', e => {
+//   if(e.target.tagName === "BUTTON"){
+//     copyLine(e.target.parentElement)
+//   }
+// })
+
+const focusElem = document.getElementById('FocusElem')
+window.addEventListener('blur', e => {focusElem.classList.remove('hide')})
+window.addEventListener('focus', e => {focusElem.classList.add('hide')})
+
+function copyLine(elToCopy) {
+    Array.prototype.slice.call(ResultElem.childNodes)
+      .map(el=>el.classList.remove('selected-line'))
+    elToCopy.classList.add('selected-line')
+    copyToClipboard(elToCopy.originalLine)
+}
+
+// удалить повторяющиеся значения из массива:
+// https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+function uniq(a) {
+  var seen = {};
+  return a.filter(function(item) {
+    return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+  });
+}
+
+// код для копирования текста по клику взят отсюда:
+// https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
+const copyToClipboard = str => {
+  const el = document.createElement('textarea');
+  el.value = str;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  const selected =            
+    document.getSelection().rangeCount > 0
+      ? document.getSelection().getRangeAt(0)
+      : false;
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  if (selected) {
+    document.getSelection().removeAllRanges();
+    document.getSelection().addRange(selected);
+  }
+};
+
+</script>
+
+
+<script type="text/javascript">
+// код для расстояния Левенштейна взят отсюда:
+// https://github.com/gustf/js-levenshtein/blob/master/index.js
+window.dist = (function()
+{
+  function _min(d0, d1, d2, bx, ay)
+  {
+    return d0 < d1 || d2 < d1
+        ? d0 > d2
+            ? d2 + 1
+            : d0 + 1
+        : bx === ay
+            ? d1
+            : d1 + 1;
+  }
+
+  return function(a, b)
+  {
+    if (a === b) {
+      return 0;
+    }
+
+    if (a.length > b.length) {
+      var tmp = a;
+      a = b;
+      b = tmp;
+    }
+
+    var la = a.length;
+    var lb = b.length;
+
+    while (la > 0 && (a.charCodeAt(la - 1) === b.charCodeAt(lb - 1))) {
+      la--;
+      lb--;
+    }
+
+    var offset = 0;
+
+    while (offset < la && (a.charCodeAt(offset) === b.charCodeAt(offset))) {
+      offset++;
+    }
+
+    la -= offset;
+    lb -= offset;
+
+    if (la === 0 || lb < 3) {
+      return lb;
+    }
+
+    var x = 0;
+    var y;
+    var d0;
+    var d1;
+    var d2;
+    var d3;
+    var dd;
+    var dy;
+    var ay;
+    var bx0;
+    var bx1;
+    var bx2;
+    var bx3;
+
+    var vector = [];
+
+    for (y = 0; y < la; y++) {
+      vector.push(y + 1);
+      vector.push(a.charCodeAt(offset + y));
+    }
+
+    for (; (x + 3) < lb;) {
+      bx0 = b.charCodeAt(offset + (d0 = x));
+      bx1 = b.charCodeAt(offset + (d1 = x + 1));
+      bx2 = b.charCodeAt(offset + (d2 = x + 2));
+      bx3 = b.charCodeAt(offset + (d3 = x + 3));
+      dd = (x += 4);
+      for (y = 0; y < vector.length; y += 2) {
+        dy = vector[y];
+        ay = vector[y + 1];
+        d0 = _min(dy, d0, d1, bx0, ay);
+        d1 = _min(d0, d1, d2, bx1, ay);
+        d2 = _min(d1, d2, d3, bx2, ay);
+        dd = _min(d2, d3, dd, bx3, ay);
+        vector[y] = dd;
+        d3 = d2;
+        d2 = d1;
+        d1 = d0;
+        d0 = dy;
+      }
+    }
+    for (; x < lb;) {
+      bx0 = b.charCodeAt(offset + (d0 = x));
+      dd = ++x;
+      for (y = 0; y < vector.length; y += 2) {
+        dy = vector[y];
+        vector[y] = dd = dy < d0 || dd < d0
+            ? dy > dd ? dd + 1 : dy + 1
+            : bx0 === vector[y + 1]
+                ? d0
+                : d0 + 1;
+        d0 = dy;
+      }
+    }
+
+    return dd;
+  };
+})()
+
+window.performance = window.performance || {};
+performance.now = (function() {
+    return performance.now       ||
+        performance.mozNow    ||
+        performance.msNow     ||
+        performance.oNow      ||
+        performance.webkitNow ||            
+        Date.now
+})();
+</script>
+
+
+</body>
+</html>

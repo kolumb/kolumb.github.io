@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang=ru>
+<head>
+	<meta charset="utf-8">
+	<title>График распределения получателей поддержки по полу и по возрасту</title>
+	<meta name="author" content="Данил Колумбет">
+	<meta name="description" content="">
+
+	<style type="text/css">
+body {
+margin: 0;
+padding: 20px;
+}
+#graphCanvas, #uiCanvas {
+/*outline: 1px solid black;*/
+cursor:default;
+display:block;
+}
+#uiCanvas {
+outline: 1px solid black;
+	position: absolute;
+	top:20px;
+	left:20px;
+}
+
+	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
+</head>
+<body>
+<canvas id='graphCanvas'></canvas>
+<canvas id='uiCanvas'></canvas>
+
+<script>
+	var rawData='F_67 F_72 F_24 F_52 M_59 F_88 F_65 F_42 F_42 F_31 F_27 M_65 F_42 F_30 F_37 F_35 M_40 F_32 F_38 F_38 F_40 F_79 M_64 M_61 M_73 F_32 F_61 M_49 M_52 F_38 F_31 F_48 F_39 F_31 F_37 F_37 F_50 M_38 M_25 M_41 F_37 M_41 F_77 F_58 M_56 M_76 M_52 F_41 F_79 F_54 M_55 F_57 F_55 M_67 M_46 F_35 M_37 F_62 M_59 M_21 F_21 M_48 F_57 M_54 M_55 F_56 M_53 M_64 F_61 F_61 M_59 M_77 F_57 F_45 F_81 M_30 M_68 M_52 M_20 M_20 F_30 F_53 M_27 F_64 F_42 F_57 M_61 F_39 M_27 M_38 F_38 F_38 M_50 M_38 M_52 F_37 M_69 M_31 M_70 F_65 M_54 F_56 F_57 M_64 M_49 M_50 F_66 M_70 F_65 F_38 M_56 M_58 M_62 F_68 M_40 F_66 M_57 M_30 F_62 F_67 F_62 M_24 M_60 F_41 F_74 M_74 F_70 F_42 M_64 F_26 M_41 F_59 M_56 M_62 F_42 M_51 M_29 M_44 M_26 M_58 F_30 F_27 F_39 F_41 M_65 M_38 F_70 F_48 M_62 F_56 F_78 F_70 M_49 F_56 M_78 M_53 F_56 F_56 F_86 F_63 M_62 F_63 F_66 F_79 F_27 F_69 F_19 F_54 M_26 F_35 F_39 F_33 M_53 F_29 F_33 M_41 M_44 M_44 F_78 F_43 M_62 M_41 F_53 M_61 M_90 F_78 F_66 F_55 M_66 F_55 F_73 F_61 F_79 F_63 F_76 M_88 M_90 M_58 F_64 M_69 M_30 M_36 F_21 F_59 F_60 F_80 F_65 M_74 M_56 F_61 M_63 M_57 F_50 F_63 F_60 M_59 F_87 F_73 F_54 M_55 F_57 M_35 F_51 M_24 M_65 M_56 F_58 F_35 F_35 F_35 F_43 F_76 F_54 M_64 M_56 F_71 F_42 M_66 F_53 F_75 M_67 F_60 M_52 F_47 F_29 M_30 F_4 M_14 F_13 F_30 M_52 F_39 M_67 F_39 F_5 F_38 F_12 F_7 F_0 F_49 F_26 M_40 F_70 M_32 M_58 F_39 M_15 M_7 F_4 F_32 M_3 F_34 F_37 M_5 F_50 F_10 F_34 M_13 F_12 M_10 F_9 F_6 M_5 F_46 F_6 F_27 F_2 F_63 F_28 F_2 F_36 F_10 F_8 M_4 F_35 F_9 M_4 F_25 M_8 M_4 F_27 F_3 F_32 M_13 F_11 F_27 F_0 F_44 F_16 F_10 F_4 F_46 F_39 M_9 F_4 F_41 F_14 F_41 F_13 M_7 F_11 F_38 F_8 F_40 M_16 F_12 M_8 F_42 M_3 F_24 F_1 M_4 F_33 M_4 M_59 F_32 M_11 F_2 M_0 F_31 F_10 M_7 M_1 F_30 F_9 F_61 F_30 F_7 F_12 M_1 F_38 F_16 F_15 F_4 F_32 F_8 F_38 F_16 F_12 F_6 F_44 F_11 M_3 F_14 F_29 F_2 M_8 M_4 F_33 F_0 M_62 F_32 M_3 M_4 F_28 M_3 M_35 M_35 M_47 F_37 F_13 F_9 F_6 F_4 F_2 M_1 M_67 F_27 F_6 F_1 M_1 F_39 M_9 F_8 M_2 F_36 F_14 F_7 M_2 F_66 M_20 F_67 M_18 M_51 F_16 F_14 F_11 F_37 M_3 F_11 F_61 F_37 M_11 M_8 F_4 F_57 F_9 F_59 F_40 F_11 F_38 F_1 M_55 F_45 F_68 F_54 M_69 F_55 M_57 F_42 M_80 F_53 F_58 M_8 M_55 F_37 F_11 M_7 F_4 F_62 M_54 F_42 M_57 M_50 F_36 M_12 M_8 M_1 F_33 F_35 F_32 M_7 M_29 F_27 F_6 M_3 M_3 M_38 F_36 M_11 M_11 M_9 M_7 F_35 F_16 M_7 M_3 F_20 F_35 F_9 F_3 M_1 M_11 M_40 F_55 F_37 F_13 F_8 M_52 F_79 F_33 M_16 F_1 F_6 F_36 M_16 F_2 M_8 F_35 M_8 F_39 F_1 F_3 F_40 M_11 F_10 F_48 M_16 F_1 F_37 M_16 F_9 M_4 F_0 F_51 F_6 F_38 F_14 F_39 F_3 F_15 F_9 F_37 F_4 F_62 F_40 M_2 F_18 F_13 F_2 F_40 F_17 F_7 F_7 F_42 F_13 F_28 F_3 F_38 F_15 F_2 M_14 M_31 F_39 M_11 M_76 F_42 F_10 F_13 M_16 F_36 F_16 M_2 F_29 F_3 M_64 M_10 F_40 F_13 F_40 F_10 F_36 M_8 M_18 F_28 F_6 M_2 M_2 F_44 F_15 M_8 F_35 F_44 F_4 F_32 F_38 M_18 M_11 M_4 M_77 M_45 M_6 F_5 F_35 F_9 F_6 M_4 F_42 M_1 F_3 M_33 F_35 F_15 M_6 M_2 F_68 F_29 F_16 F_39 M_6 F_72 F_36 M_12 M_2 F_3 F_87 F_59 F_37 F_0 F_3 F_57 F_70 M_35 M_56 F_77 F_88 M_59 F_36 M_16 M_11 F_1 M_67 F_37 F_12 F_1 F_0 F_30 M_5 F_2 M_5 F_24 F_78 F_36 F_12 M_10 F_7 F_57 M_18 M_55 F_44 F_16 F_32 M_9 M_34 F_75 F_35 F_1 M_64 F_62 F_86 F_59 F_42 M_4 F_14 M_17 F_38 M_2 F_64 F_54 F_30 M_10 M_8 F_41 F_10 F_5 F_71 F_43 M_17 F_64 F_61 F_38 M_8 F_3 M_10 M_13 F_34 F_42 M_18 F_3 F_29 F_6 F_12 F_41 M_10 F_31 M_10 M_3 F_2 F_0 F_12 F_40 M_1 F_22 F_2 F_29 M_1 F_31 F_12 F_39 F_17 F_10 F_3 F_32 F_1 F_43 M_3 F_51 F_15 F_40 M_14 M_10 F_4 F_28 M_1 F_32 M_8 M_14 F_0 F_29 F_0 F_38 F_13 M_9 M_7 M_1 F_45 F_42 M_3 F_11 M_13 M_2 F_37 M_9 F_52 M_11 F_34 M_12 M_49 F_36 M_15 F_12 F_4 F_30 M_4 F_43 F_12 F_8 F_5 M_2 F_37 M_9 F_41 M_42 F_16 F_13 M_5 F_54 F_38 M_15 M_8 M_8 F_67 F_17 F_91 M_64 M_34 F_30 M_7 M_2 F_10 F_29 F_0 M_2 M_3 F_9 M_3 F_32 M_9 M_9 F_3 M_4 F_37 M_4 F_77 F_75 F_62 F_49 F_15 M_56 F_34 F_15 M_11 M_8 M_4 F_2 M_58 F_86 F_32 F_6 M_2 F_0 M_90 F_55 F_81 F_33 M_10 F_39 F_0 M_89 F_31 F_10 M_3 M_1 F_0 F_28 F_3 M_76 F_42 F_14 F_36 F_8 F_2 F_26 F_1 F_65 F_34 F_7 M_1 F_9 M_24 F_8 F_54 F_27 M_3 M_1 M_0 M_0 M_0 M_0 M_0 F_0 M_1 F_1 F_1 M_1 M_1 F_1 M_2 M_2 M_2 M_2 F_2 M_3 F_3 M_3 F_3 M_3 M_3 F_3 F_3 M_3 F_4 F_4 M_4 F_4 M_4 F_4 F_5 M_5 M_5 F_5 F_5 M_5 F_5 M_5 M_5 M_6 M_6 M_6 F_6 F_6 M_6 F_6 F_6 M_6 F_7 M_7 F_7 M_7 M_7 M_7 M_7 F_7 M_7 M_7 M_7 F_7 F_7 F_7 M_7 M_7 F_7 F_7 F_8 F_8 F_8 F_8 M_8 F_8 F_8 M_8 F_8 M_8 M_8 M_8 F_9 F_9 F_9 F_9 F_9 M_9 F_9 F_9 F_9 F_9 F_9 M_10 F_10 F_10 F_10 M_10 M_10 F_10 F_10 F_10 F_11 F_11 F_11 M_11 F_11 M_11 F_11 F_11 F_12 M_12 M_12 M_12 M_12 M_13 M_13 F_13 M_13 M_14 F_14 M_14 F_15 M_15 M_15 M_16 F_16 M_16 F_16 F_16 M_16 M_17 M_17 M_17 F_17 M_17 M_18 F_18 M_18 F_22 F_23 F_24 F_26 F_27 F_29 F_29 F_29 F_30 F_30 F_30 F_30 F_30 F_30 F_30 F_31 F_31 F_31 F_32 F_32 M_32 F_32 F_32 F_33 F_33 F_34 F_34 F_34 F_35 F_35 M_35 M_35 F_36 F_36 F_36 F_36 F_36 F_37 F_37 F_37 F_37 M_38 F_38 F_38 F_39 F_39 F_39 F_39 F_40 F_40 M_40 F_40 F_41 F_41 F_42 M_42 M_42 F_42 F_42 M_42 F_43 F_43 M_44 M_44 F_44 M_45 F_45 F_45 M_47 F_49 F_49 M_51 M_52 F_56 F_56 F_56 F_56 F_57 M_57 M_61 F_62 M_62 M_64 F_65 F_66 F_66 F_69 F_74 M_75 M_76 M_77 F_81 M_82 M_85 M_86 F_88'
+</script>
+<script type="text/javascript" src="statistics.js"></script>
+</body>
+</html>

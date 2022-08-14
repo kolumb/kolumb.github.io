@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+<meta name="theme-color" content="#000">
+<title>Симуляция химии</title>
+<style type="text/css">
+html, body
+  { margin: 0
+  ; padding: 0
+  ; background-color: grey
+  }
+canvas
+  { display: block
+  ; width: 100%
+  }
+.button
+  { line-height: 3em
+  ; width: 100%
+  ; text-align: right;
+  ; display: block
+  ; background-color: rgba(0,0,0,0.5)
+  ; color: white
+  ; border: solid 1px rgba(255,255,255,.1)
+  }
+option
+  { padding-left: 1em
+  }
+button.button:focus
+  { outline: none
+  ; border: solid 1px rgba(0,245,245, 0.5)
+  }
+.active
+  { background-color: rgba(0,25,56, .8)
+  }
+#MenuButton
+  { bottom: 0
+  ; right: 0
+  ; width: auto
+  ; position: fixed
+  ; user-select: none
+  }
+nav
+  { position: fixed
+  ; bottom: 3em
+  ; right: 0
+  ; display: block
+  ; user-select: none
+  }
+.hide
+  { display: none
+  }
+</style>
+<!--<script src="https://raw.githubusercontent.com/mrdoob/stats.js/master/build/stats.min.js"></script>-->
+<script>/*!
+* screenfull
+* v3.3.3 - 2018-09-04
+* (c) Sindre Sorhus; MIT License
+*/
+
+!function(){"use strict";var a="undefined"!=typeof window&&void 0!==window.document?window.document:{},b="undefined"!=typeof module&&module.exports,c="undefined"!=typeof Element&&"ALLOW_KEYBOARD_INPUT"in Element,d=function(){for(var b,c=[["requestFullscreen","exitFullscreen","fullscreenElement","fullscreenEnabled","fullscreenchange","fullscreenerror"],["webkitRequestFullscreen","webkitExitFullscreen","webkitFullscreenElement","webkitFullscreenEnabled","webkitfullscreenchange","webkitfullscreenerror"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitCurrentFullScreenElement","webkitCancelFullScreen","webkitfullscreenchange","webkitfullscreenerror"],["mozRequestFullScreen","mozCancelFullScreen","mozFullScreenElement","mozFullScreenEnabled","mozfullscreenchange","mozfullscreenerror"],["msRequestFullscreen","msExitFullscreen","msFullscreenElement","msFullscreenEnabled","MSFullscreenChange","MSFullscreenError"]],d=0,e=c.length,f={};d<e;d++)if((b=c[d])&&b[1]in a){for(d=0;d<b.length;d++)f[c[0][d]]=b[d];return f}return!1}(),e={change:d.fullscreenchange,error:d.fullscreenerror},f={request:function(b){var e=d.requestFullscreen;b=b||a.documentElement,/ Version\/5\.1(?:\.\d+)? Safari\//.test(navigator.userAgent)?b[e]():b[e](c?Element.ALLOW_KEYBOARD_INPUT:{})},exit:function(){a[d.exitFullscreen]()},toggle:function(a){this.isFullscreen?this.exit():this.request(a)},onchange:function(a){this.on("change",a)},onerror:function(a){this.on("error",a)},on:function(b,c){var d=e[b];d&&a.addEventListener(d,c,!1)},off:function(b,c){var d=e[b];d&&a.removeEventListener(d,c,!1)},raw:d};if(!d)return void(b?module.exports=!1:window.screenfull=!1);Object.defineProperties(f,{isFullscreen:{get:function(){return Boolean(a[d.fullscreenElement])}},element:{enumerable:!0,get:function(){return a[d.fullscreenElement]}},enabled:{enumerable:!0,get:function(){return Boolean(a[d.fullscreenEnabled])}}}),b?module.exports=f:window.screenfull=f}();</script>
+
+<!--fps meter-->
+<script type="text/javascript">(function(f,e){"object"===typeof exports&&"undefined"!==typeof module?module.exports=e():"function"===typeof define&&define.amd?define(e):f.Stats=e()})(this,function(){var f=function(){function e(a){c.appendChild(a.dom);return a}function u(a){for(var d=0;d<c.children.length;d++)c.children[d].style.display=d===a?"block":"none";l=a}var l=0,c=document.createElement("div");c.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click",function(a){a.preventDefault();
+u(++l%c.children.length)},!1);var k=(performance||Date).now(),g=k,a=0,r=e(new f.Panel("FPS","#0ff","#002")),h=e(new f.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var t=e(new f.Panel("MB","#f08","#201"));u(0);return{REVISION:16,dom:c,addPanel:e,showPanel:u,begin:function(){k=(performance||Date).now()},end:function(){a++;var c=(performance||Date).now();h.update(c-k,200);if(c>g+1E3&&(r.update(1E3*a/(c-g),100),g=c,a=0,t)){var d=performance.memory;t.update(d.usedJSHeapSize/
+1048576,d.jsHeapSizeLimit/1048576)}return c},update:function(){k=this.end()},domElement:c,setMode:u}};f.Panel=function(e,f,l){var c=Infinity,k=0,g=Math.round,a=g(window.devicePixelRatio||1),r=80*a,h=48*a,t=3*a,v=2*a,d=3*a,m=15*a,n=74*a,p=30*a,q=document.createElement("canvas");q.width=r;q.height=h;q.style.cssText="width:80px;height:48px";var b=q.getContext("2d");b.font="bold "+9*a+"px Helvetica,Arial,sans-serif";b.textBaseline="top";b.fillStyle=l;b.fillRect(0,0,r,h);b.fillStyle=f;b.fillText(e,t,v);
+b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{dom:q,update:function(h,w){c=Math.min(c,h);k=Math.max(k,h);b.fillStyle=l;b.globalAlpha=1;b.fillRect(0,0,r,m);b.fillStyle=f;b.fillText(g(h)+" "+e+" ("+g(c)+"-"+g(k)+")",t,v);b.drawImage(q,d+a,m,n-a,p,d,m,n-a,p);b.fillRect(d+n-a,m,a,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d+n-a,m,a,g((1-h/w)*p))}}};return f});</script>
+<!--<script src="mobileConsole.js"></script>-->
+</head><body>
+<button id="MenuButton" class="button active">Меню</button>
+<nav>
+<button class="button" id="BoomButton">Boom *100</button>
+<button class="button active" id="ModeButton">Режим: химия</button>
+<button class="button" id="FullScreenButton">Развернуть</button>
+<button class="button" id="ReloadButton">Перезагрузить</button>
+<button class="button active" id="CirclesButton">Кольца</button>
+<button class="button" id="DeleteButton">Удалить</button>
+</nav>
+<div id="dis"></div>
+<canvas id="cnv"></canvas>
+<!-- <script src="screenfull.min.js"></script> -->
+<script type="text/javascript">
+;'use strict';
+//mobileConsole.toggle()
+var stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom )
+const colors = []
+for(let i = 0; i < 1000; i++){
+  let r = Math.floor(Math.random()*256)
+  let g = Math.floor(Math.random()*256)
+  let b = Math.floor(Math.random()*256)
+  colors.push(`rgb(${r},${g},${b})`)
+}
+/*
+let s = ''
+let test = document
+for (prop in test){
+  s += prop + " " + test[prop]
+}*/
+//dis.innerHTML = innerWidth + ' ' + innerHeight//s//Math.random()//s
+const dpr = devicePixelRatio
+let width = cnv.width = innerWidth*dpr
+let height = cnv.height = innerHeight*dpr
+const ctx = cnv.getContext('2d')
+
+let touches = 0
+let anchors = []
+let mouseDraging = -1
+const draging = (new Array(10)).fill(-1)
+
+const baseSize = 15//30
+const thickness = 6//10
+//const lineWidth = 1000//8000
+
+const maxSpeed = 10//10
+const treshold = 4000//13000
+const attrForce = 5//30
+const repForce = 11000//200000
+const maxForce = 1//3
+
+const GRAVITY = 1
+const acc = {x: 0, y:0}
+
+
+let menu = true
+let circles = true
+let fullScreen = false
+let mode = 5
+let boom = false
+
+let modes = ['free', 'stick', 'follow', 'gravitate', 'expand', 'chemistry']
+let modesLocalisation = ['прозрачный', 'заморозка', 'охота', 'притяжение', 'отталкивание', 'химия', '', '', '']
+
+
+
+function init(){
+  width = cnv.width = innerWidth*dpr
+  height = cnv.height = innerHeight*dpr
+  ctx.lineCap = 'square'
+  ctx.font = '1em sans-serif'
+}
+function addAnchor(t,dx,dy, notDraging){
+  anchors.push({'x':t.pageX*dpr, 'y':t.pageY*dpr
+    , 'id':anchors.length, 'angle':t.rotationAngle||0
+    , 'rx':t.radiusX||1, 'ry':t.radiusY||1
+    , 'dx':dx||0, 'dy':dy||0
+  })
+}
+function drawAnchors() {
+  stats.begin()
+  anchors.forEach(a=>{
+    if(draging.indexOf(a.id)===-1 && mouseDraging!==a.id){
+      a.dx += acc.x
+      a.dy += acc.y
+      a.dx *= 0.99
+      a.dy *= 0.99
+      a.x += a.dx
+      a.y += a.dy
+      if(a.x > width - baseSize){
+        a.x = width - baseSize
+        a.dx= -a.dx
+      } else if(a.x<baseSize/*+width/2*/){
+        a.x = baseSize//+width/2
+        a.dx = -a.dx
+      }
+      if(a.y > height - baseSize){
+        a.y = height - baseSize
+        a.dy =-a.dy
+      } else if(a.y<baseSize){
+        a.y=baseSize
+        a.dy = -a.dy
+      }
+    }
+  })
+  ctx.fillStyle = 'black'
+  ctx.fillRect(0,0,width,height) 
+  ctx.fillStyle = 'white'
+  
+  
+  if(circles && anchors.length<100){
+    for(let i=0;i<anchors.length;i++){
+      let t = anchors[i]
+      ctx.fillStyle = colors[t.id]
+      ctx.beginPath()
+      ctx.ellipse(t.x,t.y
+        ,baseSize,baseSize
+        ,t.angle,0,Math.PI*2)
+      ctx.ellipse(t.x,t.y
+        ,baseSize+(t.rx-0.6)*thickness,baseSize+(t.ry-0.6)*thickness
+        ,t.angle,0,Math.PI*2,true)
+      ctx.closePath()
+      ctx.fill()
+    }
+  } else if(anchors.length<300){
+    for(let i=0;i<anchors.length;i++){
+      let t = anchors[i]
+      ctx.fillStyle = colors[t.id]
+      ctx.fillRect(t.x-1.5,t.y-1.5,3,3)
+     }
+  }
+  ctx.strokeStyle = 'white'
+  ctx.lineWidth = .5
+  ctx.beginPath()
+  let links = 0
+  if(modes[mode] === 'chemistry'){
+    for(let i = 0; i < anchors.length; i++){
+      const t1 = anchors[i]
+      for(let j = i+1; j < anchors.length; j++){
+        const t2 = anchors[j]
+        const dx = t1.x - t2.x
+        const dy = t1.y - t2.y
+        const d = dx*dx+dy*dy
+        if(d<treshold){
+          links++
+          /*switch(modes[mode]){
+          case 'stick':
+          t1.dx*=.95
+          t1.dy*=.95
+          t2.dx*=.95
+          t2.dy*=.95
+          break
+          case 'follow':
+          t1.dx-=dx/d
+          t1.dy-=dy/d
+          t2.dx-=dx/d
+          t2.dy-=dy/d
+          break
+          case 'gravitate':
+          t1.dx-=dx/d
+          t1.dy-=dy/d
+          t2.dx+=dx/d
+          t2.dy+=dy/d
+          break
+          case 'expand':
+          t1.dx+=dx/d
+          t1.dy+=dy/d
+          t2.dx-=dx/d
+          t2.dy-=dy/d
+          break
+          case 'chemistry':*/
+          let fx = attrForce*dx/(d)-repForce*dx/(d*d)
+          let fy = attrForce*dy/(d)-repForce*dy/(d*d)//-(dy*(t1.ry+t2.ry))/1000
+          //if(fx>maxForce){fx=maxForce}
+          //if(fy>maxForce){fy=maxForce}
+          //if(fx<-maxForce){fx=-maxForce}
+          //if(fy<-maxForce){fy=-maxForce}
+          t1.dx-=fx
+          t1.dy-=fy
+          t2.dx+=fx
+          t2.dy+=fy
+          if(t1.dx>maxSpeed){t1.dx=maxSpeed}
+          if(t1.dy>maxSpeed){t1.dy=maxSpeed}
+          if(t1.dx<-maxSpeed){t1.dx=-maxSpeed}
+          if(t1.dy<-maxSpeed){t1.dy=-maxSpeed}
+          if(t2.dx>maxSpeed){t2.dx=maxSpeed}
+          if(t2.dy>maxSpeed){t2.dy=maxSpeed}
+          if(t2.dx<-maxSpeed){t2.dx=-maxSpeed}
+          if(t2.dy<-maxSpeed){t2.dy=-maxSpeed}
+     //     break
+     //     }
+          //ctx.beginPath()
+          //let lw = lineWidth/d
+          //if(lw > 10){lw =10}
+          //ctx.lineWidth = lw
+          ctx.moveTo(t1.x, t1.y)
+          ctx.lineTo(t2.x, t2.y)
+          //ctx.stroke()
+        }
+      }
+    }
+  } else {
+    for(let i = 0; i < anchors.length; i++){
+      const t1 = anchors[i]
+      for(let j = i+1; j < anchors.length; j++){
+        const t2 = anchors[j]
+        const dx = t1.x - t2.x
+        const dy = t1.y - t2.y
+        const d = dx*dx+dy*dy
+        if(d<treshold){
+          links++
+          switch(modes[mode]){
+          case 'stick':
+          t1.dx*=.95
+          t1.dy*=.95
+          t2.dx*=.95
+          t2.dy*=.95
+          break
+          case 'follow':
+          t1.dx-=dx/d
+          t1.dy-=dy/d
+          t2.dx-=dx/d
+          t2.dy-=dy/d
+          break
+          case 'gravitate':
+          t1.dx-=dx/d
+          t1.dy-=dy/d
+          t2.dx+=dx/d
+          t2.dy+=dy/d
+          break
+          case 'expand':
+          t1.dx+=dx/d
+          t1.dy+=dy/d
+          t2.dx-=dx/d
+          t2.dy-=dy/d
+          break
+          }
+          ctx.moveTo(t1.x, t1.y)
+          ctx.lineTo(t2.x, t2.y)
+        }
+      }
+    }
+  }
+  ctx.stroke()
+  ctx.fillStyle = 'white'
+  ctx.fillText(links + '', 15, height - 15 )
+  if(menu) {
+    DeleteButton.innerText = 'Удалить '
+      + anchors.length + ' (' +(((1+anchors.length-1)/2)*(anchors.length-1)) + ' проверок)'
+  }
+  stats.end()
+  /*frameId = */requestAnimationFrame(drawAnchors)
+}
+init()
+drawAnchors()
+
+for (var i = 0; i < 50; i++) {
+  anchors.push({'x':width*Math.random(), 'y':height*Math.random()
+    , 'id':anchors.length, 'angle':0
+    , 'rx':1, 'ry':1
+    , 'dx':Math.random()*.1-.05, 'dy':Math.random()*.1-.05
+  })
+}
+
+
+
+
+
+
+
+
+cnv.addEventListener('mousedown',e=>{
+  let found = false
+  anchors.forEach(a => {
+    if(found){ return}
+    const dx = e.pageX*dpr - a.x
+    const dy = e.pageY*dpr - a.y
+    const dist = dx*dx + dy*dy
+    if(dist < baseSize*baseSize){
+      found = true
+      mouseDraging = a.id
+      //a.notDraging = 0
+      a.x = e.pageX*dpr
+      a.y = e.pageY*dpr
+    }
+  })
+  if(!found){
+    mouseDraging = anchors.length
+    if(e.shiftKey || boom){
+      for(let i = 0; i<100; i++){ addAnchor(e, width/8*(.5-Math.random()), width/8*(.5-Math.random()))}
+    } else {
+      addAnchor(e)
+    }
+    /*anchors.push({'x':e.pageX*dpr, 'y':e.pageY*dpr
+    , 'id':anchors.length, 'angle':e.rotationAngle||0
+    , 'rx':e.radiusX||0, 'ry':e.radiusY||0
+    , 'dx':0, 'dy':0
+    })*/
+  }
+})
+cnv.addEventListener('mouseup', e=>{
+  //anchors[mouseDraging].notDraging = 1
+  mouseDraging = -1
+})
+cnv.addEventListener('mousemove', e => {
+  //alert(e.buttons)
+  if(mouseDraging<0){ return }
+  let a = anchors[mouseDraging]
+  a.dx = e.pageX*dpr - a.x
+  a.dy = e.pageY*dpr - a.y
+  a.x = e.pageX*dpr
+  a.y = e.pageY*dpr
+  if(a.x < 60 && a.y < 60){
+    anchors.splice(mouseDraging,1)
+    mouseDraging = -1
+  }
+})
+cnv.addEventListener('touchstart', e => {
+  e.preventDefault()
+  e.stopPropagation()
+  let t = e.changedTouches[0]
+  let found = false
+  anchors.forEach(a => {
+    if(found){ return}
+    const dx = t.pageX*dpr - a.x
+    const dy = t.pageY*dpr - a.y
+    const dist = dx*dx + dy*dy
+    if(dist < baseSize*baseSize){
+      found = true
+      draging[t.identifier] = a.id
+      a.notDraging = 0
+      a.x = t.pageX*dpr
+      a.y = t.pageY*dpr
+      a.rx = t.radiusX
+      a.ry = t.radiusY
+    }
+  })
+  if(!found){
+    draging[t.identifier] = anchors.length
+    if(boom){
+      for(let i = 0; i<100; i++){ addAnchor(t, width/8*(.5-Math.random()), width/8*(.5-Math.random()))}
+    } else {
+      addAnchor(t)
+    }
+  }
+})
+cnv.addEventListener('touchmove', e => {
+  e.preventDefault()
+  e.stopPropagation()
+  let t = e.changedTouches[0]
+  for(let i = 0; i<e.changedTouches.length; i++){
+    let tt = e.changedTouches[i]
+    let a = anchors[draging[tt.identifier]]
+    a.dx = tt.pageX*dpr - a.x
+    a.dy = tt.pageY*dpr - a.y
+    if(a.dx*a.dx+a.dy*a.dy>maxSpeed*maxSpeed){
+      const angle = Math.atan2(a.dy,a.dx)
+      a.dx = maxSpeed*Math.cos(angle)
+      a.dy = maxSpeed*Math.sin(angle)
+    }
+    a.x = tt.pageX*dpr
+    a.y = tt.pageY*dpr
+    if(tt.radiusX>a.rx){a.rx = tt.radiusX}
+    if(tt.radiusY>a.ry){a.ry = tt.radiusY}
+    if(a.x < 60 && a.y < 60){
+      anchors.splice(draging[tt.identifier],1)
+      draging[tt.identifier] = -1
+    }
+  }
+})
+cnv.addEventListener('touchend', e => {
+  let id = e.changedTouches[0].identifier
+  anchors[id].notDraging = 1
+  draging[id] = -1
+})
+
+
+
+
+
+
+
+
+addEventListener('resize', init)
+
+if (window.DeviceOrientationEvent) {
+  const deviceOrientationHandler = function (event) {
+       //const pitch = Math.PI * event.beta / 180
+    //const roll = Math.PI * event.gamma / 180
+    acc.x = -0.1 * event.accelerationIncludingGravity.x//Math.cos(pitch) * Math.sin(roll) * GRAVITY
+    acc.y = 0.1 * event.accelerationIncludingGravity.y//Math.sin(pitch) * GRAVITY
+  }
+  window.addEventListener('devicemotion',
+   deviceOrientationHandler, false)
+}
+
+
+
+
+
+
+
+
+
+document.getElementById('FullScreenButton').addEventListener('click', () => {
+  if (screenfull.enabled) {
+    screenfull.toggle()
+    FullScreenButton.classList.toggle('active')
+    if(fullScreen){
+      fullScreen = false
+      FullScreenButton.innerText = 'Развернуть'
+    } else {
+      fullScreen = true
+      FullScreenButton.innerText = 'Свернуть'
+    }
+  }
+})
+document.getElementById('BoomButton').addEventListener('click', () => {
+  boom = !boom
+  BoomButton.classList.toggle('active')
+})
+document.getElementById('ModeButton').addEventListener('click', e=>{
+  if(++mode===modes.length){mode = 0}
+  e.target.innerText = 'Режим: ' + modesLocalisation[mode]
+})
+document.getElementById('ReloadButton').addEventListener('click', () => {
+  location.reload()
+})
+document.getElementById('CirclesButton').addEventListener('click', () => {
+  circles = !circles
+  CirclesButton.classList.toggle('active')
+})  
+document.getElementById('DeleteButton').addEventListener('click', () => {
+  draging.fill(-1)
+  anchors = []
+})
+document.getElementById('MenuButton').addEventListener('click', () => {
+  menu = !menu
+  document.getElementsByTagName('nav')[0]
+    .classList.toggle('hide')
+  MenuButton.classList.toggle('active')
+})
+
+// 980 1394
+</script></body>
+</html>

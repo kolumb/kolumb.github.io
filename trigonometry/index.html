@@ -1,27 +1,31 @@
 <!doctype html>
-<html lang=ru>
+<html lang="uk">
 <head>
 	<meta charset=utf-8>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="description" content="Интерактивная демонстрация тригономерических функций.">
-	<meta name="author" content="Данил Колумбет">
-	<title>Интерактивная демонстрация тригономерических функций.</title>
-	<link rel="shortcut icon" href="../favicon.ico" />
-	<link rel="stylesheet" href="../style.css">
+	<meta name="description" content="Інтерактивна демонстрація тригонометричних функцій.">
+	<meta name="author" content="Данило Колумбет">
+	<title>Інтерактивна демонстрація тригонометричних функцій.</title>
+	<link rel="shortcut icon" href="https://kolumb.tk/favicon.ico" />
+	<link rel="stylesheet" href="/style.css">
 	<style type="text/css">
+body {
+	overflow: hidden;
+	user-select: none;
+}
 .container {
 	position: relative;
+	overflow: hidden;
 	padding: 0;
 	margin: 0;
 }
 .container h2 {
+	margin: 0;
+    font-size: 2em;
 	position: absolute;
 	top:0;
 	left:0;
-}
-#Canvas {
-	cursor: move;
 }
 #Checks {
 	display: block;
@@ -52,21 +56,18 @@
 	cursor: pointer;
 	transition: background 0.5s;
 }
-input:checked + .radL { color: #30B8B8;}
+input:checked + .radL { background: #5577D2; 
+	color: #30B8B8;
+	background-color: white;
+	box-shadow: none;
+}
 input:checked + .sinL { background: #5577D2; }
 input:checked + .cosL { background: #CE5555; }
 input:checked + .tanL { background: #5EA642; }
 input:checked + .ctnL { background: #E9B13F; }
 
-input:checked + .type { background: #844471; }
 
-input:checked + .hide {
-	background: inherit;
-	box-shadow: none;
-}
-
-
-input[type="checkbox"], input[type="radio"] {
+input[type="checkbox"] {
 	display: none;
 }
 .display {
@@ -107,16 +108,33 @@ nav a:hover span, nav a span::before {
 }
 
 	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+      	const preferredLang = (navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage || "uk")).slice(0,2)
+      	if (["ru", "en"].indexOf(preferredLang) >= 0) {
+      		location.href = "https://kolumb.tk/" + preferredLang + "/trigonometry/"
+      	} else {
+					window.history.pushState("", "", "/uk/trigonometry/");
+      	}
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
 </head>
 
 <body>
 	<div class="container">
-		<h2>Тригонометрия</h2>
+		<h2>Тригонометрія</h2>
 		<canvas id="Canvas"></canvas>
 		<div id="Checks">
 			
 			<input id="rad" type="checkbox" checked=true/>
-			<label for="rad" class="check radL hide" id="Radian">Длина в rad</label>
+			<label for="rad" class="check radL" id="Radian">Довжина в rad</label>
 			<input id="sin" type="checkbox" checked=true/>
 			<label for="sin" class="check sinL">Синус <span id="sinValue" class="display"></span></label>
 			<input id="cos" type="checkbox" />
@@ -127,31 +145,14 @@ nav a:hover span, nav a span::before {
 			<label for="ctn" class="check ctnL">Котангенс <span id="ctnValue" class="display"></span></label>
 		</div>
 		<div id="Types">
-			<input id="Default" type="radio" name="displayType" value="default" checked/>
-			<label for="Default" class="check hide">По-умолчанию</label>
-			<input id="Radians" type="radio" name="displayType" value="radians" />
-			<label for="Radians" class="check type">Радианы</label>
-			<input id="Vectors" type="radio" name="displayType" value="vectors"/>
-			<label for="Vectors" class="check type">Векторы</label>
-			<input id="Percents" type="radio" name="displayType" value="percents" />
-			<label for="Percents" class="check type">Проценты</label>
+			<input id="Cathetus" type="checkbox" value="default" checked />
+			<label for="Cathetus" class="check sinL">Катети</label>
+			<input id="Vector" type="checkbox" value="vectors" />
+			<label for="Vector" class="check sinL">Вектори</label>
+<!-- 			<input id="Percents" type="checkbox" value="percents" />
+			<label for="Percents" class="check sinL">Відсотки</label> -->
 		</div>
 	</div>
-	<footer>
-		<p><img src="../favicon.ico" width=16 height=16>
-	 	<span itemprop="copyrightYear">2016</span>
-	 	<span itemprop="copyrightHolder">Kolumbetko</span>
-		</p>
-		<nav class="main-menu">
-			<ul>
-				<li><a href="./"><span data-hover="Главная">Главная</span></a></li><li>
-				<a href="../music" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
-				<a href="../xo2/" title="Крестики-нолики для изучения таблицы умножения"><span data-hover="XO2">XO2</span></a></li><li>
-				<a href="." title="Интерактивная программа"><span data-hover="Тригонометрия">Тригонометрия</span></a></li><li>
-				<a href="../links" title="Полезные ссылки"><span data-hover="Закладки">Закладки</span></a></li>
-			</ul>
-		</nav>
-	</footer>
-	<script src="trigonometry.js"></script>
+	<script src="/trigonometry/trigonometry.js"></script>
 </body>
 </html>

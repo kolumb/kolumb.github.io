@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang=ru>
+<head>
+	<meta charset="utf-8">
+	<title>Tiles</title>
+	<meta name="author" content="Данил Колумбет">
+	<style type="text/css">
+	body {
+		margin:0;
+		padding:0;
+	}
+
+#Canvas {
+	display: block;
+/*outline: solid 1px black;*/
+}	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
+</head>
+<body>
+<canvas id='Canvas'></canvas>
+<script type="text/javascript" src="perlin-noise.js"></script>
+<script type="text/javascript" src="tiles.js"></script>
+</body>
+</html>

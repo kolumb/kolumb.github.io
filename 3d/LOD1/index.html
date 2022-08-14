@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+<meta name="theme-color" content="grey">
+<title>LOD</title>
+<style type="text/css">
+html, body
+  { margin: 0
+  ; padding: 0
+  ; background-color: grey
+  }
+canvas
+  { display: block
+  ; width: 100%
+  }
+</style>
+</head><body>
+<canvas id="Canvas"></canvas>
+<script>
+'use strict'
+let width
+let height
+let hw
+let hh
+const cnv = document.getElementById('Canvas')
+let ctx = cnv.getContext('2d')
+ctx.save()
+function init(){
+  width = innerWidth
+  height = innerHeight
+  hw = width/2
+  hh = height/2
+  cnv.width = innerWidth
+  cnv.height = innerHeight
+  ctx.lineWidth = 1
+  ctx.translate(hw,hh)
+  ctx.strokeStyle = "hsl(0, 50%, 60%)"
+}
+init()
+let p = 
+  { x:0
+  , y:0
+  , size: 10
+  , speed: 5
+  , draw: function(){
+      ctx.fillStyle = 'black'
+      ctx.fillRect(
+      this.x-this.size/2
+      , this.y-this.size/2
+      , this.size, this.size
+      )
+    }
+  }
+let up = false, down = false, left = false, right = false, pause = false
+
+function update(){
+  if(up){
+    p.y -= p.speed
+  }
+  if(down){
+    p.y += p.speed
+  }
+  if(left){
+    p.x -= p.speed
+  }
+  if(right){
+    p.x += p.speed
+  }
+}
+const cellSize = 200
+const zoomFactor = 1
+let maxZoomFactor = 7
+let LOD = 4
+function drawGrid(){
+  for (let i = 0; i < width/cellSize; i++) {
+    for (let j = 0; j < height/cellSize; j++) {
+
+      let cx = i * cellSize + cellSize/2-hw
+      let cy = j * cellSize + cellSize/2-hh
+      // console.log(Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2)))
+      let d = Math.sqrt(Math.pow(p.x - cx, 2) + Math.pow(p.y - cy, 2))
+      ctx.strokeStyle = 'hsl(100, '+Math.round((d/width)*100)+'%, 60%)'
+      if(d<maxZoomFactor*cellSize){
+        drawCell(cx-cellSize/2, cy-cellSize/2, cellSize/2, zoomFactor+1)
+      } else {
+        drawCell(cx-cellSize/2, cy-cellSize/2, cellSize, zoomFactor)
+      }
+      
+    }
+  }
+}
+function drawCell(x, y, newCellSize, zoomFactor){
+  let d = Math.sqrt(Math.pow(p.x - x - newCellSize, 2) + Math.pow(p.y - y - newCellSize, 2))
+  if(zoomFactor > maxZoomFactor || d>newCellSize*LOD){//zoomFactor*newCellSize*LOD) {
+    ctx.strokeRect(x, y, newCellSize*2, newCellSize*2)
+  } else {
+    drawCell(x,       y,        newCellSize/2, zoomFactor + 1)
+    drawCell(x+newCellSize, y,        newCellSize/2, zoomFactor + 1)
+    drawCell(x,       y+newCellSize,  newCellSize/2, zoomFactor + 1)
+    drawCell(x+newCellSize, y+newCellSize,  newCellSize/2, zoomFactor + 1)
+  }
+}
+function redraw(){
+  ctx.fillStyle = 'lightgrey'
+  ctx.fillRect(-hw,-hh, width,height)
+  drawGrid()
+  p.draw()
+}
+function gameLoop(timeStamp){
+  update()
+  redraw()
+  if(pause === false) { requestAnimationFrame(gameLoop) }
+}
+gameLoop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+addEventListener('keydown', e=>{
+  // console.log(e.code)
+  switch(e.code){
+    case 'KeyW' :
+    case 'ArrowUp' :
+      up = true
+      break
+    case 'KeyS' :
+    case 'ArrowDown' :
+      down = true
+      break
+    case 'KeyA' :
+    case 'ArrowLeft' :
+      left = true
+      break
+    case 'KeyD' :
+    case 'ArrowRight' :
+      right = true
+      break
+    case 'KeyH' :
+      console.log(qwe)
+      break
+    case 'Space' :
+      pause = !pause
+      break
+  } 
+})
+addEventListener('keyup', e=>{
+  switch(e.code){
+    case 'KeyW' :
+    case 'ArrowUp' :
+      up = false
+      break
+    case 'KeyS' :
+    case 'ArrowDown' :
+      down = false
+      break
+    case 'KeyA' :
+    case 'ArrowLeft' :
+      left = false
+      break
+    case 'KeyD' :
+    case 'ArrowRight' :
+      right = false
+      break
+    case 'KeyQ' :
+      LOD *= 1/1.1
+      break
+    case 'KeyE' :
+      LOD *= 1.1
+      break
+    case 'NumpadAdd' :
+      maxZoomFactor++
+      if(maxZoomFactor > 10) {
+        maxZoomFactor = 10
+      }
+      //ctx.lineWidth = 2/maxZoomFactor
+      break
+    case 'NumpadSubtract' :
+      maxZoomFactor--
+      if(maxZoomFactor < 1) {
+        maxZoomFactor = 1
+      }
+      //ctx.lineWidth = 2/maxZoomFactor
+      break
+  } 
+})
+addEventListener('resize', init)
+</script></body>
+</html>

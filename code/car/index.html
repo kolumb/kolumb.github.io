@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+  <title>Car from tetris</title>
+	<style>
+html, body
+  { margin: 0
+  ; padding: 0
+  }
+#Canvas
+  { display: block
+  ; background-color: rgba(70,70,70)
+  }
+#FullScreenButton
+  { position: fixed
+  ; top: 0
+  ; right: 0
+  ; padding: .8em .5em
+  ; background: rgba(255, 255, 255, 0.3)
+  ; border: 0
+  ; user-select: none
+  ; cursor: pointer
+  }
+.hide
+  { display: none
+  }
+	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
+</head>
+<body>
+<canvas id="Canvas"></canvas>
+<button id="FullScreenButton">Full screen</button>
+<script src="screenfull.min.js"></script>
+<script src="stats.min.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>

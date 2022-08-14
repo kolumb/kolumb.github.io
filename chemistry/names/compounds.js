@@ -1,4 +1,6 @@
+// Як вигадати випадкову формулу неорганічної сполуки? І навіть назвати його? Крім оксидів, серед класів неорганічних сполук є іонними. Отже, щоб написати формулу, треба згадати якийсь аніон і катіон. Навмання - кальцій і фосфат. CaPO4 – неправильно. Спочатку треба згадати їхні заряди. 2 та 3. Щоб розставити індекси, потрібно знайти найменше загальне кратне. А потім цю шістку розділити на власний заряд. Вийде 3 і 2. Ca3PO42 - неправильно. Тобто для простого іона кальцію не потрібно ставити дужки, а для складного фосфату – потрібно. А як визначити, чи складний він, чи ні? Якщо у ньому більше одного елемента, значить складний.
 // Как придумать случайную формулу неорганического соединения? И даже назвать его? Кроме оксидов, среди классов неорганических соединений все являются ионными. Значит чтобы написать формулу нужно вспомнить какой-то анион и катион. Наугад - кальций и фосфат. CaPO4 - неправильно. Вначале нужно вспомнить их заряды. 2 и 3. Чтобы расставить индексы, нужно найти наименшее обшее кратное. А затем эту шестерку разделить на собственный заряд. Получится 3 и 2. Ca3PO42 - неправильно. То есть, для простого иона кальция не нужно ставить скобки, а для сложного фосфата - нужно. А как определить, сложный он, или нет? Если в нем больше одного элемента, значит сложный.
+// How to come up with a random formula for an inorganic compound? Or even name it? Except oxides, among the classes of inorganic compounds, all are ionic. So in order to write a formula, you need to remember some kind of anion and cation. At random - calcium and phosphate. CaPO4 is wrong. First you need to remember their charges. 2 and 3. To arrange the indices, you need to find the least common multiple. And then divide this six by its own charge. It will turn out 3 and 2. Ca3PO42 is wrong. That is, for a simple calcium ion, you do not need to put brackets, but for a complex phosphate, you need to. How can you tell if it's difficult or not? If it has more than one element, then it is complex.
 
 var display;
 var elements = {
@@ -190,7 +192,7 @@ function createFormula() {
 
 	// А ще додамо ім'я.
 	name = document.createElement('div');
-	name.innerText += currentKat.name + ' ' + currentAn.name;
+	name.textContent += currentKat.name + ' ' + currentAn.name;
 	name.style.fontSize = '0.4em';
 	name.style.display = 'none'; // Але одразу не покажемо.
 	container.appendChild(name);
@@ -211,10 +213,10 @@ function writeIon(ion, leastCommonMulitple, container) {
 		element = elements[ion.formula[i]]
 		lable = document.createElement('span');
 		lable.className = element.type;
-		lable.innerText = element.lable;
+		lable.textContent = element.lable;
 		if(ion.formula[i+1]){
 			elementIndex = document.createElement('sub');
-			elementIndex.innerText = ion.formula[i+1];
+			elementIndex.textContent = ion.formula[i+1];
 			lable.appendChild(elementIndex);
 		}
 		container.appendChild(lable);
@@ -224,7 +226,7 @@ function writeIon(ion, leastCommonMulitple, container) {
 			container.appendChild(document.createTextNode(')'));
 		}
 		index = document.createElement('sub');
-		index.innerText = ionIndex;
+		index.textContent = ionIndex;
 		container.appendChild(index);
 	}
 }

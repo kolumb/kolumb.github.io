@@ -1,3 +1,9 @@
+translations.example = 
+	{ uk: "Приклад"
+	, ru: "Пример"
+	, en: "Example"
+	}
+
 var thread;
 var nMelodyInterval;
 var synchronizedTime = Date.now();
@@ -27,7 +33,7 @@ buttonMelody.addEventListener('click', function() {
 	};
 	if (nMelodyInterval === undefined) {
 		nMelodyInterval = setInterval(playMelody, tempo);
-		buttonMelody.innerText = '■ Пример'
+		buttonMelody.textContent = '■ ' + translations.example[lang]
 	} else {		
 		clearInterval(nMelodyInterval);
 		nMelodyInterval = undefined
@@ -35,7 +41,7 @@ buttonMelody.addEventListener('click', function() {
 			core.plaingNotes[i] = false;
 			core.notes[i].stop();
 		}
-		buttonMelody.innerText = '▶ Пример'
+		buttonMelody.textContent = '▶ ' + translations.example[lang]
 	}
 }, false);
 tempoRange.addEventListener('change', function() {

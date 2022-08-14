@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="uk">
+<head>
+	<meta charset="utf-8" />
+	<title>3D графіка</title>
+	<meta name="author" content="Danil Kolumbet" />
+	<style>
+		body {
+			background-color: #e8e6e3;
+		}
+		h1 {
+			margin: 1em;
+		}
+
+		body > a {
+			position: relative;
+			display: block;
+			padding: 0.6em 0.8em 0.6em 2em;
+			margin: 0.2em;
+			font-size: 150%;
+			color: #149;
+			text-decoration: none;
+			background-color: #efeff2;
+		}
+
+		body > a:hover {
+			background-color: #f7f7fb;
+		}
+		body > a::before {
+			display: block;
+			position: absolute;
+			top: 0.8em;
+			left: 0.7em;
+			width: 16px;
+			height: 16px;
+			content: "";
+			background-size: 100% 100%;
+		}
+		body > a:visited {
+			color: #3d65a8;
+		}
+	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
+	<script type="text/javascript">
+     	if (document.location.hostname) {
+			window.history.pushState("", "", "/uk/3d/");
+		}
+	</script>
+</head>
+<body>
+	<h1>3D графіка:</h1>
+	<a href="/3d/planet/">3D планета</a>
+	<a href="/3d/ik/">Інверсна кінематика</a>
+	<a href="/3d/LOD/">Блок землі для рівнів деталізації (LOD)</a>
+	<a href="/3d/LOD2/">Нескінченна земля</a>
+	<a href="/3d/car/">Тест завантаження моделі і текстури</a>
+	<!-- <a href="/3d/volleyball.html">Волейбол</a> -->
+</body>
+</html>

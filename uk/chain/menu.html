@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="uk">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="Гра для декількох чоловік на одному сенсорному пристрої.">
+	<meta name="author" content="Данило Колумбет">
+	<title>Ланцюгова реакція - меню</title>
+	<meta property="og:site_name" content="Данило Колумбет"/>
+	<meta property="og:title" content="Ланцюгова реакція" />
+	<meta property="og:description" content="Гра для декількох чоловік на одному сенсорному пристрої." />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://kolumb.tk/uk/chain/" />
+	<meta property="og:image" content="https://kolumb.tk/chain/chain-reaction.png" />
+	<link rel="shortcut icon" href="https://kolumb.tk/favicon.ico" />
+	<style>
+html, body, .main, article {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background-color: #f3f1e0;
+}
+h1, h2, h3 {
+	font: 2.5em/1.2 Baskerville, Garamond, serif;
+	text-align: center;
+	margin: 0.5em;
+}
+h2 {font-size: 2em}
+h3 {font-size: 1.5em}
+
+.main {
+	max-width: 45em;
+	padding: 1em;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.description {
+	margin-bottom: 0;
+}
+
+.button {
+	display: inline-block;
+	padding: 0 0.7em;
+	margin: .5em 0em .5em .2em;
+	text-decoration: none;
+	line-height: 2em;
+	font-size: 1em;
+	color: #33a;
+	cursor: pointer;
+	background-color: #eee;
+	border: none;
+	border-radius: .2em;
+	box-shadow: 0 .1em .3em .1em rgba(80, 80, 140, 0.3);
+}
+.button:hover {
+	background-color: #f8f8f8;
+}
+button input {
+	display: none;
+}
+.custom-names button input {
+	display: inline;
+	margin-left: 1em;
+	padding: .2em .5em .05em;
+}
+.custom-names button {
+	/*display: block;*/
+	/*margin: 0.5em auto;*/
+}
+
+.synth {
+	display: none;
+}
+
+#playBtn {
+	font-size: 2em;
+	color: white;
+	background-color: #47A00F;
+}
+
+@media screen and (max-width:490px) {
+	body {
+		font-size: 1em;
+	}
+	.button {
+		margin: .5em 0 .4em;
+		padding: 0 1em;
+		background-color: rgba(250, 250, 250, 0.6);
+		box-shadow: 0;
+	}
+	article {
+		padding: .4em;
+		text-align: center;
+	}
+}
+
+@media screen and (max-width:750px) {
+	html {
+		font-size: .9em;
+	}
+}
+
+@media screen and (min-width:1300px) {
+	.contacts {
+		top: 0.75em;
+	}
+	html {font-size: 120%;}
+}
+
+	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
+</head>
+<body>
+<div class="main" role="main">
+<h2 class="description">Кількість гравців:</h2>
+<div class='players'>
+<button class="button">1<input type="text"></button>
+<button class="button">2<input type="text"></button>
+<button class="button">3<input type="text"></button>
+<button class="button">4<input type="text"></button>
+<button class="button">5<input type="text"></button>
+<button class="button">6<input type="text"></button>
+<button class="button">7<input type="text"></button>
+<button class="button">8<input type="text"></button>
+</div>
+
+<h2 class="description">Розмір поля:</h2>
+<div class='field-size'>
+<button class="button">2</button>
+<button class="button">3</button>
+<button class="button">4</button>
+<button class="button">5</button>
+<button class="button">6</button>
+<button class="button">7</button>
+<button class="button">8</button>
+</div>
+<div class="options">
+<label>Звук <input type="checkbox" id="SoundChk" checked></label>
+<br>
+<label>Синтез мовлення <input type="checkbox" id="SpeechChk"></label>
+<div class="synth">
+<label>Прискорити мовлення <input type="checkbox" id="SpeedChk"></label>
+<br>
+Голос 
+<select>
+</select>
+</div>
+</div>
+
+<a class="button" id="playBtn" href="./?рівень=4&гравці=Перший,Другий">Грати</a>
+</div>
+
+<script src="../../chain/menu.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 var consolelog = function(){
 	ConsoleWrapper.classList.add('expand-console');
-	Console.innerText += Array.prototype.slice.call(arguments).join(' ') + '\n';
+	Console.textContent += Array.prototype.slice.call(arguments).join(' ') + '\n';
 
 	ConsoleWrapper.scrollTop = ConsoleWrapper.scrollHeight;
 	console.log.apply(console, arguments);
@@ -9,15 +9,15 @@ var intervals = [];
 var programs = [];
 var examples;
 examples = [
-"функция Привет() {\n" +
+"функция Привет () {\n" +
 "    если (истина) {\n" +
-"        консоль('Привет мир!');\n" +
+"        консоль (\"Привет мир!\")\n" +
 "    } иначе {\n" +
-"        консоль('Быть такого не может!');\n" +
+"        консоль (\"Быть такого не может!\")\n" +
 "    }\n" +
 "}\n" +
 "\n" +
-"Привет();\n"
+"Привет ()\n"
 
 ,
 
@@ -155,7 +155,11 @@ var vocabulary = {
 	'средний':		'16px',
 	'мелкий':		'12px',
 	'Математика':	'Math',
-	'случайное':	'random'
+	'случайное':	'random',
+	'от':	'(',
+	'до':	')',
+	'начало':	'{',
+	'конец':	'}',
 };
 
 
@@ -168,17 +172,17 @@ var compile = function () {
 			return match;
 		}
 	});
-	if(localStorage) {
-		localStorage['program' + currentProgram] = temp;
-	}
+	// if(localStorage) {
+	// 	localStorage['program' + currentProgram] = temp;
+	// }
 	EngOutput.value = temp;
 	intervals.forEach(function(interval){clearInterval(intervals.pop());})
 	try {
 		eval(temp); //eval is evil!..
 	} catch(e) {
-		if(localStorage) {
-			currentProgram = localStorage['currentProgram'] = 0;
-		}
+		// if(localStorage) {
+		// 	currentProgram = localStorage['currentProgram'] = 0;
+		// }
 		RusInput.value = '';
 		consolelog('Ошибка в программе: ' + e);
 		console.log(e);
@@ -186,36 +190,36 @@ var compile = function () {
 }
 var selectProgram = function(id) {
 	currentProgram = id;
-	if(localStorage) {
-		localStorage.currentProgram = id;
-	}
+	// if(localStorage) {
+	// 	localStorage.currentProgram = id;
+	// }
 	RusInput.value = programs[id];
 	ExampleSelect.value = id;
 	compile();
 }
 var currentProgram = 0;
 var programsCounter = examples.length-1;
-if(localStorage) {
-	if(!localStorage.programsCounter) {
-		localStorage.programsCounter = examples.length-1;
-		localStorage.currentProgram = 0;
-	} else {
-		programsCounter = localStorage.programsCounter;
-
-		currentProgram = localStorage.currentProgram;
-		var name, option;
-		for (var i = 0; i <= programsCounter; i++) {
-			programs[i] = localStorage['program' + i];
-			option = document.createElement('option');
-			option.textContent = localStorage['programName' + i];
-			option.value = '' + i;
-			ExampleSelect.appendChild(option);
-		};
-	}
-}
+// if(localStorage) {
+// 	if(!localStorage.programsCounter) {
+// 		localStorage.programsCounter = examples.length-1;
+// 		localStorage.currentProgram = 0;
+// 	} else {
+// 		programsCounter = localStorage.programsCounter;
+// 
+// 		currentProgram = localStorage.currentProgram;
+// 		var name, option;
+// 		for (var i = 0; i <= programsCounter; i++) {
+// 			programs[i] = localStorage['program' + i];
+// 			option = document.createElement('option');
+// 			option.textContent = localStorage['programName' + i];
+// 			option.value = '' + i;
+// 			ExampleSelect.appendChild(option);
+// 		};
+// 	}
+// }
 if(location.hash){
 	for (var i = 0; i < ExampleSelect.options.length; i++) {
-		if (ExampleSelect.options[i].innerText === location.hash.substr(1)) {
+		if (ExampleSelect.options[i].textContent === location.hash.substr(1)) {
 			selectProgram(i);
 		}
 	};
@@ -240,9 +244,9 @@ ResultButton.addEventListener('click', function (e) {
 
 ExampleSelect.addEventListener('change', function (e) {
 	programs[currentProgram] = RusInput.value;
-	if(localStorage){
-		localStorage['program' + currentProgram] = RusInput.value;
-	}
+	// if(localStorage){
+	// 	localStorage['program' + currentProgram] = RusInput.value;
+	// }
 	var id = ExampleSelect.options.selectedIndex;
 	selectProgram(id);
 }, false);
@@ -259,12 +263,12 @@ NewButton.addEventListener('click', function (e) {
 	option.value = programsCounter;
 	ExampleSelect.appendChild(option);
 	ExampleSelect.value = currentProgram = programsCounter;
-	if(localStorage) {
-		localStorage.currentProgram = localStorage.programsCounter = programsCounter;
-		localStorage['program' + (programsCounter-1)] = RusInput.value;
-		localStorage['program' + programsCounter] = '';
-		localStorage['programName' + programsCounter] = 'Моя программа ' + programsCounter;
-	}
+	// if(localStorage) {
+	// 	localStorage.currentProgram = localStorage.programsCounter = programsCounter;
+	// 	localStorage['program' + (programsCounter-1)] = RusInput.value;
+	// 	localStorage['program' + programsCounter] = '';
+	// 	localStorage['programName' + programsCounter] = 'Моя программа ' + programsCounter;
+	// }
 	programs[programsCounter] = RusInput.value;
 	RusInput.value = '';
 }, false);
@@ -272,20 +276,20 @@ NewButton.addEventListener('click', function (e) {
 
 RenameButton.addEventListener('click', function(e) {
 	var node = ExampleSelect.options[ExampleSelect.options.selectedIndex]
-	var name = prompt("Введите новое имя", node.innerText);
+	var name = prompt("Введите новое имя", node.textContent);
 	if(!name) return;
-	node.innerText=name;
-	if(localStorage) {
-		localStorage['programName' + programsCounter] = name;
-	}
+	node.textContent=name;
+	// if(localStorage) {
+	// 	localStorage['programName' + programsCounter] = name;
+	// }
 },false);
 
 
 
 ResetButton.addEventListener('click', function(e) {
-	if(localStorage){
-		localStorage.clear();
-	}
+	// if(localStorage){
+	// 	localStorage.clear();
+	// }
 	for(;programsCounter>=examples.length; programsCounter--){
 		ExampleSelect.options[programsCounter] = null;
 		programs.pop();
@@ -298,15 +302,15 @@ ResetButton.addEventListener('click', function(e) {
 RusInput.addEventListener('change', function(e) {
 	runs = 0;
 	compile();
-	if(localStorage) {
-		localStorage['program' + currentProgram] = RusInput.value;
-	}
+	// if(localStorage) {
+	// 	localStorage['program' + currentProgram] = RusInput.value;
+	// }
 },false);
 RusInput.addEventListener('keyup', function(e) {
 	if(e.which === 13) {
 		compile();
-		if(localStorage) {
-			localStorage['program' + currentProgram] = RusInput.value;
-		}		
+		// if(localStorage) {
+		// 	localStorage['program' + currentProgram] = RusInput.value;
+		// }		
 	}
 },false);

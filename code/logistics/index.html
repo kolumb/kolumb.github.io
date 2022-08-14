@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no"
+        />
+        <meta name="theme-color" content="#c6c6c2" />
+        <title>Міста з населенням від 100 000</title>
+        <style>
+            body {
+                margin: 0;
+            }
+            #Panel {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                right: 0.5em;
+                margin: 0;
+                padding: 0;
+                font-size: 1.5em;
+                user-select: none;
+            }
+            #Panel li {
+                display: flex;
+                margin: 0.25em 0;
+                line-height: 2em;
+                justify-content: flex-end;
+            }
+            #Panel input {
+                font-size: 1.5em;
+                width: 3em;
+                text-align: center;
+                background: rgba(255, 255, 255, 0.3);
+            }
+            #PauseElem {
+                width: 1.5em;
+                text-align: center;
+            }
+            .button {
+                position: relative;
+                width: 1.5em;
+                height: 1.5em;
+                border: 2px solid rgb(30, 45, 58);
+                background-color: rgba(30, 45, 58, 0.4);
+                color: white;
+                text-align: center;
+                font-size: 1.5em;
+            }
+            .button:hover {
+                background-color: rgba(30, 45, 58, 0.8);
+            }
+            .button:active {
+                color: rgba(30, 45, 58, 0.8);
+                background-color: rgba(180, 200, 220, 0.8);
+            }
+            .button:focus {
+                outline: 2px solid rgba(30, 45, 58, 0.8);
+                background-color: rgba(30, 49, 62, 0.5);
+            }
+            .display {
+                font-size: 2em;
+                width: 1em;
+                text-align: center;
+                color: white;
+                padding: 0 0.25em;
+            }
+            #Canvas {
+                display: block;
+                background: lightgrey;
+            }
+            #Explanation {
+                position: fixed;
+                right: 1em;
+                bottom: 1em;
+                text-align: right;
+                user-select: none;
+            }
+            #Panel #MenuButton,
+            #MenuCheckbox {
+                display: none;
+            }
+            #MenuButton label {
+                display: inline-block;
+                top: 0;
+                left: 0;
+                right: 0;
+                position: absolute;
+                bottom: 0;
+            }
+            #FullScreenElem {
+                margin-right: 0.3em;
+            }
+            @media screen and (max-width: 950px) {
+                #Panel #MenuButton {
+                    display: flex;
+                }
+                input:checked + #Panel li,
+                input:checked + #Panel #FullScreenElem {
+                    display: none;
+                }
+                input:checked + #Panel + #Explanation {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <input type="checkbox" id="MenuCheckbox" />
+        <ul id="Panel">
+            <li id="MenuButton">
+                <button class="button" id="FullScreenElem">⛶</button>
+                <button class="button">
+                    <label for="MenuCheckbox">☰</label>
+                </button>
+            </li>
+            <li>
+                Міста &nbsp;<button class="button" id="AddCityElem">+</button>
+                <input type="number" id="CityNumberInput" />
+                <button class="button" id="RemoveCityElem">-</button>
+            </li>
+            <li>
+                Машини &nbsp;<button class="button" id="AddCarElem">+</button>
+                <input type="number" id="CarNumberInput" />
+                <button class="button" id="RemoveCarElem">-</button>
+            </li>
+            <li>
+                Швидкість: &nbsp;<input
+                    type="range"
+                    id="maxForceElem"
+                    min="0.01"
+                    max="0.07"
+                    step="0.005"
+                    value="0.04"
+                />
+            </li>
+            <li><button id="PauseElem" class="button">| |</button></li>
+        </ul>
+        <div id="Explanation">
+            Тап, або лівий клік - додати зелене місто до маршруту, довгий тап, або правий клік шимею - прибрати найближче місто з маршруту.
+        </div>
+        <canvas id="Canvas"></canvas>
+        <script>
+            if (document.location.hostname) {
+                window.history.pushState("", "", "/uk/code/logistics/");
+            }
+        </script>
+        <script src="/code/logistics/vector.js"></script>
+        <script src="/code/logistics/entity.js"></script>
+        <script src="/code/logistics/car.js"></script>
+        <script src="/code/logistics/city.js"></script>
+        <script src="/code/logistics/init.js"></script>
+    </body>
+</html>

@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang=ru prefix="og:http://ogp.me/ns#">
+<html lang="uk" prefix="og:http://ogp.me/ns#">
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="description" content="Версия игры крестики-нолики для запоминания таблицы умножения.">
-	<meta name="author" content="Данил Колумбет">
-	<title>Крестики-нолики для изучения таблицы умножения</title>
-	<meta property="og:title" content="Крестики-нолики для изучения таблицы умножения" />
+	<meta name="description" content="Версія гри у хрестики-нолики для запам'ятовування таблиці множення.">
+	<meta name="author" content="Данило Колумбет">
+	<title>Хрестики-нолики для вивчення таблиці множення</title>
+	<meta property="og:title" content="Хрестики-нолики для вивчення таблиці множення" />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="http://kolumb.tk/xo2/" />
-	<meta property="og:image" content="http://cs629409.vk.me/v629409698/a2cc/2qph9jn-MAk.jpg" />
-	<link rel="shortcut icon" href="../favicon.ico" />
+	<meta property="og:url" content="https://kolumb.tk/uk/xo2/" />
+	<meta property="og:image" content="https://kolumb.tk/images/xo2.jpg" />
+	<link rel="shortcut icon" href="https://kolumb.tk/favicon.ico" />
 	<style>
 body {
 	margin: 0;
@@ -160,9 +160,9 @@ table table td {
 }
 	.over:active { box-shadow: inset 0 0 .5em gray;	}
 
-.tic { background: url(../images/tic.svg);
+.tic { background: url(/images/tic.svg);
 	background-size: 100%; }
-.tac { background: url(../images/tac.svg);
+.tac { background: url(/images/tac.svg);
 	background-size: 100%; }
 .tic-full::after { 
 	display:block;
@@ -172,7 +172,7 @@ table table td {
 	width: 100%;
 	height: 100%;
 	content: '';
-	background: url(../images/tic.svg); 
+	background: url(/images/tic.svg);
 	background-size: 100%;
 }
 .tac-full::after { 
@@ -183,7 +183,7 @@ table table td {
 	width: 100%;
 	height: 100%;
 	content: '';
-	background: url(../images/tac.svg); 
+	background: url(/images/tac.svg);
 	background-size: 100%;
 }
 
@@ -231,9 +231,21 @@ body nav a:focus span { background: #E5E1EE; }
 	}
 }
 	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+				window.history.pushState("", "", "/uk/xo2/");
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
 </head>
 <body>
-<div id="hint">Выберите 2 числа:</div>
+<div id="hint">Оберіть 2 числа:</div>
 <ol id="controller" class="noselect accent">
 	<li id="pick1" class="digit" draggable="true">1</li>
 	<li id="pick2" class="digit">2</li>
@@ -245,8 +257,8 @@ body nav a:focus span { background: #E5E1EE; }
 	<li id="pick8" class="digit">8</li>
 	<li id="pick9" class="digit">9</li>
 </ol>
-<img id="ticmove" src="../images/tic.svg" alt="X" width="60px" height="60px">
-<img id="tacmove" src="../images/tac.svg" alt="O" width="60px" height="60px">
+<img id="ticmove" src="/images/tic.svg" alt="X" width="60px" height="60px">
+<img id="tacmove" src="/images/tac.svg" alt="O" width="60px" height="60px">
 <table id="gamefield" class="noselect"><tr>
 <td id="block1"><table><tr><td>1
 <div id="cell0" class="over"></div></td><td>2
@@ -340,31 +352,31 @@ body nav a:focus span { background: #E5E1EE; }
 <div id="cell80" class="over"></div></td></tr></table></td></tr>
 </table>
 <br />
-<label for="automatic" style="padding: 3em">Автоматический режим:</label> <input id="automatic" type="checkbox" checked>
+<label for="automatic" style="padding: 3em">Автоматичний режим:</label> <input id="automatic" type="checkbox" checked>
 
 <div style="margin: 2em">
-<h4>Крестики-нолики для изучения таблицы умножения</h4>
-	<p>Цель игры - поставить три крестика или нолика в ряд. Победив на маленьком поле, можно победить на большом, если получится ряд из больших крестика или нолика.</p> <br />
-	<p>Чтобы поставить отметку, нужно выбрать пару чисел. Например, 2 и 5. Тогда можно поставить отметку на всех десятках. </p><br />
-	<p>Второй игрок может переместить один из множителей. Например, нажать на 5, а затем на 2. Получится 2 x 2 = 4. И отметить все четвёрки. Каждый может перемещать только один множитель.</p>
+<h4>Хрестики-нолики для вивчення таблиці множення</h4>
+	<p>Мета гри - поставити три хрестика, або нолика у ряд. У разі виграшу на маленькому полі, можна виграти на великому, якщо вийде ряд з великих хрестиків, або ноликів.Цель игры - поставить три крестика или нолика в ряд.</p> <br />
+	<p>Щоб поставити відмітку, необхідно обрати пару чисел. Наприклад, 2 і 5. Тоді можна поставити відмітку на всіх десятках.</p><br />
+	<p>Другий гравець може перемістити один із множників. Наприклад, натистути на 5, а тоді на 2. Вийде 2 х 2 = 4. І відмітити всі четвірки. Кожен може переміщати лише один множник за раз.</p>
 </div>
-<p style="margin: 3em">Идея взята из статьи: <a href="https://artofmathstudio.wordpress.com/2013/08/30/multiplication-tic-tac-toe/">Multiplication tic-tac-toe</a></p>
+<p style="margin: 3em">Ідею знайшов у статті: <a href="https://artofmathstudio.wordpress.com/2013/08/30/multiplication-tic-tac-toe/">Multiplication tic-tac-toe</a></p>
 <footer>
-	<p><img src="../favicon.ico" width=16 height=16>
+	<p><img src="/favicon.ico" width=16 height=16>
  	<span itemprop="copyrightYear">2015</span>
  	<span itemprop="copyrightHolder">Kolumbetko</span>
 	</p>
 	<nav class="main-menu">
 		<ul>
-			<li><a href="../"><span data-hover="Главная">Главная</span></a></li><li>
-			<a href="../music/" title="Для изучения теории музыки"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
-			<a href="." title="Крестики-нолики для изучения таблицы умножения"><span data-hover="XO2">XO2</span></a></li><li>
-			<a href="../trigonometry" title="Интерактивная программа"><span data-hover="Тригонометрия">Тригонометрия</span></a></li><li>
-			<a href="../links" title="Полезные ссылки"><span data-hover="Закладки">Закладки</span></a></li>
+			<li><a href="/uk/"><span data-hover="Головна">Головна</span></a></li><li>
+			<a href="/uk/music/" title="Для вивчення теорії музики"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
+			<a href="." title="Хрестики-нолики для вивчення таблиці множення"><span data-hover="XO2">XO2</span></a></li><li>
+			<a href="/uk/trigonometry" title="Інтерактивна програма"><span data-hover="Тригонометрія">Тригонометрія</span></a></li><li>
+			<a href="/uk/links" title="Корисні посилання"><span data-hover="Закладки">Закладки</span></a></li>
 		</ul>
 	</nav>
 </footer>
-<link rel="stylesheet" href="../style.css">
-<script src="xo2.js"></script>
+<link rel="stylesheet" href="/style.css">
+<script src="/xo2/xo2.js"></script>
 </body>
 </html>

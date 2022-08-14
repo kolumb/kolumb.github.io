@@ -32,17 +32,13 @@ body, ol, li{ margin: 0; padding: 0; }
 #wraper { position: relative; margin: 0 0 0 5em;
 	-webkit-user-select: none; -moz-user-select: none; user-select: none; }
 
-.shortcuts { -webkit-user-select: none; -moz-user-select: none; user-select: none; cursor: help;
-	position: absolute; top: 3.6em; left: 30.7em; /*margin-left: 30.2em;*/
-	font-family: monospace; letter-spacing: 1.25em; }
-.diesshort { color: white; margin-left: 0.1em; }
 
 ol { margin:0; padding:0; display: inline-block; position: relative;
 	-webkit-user-select: none; -moz-user-select: none; user-select: none; }
 li { display: inline-block; margin:0; padding: 8em 0 0 0;
 	list-style-type: none; width: 1.5em;
 	box-shadow: inset 0px -1px 3px 0px rgba(50, 50, 50, .5);
-	}
+	background-color: #fff; }
 li.pressed { box-shadow: inset 0px -2px 3px 1px rgba(50, 50, 50, .5); background: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.8) 100%);}
 .c.pressed { background-color: #ffaabb; }
 .d.pressed { background-color: #f8d3b2; }
@@ -61,6 +57,10 @@ li.dies { width: 0.8em; padding: 4em 0 0 0; /*box-shadow: -0.4em 0 black;*/
 	.a.dies {left: 8.6em;}
 
 
+.shortcuts { -webkit-user-select: none; -moz-user-select: none; user-select: none; cursor: help;
+	position: absolute; top: 3.6em; left: 30.7em; /*margin-left: 30.2em;*/
+	font-family: monospace; letter-spacing: 1.30em; z-index: 9;}
+.diesshort { color: white; margin-left: 0.1em; }
 
 #Options { padding: .5em; background-color: #eee; }
 

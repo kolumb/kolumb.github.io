@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="uk" prefix="og:http://ogp.me/ns#">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="Гра на логіку для декількох гравців.">
+	<meta name="author" content="Данило Колумбет">
+	<title>Ланцюгова реакція</title>
+	<meta property="og:title" content="Ланцюгова реакція" />
+	<meta property="og:description" content="Гра на логіку для декількох гравців." />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://kolumb.tk/uk/chain/menu.html" />
+	<meta property="og:image" content="https://kolumb.tk/chain/chain-reaction.png" />
+	<link rel="shortcut icon" href="https://kolumb.tk/favicon.ico" />
+	<style>
+body {
+	margin: 0;
+	padding: 0;
+}
+#Canvas {
+	display: block;
+	touch-action: none;
+	margin: 0 auto;
+	outline: .1em dashed lightgrey;
+}
+
+	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
+</head>
+<body>
+<canvas id="Canvas"></canvas>
+<script type="text/javascript" src="../../chain/field.js"></script>
+<script type="text/javascript" src="../../chain/cell.js"></script>
+<script type="text/javascript" src="../../chain/chain.js"></script>
+</body>
+</html>

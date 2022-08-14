@@ -1,3 +1,62 @@
+const lang = location.pathname.match(/^\/(\w\w)\//)?.[1] || "uk"
+const translations =
+	{ ticName:
+		{ uk: "Хрестики"
+		, ru: "Крестики"
+		, en: "X"
+		}
+	, tacName:
+		{ uk: "Нолики"
+		, ru: "Нолики"
+		, en: "O"
+		}
+	, selectTwoNumbers:
+		{ uk: "Оберіть два числа:"
+		, ru: "Выберите два числа:"
+		, en: "Select two numbers:"
+		}
+	, nowSecondPlayer:
+		{ uk: "Тепер інший гравець може змінити одне з чисел: "
+		, ru: "Теперь другой игрок может поменять одно из чисел: "
+		, en: "Now other player can change one of the numbers: "
+		}
+	, or:
+		{ uk: " чи "
+		, ru: " или "
+		, en: " or "
+		}
+	, youWon:
+		{ uk: " виграли! <button id=\"newgame\">Нова гра</buttom>"
+		, ru: " выиграли! <button id=\"newgame\">Новая игра</buttom>"
+		, en: " won! <button id=\"newgame\">New game</buttom>"
+		}
+	, skipping:
+		{ uk: "Цей добуток вже був відмічений. Хід пропущено."
+		, ru: "Это произвидение уже было отмечено. Пропуск хода."
+		, en: "This multiplication was already done. Skipping the move."
+		}
+	, pleaseSelect:
+		{ uk: "Оберіть, будь-ласка, або "
+		, ru: "Выберите, пожалуйста, или "
+		, en: "Please, select either "
+		}
+	, somethingElse:
+		{ uk: "Цей добуток вже був відмічений. Оберіть інше число."
+		, ru: "Это произвидение уже было отмечено. Выберите другое число."
+		, en: "This multiplication was already done. Please select something else."
+		}
+	, selectAll:
+		{ uk: "Тепер позначте на полі всі числа   "
+		, ru: "Теперь отметьте на поле все числа   "
+		, en: "Now mark on field all cells with number   "
+		}
+	, selectAll:
+		{ uk: " помножене на "
+		, ru: " умножить на "
+		, en: " multiplied by "
+		}
+	}
+
 var fieldArray = 
 [1, 2, 3, 4, 5, 6, 7, 8, 9,
  2, 4, 6, 8,10,12,14,16,18, 
@@ -14,8 +73,8 @@ var score = {};
 score.big = {};
 
 score.names = {};
-score.names.tic = 'Крестики';
-score.names.tac = 'Нолики';
+score.names.tic = translations.ticName[lang];
+score.names.tac = translations.tacName[lang];
 var gameover;
 
 var capturedCell;
@@ -83,7 +142,7 @@ var init = function() {
 	score.big.tic = 0;
 	score.big.tac = 0;
 	gameover = false;
-	hint.innerText = 'Выберите два числа:';
+	hint.textContent = translations.selectTwoNumbers[lang];
 }
 init();
 
@@ -109,7 +168,7 @@ var mark = function (selectedId) {
 		window['cell' + selectedId].classList.add(tictac);
 		productCountArray[product]--;
 		if(displayHint < maxHint && productCountArray[product] == 0) {
-			hint.innerText = 'Теперь другой игрок может поменять одно из чисел: ' + first + ' или ' + second + '.';
+			hint.textContent = translations.nowSecondPlayer[lang] + first + translations.or[lang] + second + '.';
 			displayHint++;
 		}
 
@@ -118,7 +177,7 @@ var mark = function (selectedId) {
 			capturedField[smallFieldIndex] = true;
 			window['block' + (smallFieldIndex + 1)].classList.add(tictac + '-full');
 			if (checkWin(score.big[tictac])) {
-				hint.innerHTML = score.names[tictac] + ' выиграли! <button id="newgame">Новая игра</buttom>';
+				hint.innerHTML = score.names[tictac] + translations.youWon[lang];
 				gameover = true;
 			}
 		}
@@ -135,7 +194,7 @@ var makeTurn = function (){
 
 	if (automaticPlay) {
 		if(moves.indexOf(product) !== -1) {
-			hint.innerText = 'Это произвидение уже было отмечено. Пропуск хода.';
+			hint.textContent = translations.skipping[lang];
 			tictac = tictac == 'tic' ? 'tac' : 'tic';
 			return;
 		}
@@ -156,7 +215,7 @@ controller.addEventListener('click', function (event) {
 			second &&
 			index !== first &&
 			index !== second) {
-			hint.innerText = 'Выберите, пожалуйста, или ' + first + ' или ' + second + '.';
+			hint.textContent = translations.pleaseSelect[lang] + first + translations.or[lang]+ second + '.';
 			return;
 		}
 		if (first === index) {
@@ -169,7 +228,7 @@ controller.addEventListener('click', function (event) {
 			first = index;
 			classList.add('first');
 		}
-		hint.innerText = '';
+		hint.textContent = '';
 		controller.classList.remove('disable');
 	} else {	
 		if(first) {
@@ -178,10 +237,10 @@ controller.addEventListener('click', function (event) {
 			product = index * second;
 		}	
 		if(productCountArray[product] === 0) {
-			hint.innerText = 'Это произвидение уже было отмечено. Выберите другое число.';
+			hint.textContent = translations.somethingElse[lang];
 			return;
 		}
-		hint.innerText = '';
+		hint.textContent = '';
 		if (first === index) {
 			classList.add('second');
 			second = index;
@@ -206,7 +265,7 @@ controller.addEventListener('click', function (event) {
 		if(displayHint < maxHint) {
 			gamefield.classList.add('accent');
 			if(!automaticPlay) {
-				hint.innerText = 'Теперь отметьте на поле все числа   ' + (first*second) + '    (' + first + ' умножить на ' + second + ').';
+				hint.textContent = translations.selectAll[lang] + (first*second) + '    (' + first + translations.multipliedBy[lang] + second + ').';
 			}
 			displayHint++;
 		}

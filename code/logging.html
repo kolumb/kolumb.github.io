@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <meta charset="utf-8">
+      <title>logging.js</title>
+      <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+      <style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#23241f;color:#f8f8f2}.hljs-subst,.hljs-tag{color:#f8f8f2}.hljs-emphasis,.hljs-strong{color:#a8a8a2}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ae81ff}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#a6e22e}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#f92672}.hljs-attribute,.hljs-symbol{color:#66d9ef}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#f8f8f2}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#e6db74}.hljs-comment,.hljs-deletion,.hljs-meta{color:#75715e}
+      html {
+            background: #1b1c17;
+      }
+      </style>
+</head>
+<body>
+<pre><code class="language-js">
+const http = require('http');
+const fs = require('fs');
+
+const errorHandler = (err) => {
+    if(err) console.log(err)
+}
+
+const requestListener = (req, res) => {
+    if (req.url === "/favicon.ico") {
+        res.end()
+        return
+    }
+    console.log(" ====== got request ======");
+    console.log("req.url", req.url)
+    console.log("user's IP address is", req.connection.remoteAddress)
+
+    let rawRequestHeaders = ""
+    for(let i = 0; i < req.rawHeaders.length; i+=2) {
+        rawRequestHeaders += `${req.rawHeaders[i]}: ${req.rawHeaders[i+1]}\n`
+    }
+
+    let requestBody  = ''
+    req.on("data", chunk => {
+        console.log("/chunk\\")
+        console.log(chunk)
+        console.log("\\chunk/")
+
+        requestBody += chunk
+    })
+
+    req.on("end", chunk => {
+        fs.appendFileSync("log.txt", `____/ Got request from IP: ${req.connection.remoteAddress} \\____\n`, errorHandler)
+
+        fs.appendFileSync("log.txt", `${req.method} ${req.url} HTTP/${req.httpVersion}\n`, errorHandler)
+
+        fs.appendFileSync("log.txt", rawRequestHeaders, errorHandler)
+
+        fs.appendFileSync("log.txt", "\n", errorHandler)
+
+        fs.appendFileSync("log.txt", requestBody, errorHandler)
+
+        fs.appendFileSync("log.txt", "\n\\ = = = = = = = = = = = = = = = = = = = /\n\n", errorHandler)
+        res.end();
+    })
+}
+const server = http.createServer(requestListener)
+
+server.listen(8000)
+console.log("Started server on http://localhost:8000/")
+</code></pre>
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

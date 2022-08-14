@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			html,
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			.wrapper {
+				margin: 2em auto 0;
+				font-size: 250%;
+				max-width: 20em;
+			}
+			.todo-input {
+				font-size: 100%;
+			}
+			.todo-input + .button {
+				font-size: 100%;
+			}
+			.todo-list {
+				list-style: none;
+				margin: 1.5em 0 0;
+				padding: 0;
+			}
+			li {
+				cursor: pointer;
+				user-select: none;
+			}
+			li input {
+				zoom: 2.5;
+				/*transform: scale(2.5);*/
+			}
+			.loading {
+				margin-left: 1.5em;
+				/*margin-top: 2em;*/
+			}
+			li:hover span {
+				background: #f0f0f3;
+			}
+			li input {
+				opacity: 0;
+			}
+			li:hover input {
+				opacity: 1;
+				cursor: pointer;
+			}
+
+			:checked + span {
+				text-decoration: line-through;
+				color: gray;
+			}
+			.hide {
+				display: none;
+			}
+			li button {
+				font-size: 80%;
+				display: none;
+				background: transparent;
+				border: none;
+			}
+			li:hover :checked + span + button {
+				display: inline;
+				background: #f5e9e9;
+			}
+			li button:hover {
+				cursor: pointer;
+				background: #f5d0d8 !important;
+			}
+			#history {
+				position: fixed;
+				bottom: 1em;
+				left: 1em;
+				font-size: 150%;
+				color: grey;
+			}
+			.syncing {
+				position: fixed;
+				top: 1em;
+				right: 1em;
+			}
+			.syncing div {
+				animation-name: spin;
+				animation-duration: 2000ms;
+				animation-iteration-count: infinite;
+				animation-timing-function: linear;
+
+				transform-origin: 0.54em 0.555em;
+			}
+			@keyframes spin {
+				from {
+					transform: rotate(0deg);
+				}
+				to {
+					transform: rotate(-360deg);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+			<div>
+				<div>
+					<input class="todo-input" />
+					<button class="button">Добавить</button>
+				</div>
+				<ul class="todo-list">
+					<li class="loading">Loading...</li>
+				</ul>
+
+				<div></div>
+			</div>
+		</div>
+		<div class="syncing hide"><div>⟲</div></div>
+		<a href="https://kolumb.tk/history/" id="history">История изменений</a>
+		<script src="script.js"></script>
+	</body>
+</html>

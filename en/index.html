@@ -1,25 +1,37 @@
 <!doctype html>
-<html lang=en prefix="og:http://ogp.me/ns#">
+<html lang="en" prefix="og:http://ogp.me/ns#">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="Personal site with educational tools.">
-	<meta name="author" content="Danil Kolumbet">	
-	<title>Danil Kolumbet</title>
-	<link rel="home me" href="http://kolumb.tk/" />
-	<link rel="canonical" href="http://kolumb.tk/" />
-	<meta property="og:site_name" content="Danil Kolumbet"/>
-	<meta property="og:title" content="Main" />
+	<meta name="author" content="Danylo Kolumbet">	
+	<meta name="theme-color" content="#f3f1e0">
+	<title>Danylo Kolumbet</title>
+	<meta property="og:site_name" content="kolumb.tk"/>
+	<meta property="og:title" content="Danylo Kolumbet" />
 	<meta property="og:description" content="Personal site with educational tools." />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="http://kolumb.tk/en/" />
-	<meta property="og:image" content="../images/face.jpg" />
+	<meta property="og:url" content="https://kolumb.tk/en/" />
+	<meta property="og:image" content="https://kolumb.tk/images/face.jpg" />
 	<meta property="fb:admins" content="100000001634880" />
 	<meta name='yandex-verification' content='5c773b2221f08d80' />
-	<link rel="shortcut icon" href="../favicon.ico" />
+	<link rel="shortcut icon" href="https://kolumb.tk/favicon.ico" />
+	<!-- <link rel="icon" sizes="192x192" href="icon.png"> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
 	<style>
-html, body, .main, article {
+html, body, .main, article, p {
 	margin: 0;
 	padding: 0;
 }
@@ -53,26 +65,79 @@ img {
 	margin: 0;
 	display: inline-block;
 }
-.social a {
+.social a svg {
 	-webkit-transition: -webkit-transform 0.2s;
 	-moz-transition: -moz-transform 0.2s;
 	transition: transform 0.2s;
 }
-.social a:hover {
-	-webkit-transform: scale(1.1);
-	-moz-transform: scale(1.1);
-	transform: scale(1.1);
+.social a:hover svg {
+	-webkit-transform: scale(1.3);
+	-moz-transform: scale(1.3);
+	transform: scale(1.3);
 }
 .main {
 	margin: 0 auto;
 }
 
-article {
+
+article, header {
 	position: relative;
 	max-width: 47em;
 	margin: 0 auto;
 	padding: 1.5em;
 }
+.promo {
+	box-sizing: border-box;
+	/*text-align: center;*/
+	max-width: 35em;
+	margin: 0 auto;
+	font-size: 1.5em;
+	padding: 0 0.3em 0 1.2em;
+	/*padding-left: 4.5em;*/
+	/*padding-right: 3.5em;*/
+	margin-bottom: 2em;
+}
+.promo ul {
+	display: flex;
+	justify-content: space-between;
+	list-style: none;
+	padding: 0;
+	/*padding: 0 1.5em 0 0;*/
+	/*padding: 0 3em 0 2em;*/
+	flex-wrap: wrap;
+	margin: .5em 0;
+}
+.promo li {
+	display: flex;
+	align-items: center;
+	/*margin-right: 2em;*/
+}
+.promo svg {
+	width: 2em;
+	margin-right: .5em;
+}
+article:nth-child(2n) {
+	transform: skewX(10deg);
+}
+	article:nth-child(2n)>a, article:nth-child(2n) p {
+		transform: skewX(-10deg);
+		transition: transform .1s;
+	}
+article:nth-child(2n+1) {
+	transform: skewX(-10deg);
+}
+	article:nth-child(2n+1)>a, article:nth-child(2n+1) p {
+		transform: skewX(10deg);
+		transition: transform .1s;
+	}
+
+	article:nth-child(2n)>a:hover {
+		transform: skewX(-5deg) scale(1.1);
+	}
+
+	article:nth-child(2n+1)>a:hover {
+		transform: skewX(5deg) scale(1.1);
+	}
 
 .intro {background-color: #f3f1e0;
 	text-align: center;}
@@ -135,32 +200,255 @@ article {
 	color: blue;
 }
 
-@media screen and (max-width:490px) {
-	body {
-		font-size: .9em;
+.wip-header {
+	padding-bottom: 0;
+}
+.wip-header-link {
+	color: black;
+	background: transparent;
+	box-shadow: none;
+	margin-bottom: 0;
+}
+.wip-header-link:hover {
+	/*transform: none !important;*/
+	text-decoration: none;
+	background: transparent;
+	transform: skewX(-10deg) !important;
+}
+.wip-wrapper {
+	max-width: 47em;
+	margin: 0 auto;
+}
+.wip-gallery {
+	/*width: 1284px;*/
+
+	height: 1721px;
+	/*width: 113.82%;*/
+	width: 854px;
+	/*max-width: 47em;*/
+	position: relative;
+	margin: 0 auto;
+	left: -44px;
+}
+.wip-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+}
+
+.wip-link {
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	text-decoration: none;
+	color: white;
+	text-shadow: 0 0 6px black;
+	font-size:150%;
+	/*background: rgba(20, 90, 200, 0.2);*/
+	font-family: Helvetica, Arial, sans-serif;
+}
+.wip-link:hover {
+	text-decoration: underline;
+}
+.wip-link span {
+	display: inline-block;
+	width: 75%;
+	text-decoration: inherit;
+}
+.chem-sim {
+    left: 7.788%;
+    top: 3.873%;
+    width: 36.526%;
+    height: 17.428%;
+    padding-left: 6.153%;
+    padding-top: 24.922%;
+    text-shadow: 0 0 4px grey;
+}
+.mmo-gallery {
+    left: 49.143%;
+    top: 1.588%;
+    width: 36.526%;
+    height: 18.435%;
+    padding-left: 3.972%;
+    padding-top: 11.215%;
+    text-shadow: 0 0 4px grey;
+}
+.mmo-gallery span {
+	width: 50%;
+}
+.draw-flow {
+    left: 34.346%;
+    top: 17.932%;
+    width: 27.181%;
+    height: 12.239%;
+    padding-left: 4.128%;
+    padding-top: 15.265%;
+}
+.planet-ride {
+    left: 60.047%;
+    top: 20.178%;
+    width: 38.941%;
+    height: 19.442%;
+    padding-left: 7.632%;
+    padding-top: 4.206%;
+}
+.hight-map {
+    left: 7.944%;
+    top: 22.579%;
+    width: 27.181%;
+    height: 12.239%;
+    padding-left: 2.960%;
+    padding-top: 9.034%;
+}
+.biom-map {
+    left: 25.000%;
+    top: 31.022%;
+    width: 38.941%;
+    height: 19.442%;
+    padding-left: 8.022%;
+    padding-top: 5.997%;
+}
+.added-textures {
+    left: 61.371%;
+    top: 40.511%;
+    width: 27.181%;
+    height: 12.239%;
+    padding-left: 10.748%;
+    padding-top: 2.804%;
+}
+.one-block {
+    left: 11.526%;
+    top: 47.483%;
+    width: 27.181%;
+    height: 12.239%;
+    padding-left: 3.972%;
+    padding-top: 7.477%;
+}
+.endless-land {
+    left: 36.682%;
+    top: 50.271%;
+    width: 38.941%;
+    height: 19.442%;
+    padding-left: 2.103%;
+    padding-top: 25.467%;
+    text-align: center;
+    text-shadow: 0 0 7px grey;
+    color: #5d5d5d;
+}
+.manipulator-3d {
+    left: 63.551%;
+    top: 64.911%;
+    width: 27.181%;
+    height: 12.239%;
+    padding-left: 1.947%;
+    padding-top: 1.480%;
+    text-align: center;
+}
+.rus-programming {
+    left: 1.324%;
+    top: 60.302%;
+    width: 38.941%;
+    height: 19.442%;
+    padding-right: 4.906%;
+    padding-top: 6.153%;
+    text-align: right;
+    text-shadow: 0 0 7px grey;
+    color: #5d5d5d;
+}
+.rus-programming span {
+    width: 82%;
+}
+.mobile-racing {
+    left: 38.240%;
+    top: 69.946%;
+    width: 27.181%;
+    height: 12.239%;
+    padding-left: 9.735%;
+    padding-top: 2.492%;
+}
+.custom-search {
+    left: 54.283%;
+    top: 78.505%;
+    width: 38.941%;
+    height: 19.442%;
+    padding-left: 14.252%;
+    padding-top: 2.259%;
+    color: #5d5d5d;
+    text-shadow: 0 0 7px gray;
+}
+.robots-manipulator {
+    left: 13.707%;
+    top: 79.589%;
+    width: 38.941%;
+    height: 19.442%;
+    padding-left: 19.003%;
+    padding-top: 25.078%;
+}
+
+#youtubelogo {
+    height: 1em;
+    vertical-align: middle;
+}
+
+@media screen and (max-width:950px) {
+	.promo {
+		padding-left: 1.2em;
 	}
-	.button {
-		margin: .5em 0 .4em;
-		padding: 0 1em;
-		background-color: rgba(250, 250, 250, 0.6);
-		box-shadow: 0;
-	}
-	article {
-		padding: .4em;
-		text-align: center;
-	}
-	.description {
-		position: static;
-		width: auto;
-		height: auto;
-		margin: .5em auto .2em;
-		text-align: left;
+	.promo ul {
+		padding: 0;
 	}
 }
 
 @media screen and (max-width:750px) {
 	html {
 		font-size: .7em;
+	}
+	.wip-gallery {
+		height: 1188px;
+		width: 591px;
+		left: -31px;
+	}
+}
+
+@media screen and (max-width:490px) {
+	body {
+		font-size: .9em;
+	}
+	.promo {
+		padding-left: 0;
+		padding-right: 0;
+		text-align: center;
+	}
+	.promo ul {
+		display: block;
+	}
+	.promo li {
+		justify-content: center;
+	}
+	.button {
+		margin: .5em 0 .4em;
+		padding: 0 1em;
+		/*background-color: rgba(250, 250, 250, 0.6);*/
+		box-shadow: 0;
+	}
+	article {
+		padding: 0;
+		margin: 0 1em;
+		text-align: center;
+	}
+	.description {
+		position: static;
+		width: auto;
+		height: auto;
+		margin: .5em auto 0;
+		text-align: left;
+	}
+	.wip-gallery {
+	    height: 998px;
+	    width: 497px;
+	    left: -45px;
 	}
 }
 
@@ -169,101 +457,259 @@ article {
 		top: 0.75em;
 	}
 	html {font-size: 150%;}
+	.wip-gallery {
+		height: 2582px;
+		width: 1284px;
+		left: -70px;
+	}
 }
 
 	</style>
-
-	<script>
-window.addEventListener('DOMContentLoaded', function(e){
-	updateOrientation(null);
-	window.addEventListener('resize', updateOrientation, false);
-}, false);
-
-var updateOrientation = function(event) {
-	if(document.body.clientWidth > document.body.clientHeight){
-		document.body.classList.remove('horizontal');
-		document.body.classList.add('vertical');
-	} else {
-		document.body.classList.remove('vertical');
-		document.body.classList.add('horizontal');
-	}
-}
-	</script>
 </head>
 <body>
-<div class="main  full-height" role="main">
-<article class="intro">
-	<img src="" data-src="../images/9gon.min.png" width="248" height="252" class="lazy">
-	<h1 class="header">Danil Kolumbet</h1>
+<div class="main" role="main">
+<header class="intro">
+	<img src="data:image/gif;base64,R0lGODlhIAAhAPQAAP///wIHAggWBxYTChMlEC8sIFU4Im5KMXBdUJdsUqd7Y5tzWsFqRrGHcJmDdcKLebCWiaadoMeaiM6nl9i4reGxpuLEuNzEvM/P2tzc5e/v9efPx66vwIJ/jgAAAAAAACH5BAEKAAAALAAAAAAgACEAAAX+ICCOZBkEZaqugHC+JyuLcH0KAjGbdu3iBMGuR8S5XjLiCUKhRCiDXI6gW/1uuAAFAkFAHJBIJBB0VUuF1zEwgCwQcDA4XDAKCimgPjBZDAoGBX8KCV8IdigkRmVBBA4OBgcGkwUHCQdwEQRqJAFSjQQFEBsXWxIKDRQThF41Iz6NAhekTbUbGxNwCzAuImtqOaUVExMVFRQWFrkIu55IRWy1xMfIFhRwBz1HvzdNEhLExBTHEAcDSj9rLhAJkQ2SCQ3HCgjnwChqNqsHBxSSkRIoxGPASwgAbS5wSbA24UFAa/IeFKRh40gpBRU2VAh4SxVBdYmUaHmgQMECBQelHkxossGCp18Uta0yeYBQAnAWJNhzdVDJAHANGpBM8OCYBW4xYvb4Ruhbg4cbqJwbcK5TxSXhJnzDuSGDhq91DCq1MSCBWVQSGkxI5hVsEB5K+iQ4+ZRCBq8YvmpQIRJBA1SoJmDA0PYriyIDgqJqMFhDBsIYZiAgkjbo4LscOmTYMdbTBAiMCUdAsJnzKxgcMkh4nAEBhwim4QbQAFkM4di4Z4QAADs=" data-src="../images/9gon.min.png" width="248" height="252" class="lazy">
+	<h1 class="header">Danylo Kolumbet</h1>
 	<ul class="contacts">
-		<li class="social"><a href="https://vk.com/kolumbet" title="VK"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="62.8" version="1.1"><g transform="translate(-55.998853,-576.7753)"><path d="M282.9 213.8 509.7 378.7 423.1 645.3 142.7 645.3 56 378.7z" transform="matrix(0.09918086,0,0,0.09918086,50.444839,555.56753)" fill="#4d71a9"/><path d="m78.3 609.9 1.8 0c0 0 0.5-0.1 0.8-0.4 0.3-0.3 0.2-0.8 0.2-0.8 0 0 0-2.4 1.1-2.8 1.1-0.4 2.5 2.4 4.1 3.4 1.1 0.8 2 0.6 2 0.6l4.1-0.1c0 0 2.1-0.1 1.1-1.8-0.1-0.1-0.6-1.2-3-3.5-2.5-2.4-2.2-2 0.9-6.1 1.9-2.5 2.6-4 2.4-4.7-0.2-0.6-1.6-0.5-1.6-0.5l-4.6 0c0 0-0.3 0-0.6 0.1-0.2 0.1-0.4 0.5-0.4 0.5 0 0-0.7 1.9-1.7 3.6-2 3.4-2.8 3.6-3.2 3.4-0.8-0.5-0.6-2-0.6-3.1 0-3.3 0.5-4.7-1-5.1-0.5-0.1-0.9-0.2-2.1-0.2-1.6 0-3 0-3.8 0.4-0.5 0.3-0.9 0.8-0.7 0.9 0.3 0 1 0.2 1.3 0.7 0.5 0.6 0.5 2.1 0.5 2.1 0 0 0.3 3.9-0.6 4.4-0.6 0.3-1.5-0.3-3.3-3.5-0.9-1.6-1.6-3.4-1.6-3.4 0 0-0.1-0.3-0.4-0.5-0.3-0.2-0.7-0.3-0.7-0.3l-4.3 0c0 0-0.7 0-0.9 0.3-0.2 0.3 0 0.8 0 0.8 0 0 3.4 7.9 7.2 11.9 3.5 3.7 7.5 3.4 7.5 3.4l0 0" fill="#fff"/></g></svg></a>
-		</li><li class="social"><a href="mailto:kolumbetko@gmail.com" title="kolumbetko@gmail.com"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="61" version="1.1"><style>.s0{fill:#b8b7ae;}.s1{fill:none;}</style><g transform="translate(-0.03489863,-130.01656)"><path d="m8.9 160.6 0 20.5 13.6 9.9 16.1-11.8z" fill="#e7e4d7"/></g><g transform="translate(-0.03489863,-130.01656)"><path d="m39.7 158.3-3.5 2.4-13.6 9.4-13.6-9.5 0 20.5-8.9-6.4 6.9-21.2 31-0.7z" fill="#e75a4d"/></g><g transform="translate(-0.03489863,-130.01656)"><path d="m39.6 158.3-3.5 2.5 0 20.4 8.9-6.4z" fill="#b2392f"/></g><g transform="translate(-0.03489863,-130.01656)"><path d="m38.2 153.5-1.7-5.3-27.8 0-1.7 5.3 15.6 11.5z" fill="#f7f5ed"/></g><g transform="translate(-0.03489863,-130.01656)"><polygon transform="matrix(7.8052324e-4,0,0,7.8052324e-4,4.7894032,153.97339)" points="22713 20700 22634 20644 5255 32580 5255 32847 " fill="#b8b7ae"/><line y2="179.6" x2="36.2" y1="179.6" x1="36.1" fill="none"/><line y2="179.6" x2="36.1" y1="179.6" x1="36.2" fill="none"/><polygon points="5255 32580 5255 32847 22713 20700 22634 20644 " transform="matrix(7.8052324e-4,0,0,7.8052324e-4,4.7894032,153.97339)" fill="#b8b7ae"/><polygon points="40172 8674 40182 32847 22713 20700 " transform="matrix(7.8052324e-4,0,0,7.8052324e-4,4.7894032,153.97339)" fill="#b7b6ad"/></g></svg></a>
-		</li><li class="social"><a href="https://plus.google.com/108720125146295565297/?rel=author" rel="publisher" title="Google+"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="62.8" version="1.1"><style>.s0{fill:#fff;}</style><g transform="translate(-55.998853,-576.7753)"><path d="M282.9 213.8 509.7 378.7 423.1 645.3 142.7 645.3 56 378.7z" transform="matrix(0.09918086,0,0,0.09918086,50.444839,555.56753)" fill="#ce2a2f"/><path d="m78.6 589.6c0.2 0.1 0.5 0.3 0.7 0.6 0.3 0.3 0.5 0.6 0.8 1 0.2 0.4 0.5 0.8 0.6 1.3 0.2 0.5 0.2 1.1 0.2 1.8 0 1.3-0.3 2.3-0.8 3-0.3 0.4-0.5 0.7-0.8 1-0.3 0.3-0.7 0.6-1 0.9-0.2 0.2-0.4 0.5-0.6 0.7-0.2 0.3-0.3 0.6-0.3 1 0 0.4 0.1 0.7 0.3 0.9 0.2 0.2 0.4 0.4 0.5 0.6l1.2 1c0.7 0.6 1.4 1.3 2 2 0.5 0.7 0.8 1.7 0.8 2.9 0 1.7-0.8 3.2-2.3 4.5-1.6 1.4-3.8 2.1-6.8 2.1-2.5 0-4.3-0.5-5.5-1.6-1.2-1-1.8-2.1-1.8-3.4 0-0.7 0.2-1.4 0.6-2.2 0.4-0.8 1.1-1.5 2.1-2.1 1.1-0.6 2.3-1.1 3.6-1.3 1.2-0.2 2.3-0.3 3.1-0.3-0.3-0.3-0.5-0.7-0.7-1.1-0.2-0.4-0.3-0.8-0.3-1.3 0-0.3 0-0.6 0.1-0.8 0.1-0.2 0.1-0.4 0.2-0.6-0.4 0-0.8 0.1-1.1 0.1-1.9 0-3.3-0.6-4.3-1.8-1-1.1-1.5-2.3-1.5-3.8 0-1.7 0.7-3.3 2.2-4.7 1-0.8 2-1.4 3.1-1.6 1.1-0.2 2.1-0.3 3-0.3l7 0-2.2 1.3-2.2 0zm1.4 20.3c0-0.9-0.3-1.7-0.9-2.3-0.6-0.6-1.6-1.4-2.9-2.3-0.2 0-0.5 0-0.8 0-0.2 0-0.6 0-1.4 0.1-0.7 0.1-1.5 0.3-2.2 0.5-0.2 0.1-0.4 0.2-0.8 0.3-0.3 0.1-0.7 0.4-1 0.6-0.3 0.3-0.6 0.6-0.8 1.1-0.3 0.4-0.4 1-0.4 1.6 0 1.2 0.6 2.3 1.7 3.1 1.1 0.8 2.5 1.2 4.4 1.2 1.7 0 2.9-0.4 3.8-1.1 0.9-0.7 1.3-1.6 1.3-2.7zm-4.9-10.3c0.9 0 1.7-0.4 2.3-1 0.3-0.4 0.5-0.9 0.6-1.4 0.1-0.5 0.1-0.9 0.1-1.2 0-1.4-0.4-2.8-1.1-4.2-0.3-0.7-0.8-1.2-1.3-1.7-0.6-0.4-1.2-0.6-1.9-0.6-1 0-1.7 0.4-2.4 1.2-0.5 0.8-0.8 1.7-0.8 2.6 0 1.3 0.4 2.6 1.1 4 0.4 0.6 0.8 1.2 1.4 1.6 0.6 0.4 1.2 0.7 2 0.7M92.5 592.2l-3.7 0 0-3.7-1.8 0 0 3.7-3.7 0 0 1.8 3.7 0 0 3.7 1.8 0 0-3.7 3.7 0 0-1.8M92.5 592.2l-3.7 0 0-3.7-1.8 0 0 3.7-3.7 0 0 1.8 3.7 0 0 3.7 1.8 0 0-3.7 3.7 0 0-1.8" fill="#fff"/></g></svg></a>
-		</li><li class="social"><a href="https://facebook.com/kolumbet" title="Facebook"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="61" version="1.1"><g transform="translate(-55.998853,-584.3394)"><path d="M282.9 213.8 509.7 378.7 423.1 645.3 142.7 645.3 56 378.7z" transform="matrix(0.09918086,0,0,-0.09918086,50.444839,666.54716)" fill="#3b5998"/><path d="m85.2 642.4 0-13.6 4.6 0 0.7-5.3-5.3 0 0-3.4c0-1.5 0.4-2.6 2.6-2.6l2.8 0 0-4.7c-0.5-0.1-2.2-0.2-4.1-0.2-4.1 0-6.8 2.5-6.8 7l0 3.9-4.6 0 0 5.3 4.6 0 0 16 5.5-2.4z" fill="#fff"/></g></svg></a>
+		<li class="social"><a href="https://facebook.com/kolumbet" title="Facebook"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="61" version="1.1"><g transform="translate(-55.998853,-584.3394)"><path d="M282.9 213.8 509.7 378.7 423.1 645.3 142.7 645.3 56 378.7z" transform="matrix(0.09918086,0,0,-0.09918086,50.444839,666.54716)" fill="#3b5998"/><path d="m85.2 642.4 0-13.6 4.6 0 0.7-5.3-5.3 0 0-3.4c0-1.5 0.4-2.6 2.6-2.6l2.8 0 0-4.7c-0.5-0.1-2.2-0.2-4.1-0.2-4.1 0-6.8 2.5-6.8 7l0 3.9-4.6 0 0 5.3 4.6 0 0 16 5.5-2.4z" fill="#fff"/></g></svg></a>
+		</li><li class="social"><a href="https://vk.com/kolumbet" title="Вконтакте"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="62.8" version="1.1"><g transform="translate(-55.998853,-576.7753)"><path d="M282.9 213.8 509.7 378.7 423.1 645.3 142.7 645.3 56 378.7z" transform="matrix(0.09918086,0,0,0.09918086,50.444839,555.56753)" fill="#4d71a9"/><path d="m78.3 609.9 1.8 0c0 0 0.5-0.1 0.8-0.4 0.3-0.3 0.2-0.8 0.2-0.8 0 0 0-2.4 1.1-2.8 1.1-0.4 2.5 2.4 4.1 3.4 1.1 0.8 2 0.6 2 0.6l4.1-0.1c0 0 2.1-0.1 1.1-1.8-0.1-0.1-0.6-1.2-3-3.5-2.5-2.4-2.2-2 0.9-6.1 1.9-2.5 2.6-4 2.4-4.7-0.2-0.6-1.6-0.5-1.6-0.5l-4.6 0c0 0-0.3 0-0.6 0.1-0.2 0.1-0.4 0.5-0.4 0.5 0 0-0.7 1.9-1.7 3.6-2 3.4-2.8 3.6-3.2 3.4-0.8-0.5-0.6-2-0.6-3.1 0-3.3 0.5-4.7-1-5.1-0.5-0.1-0.9-0.2-2.1-0.2-1.6 0-3 0-3.8 0.4-0.5 0.3-0.9 0.8-0.7 0.9 0.3 0 1 0.2 1.3 0.7 0.5 0.6 0.5 2.1 0.5 2.1 0 0 0.3 3.9-0.6 4.4-0.6 0.3-1.5-0.3-3.3-3.5-0.9-1.6-1.6-3.4-1.6-3.4 0 0-0.1-0.3-0.4-0.5-0.3-0.2-0.7-0.3-0.7-0.3l-4.3 0c0 0-0.7 0-0.9 0.3-0.2 0.3 0 0.8 0 0.8 0 0 3.4 7.9 7.2 11.9 3.5 3.7 7.5 3.4 7.5 3.4l0 0" fill="#fff"/></g></svg></a>
+		</li><li class="social"><a href="https://github.com/kolumb/" title="Github"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="61" version="1.1"><g transform="translate(-21,-179.5) scale(0.372,0.372)"><path fill="#1a1817" d="M 282.85715,213.82925 509.71545,378.65146 423.06328,645.33938 142.651,645.33937 55.998853,378.65145 z" transform="matrix(0.26448228,0,0,-0.26448228,41.188149,701.89344)" /><path fill="#fff" d="m 115.87888,549.31767 c -18.072507,0 -32.722507,14.64875 -32.722507,32.7275 0,14.45 9.3725,26.71375 22.377497,31.045 1.63875,0.2975 2.235,-0.71625 2.235,-1.58 0,-0.77625 -0.025,-2.835 -0.045,-5.56625 -9.101247,1.9775 -11.019997,-4.385 -11.019997,-4.385 -1.49,-3.77875 -3.63625,-4.7825 -3.63625,-4.7825 -2.96875,-2.03375 0.2275,-1.9925 0.2275,-1.9925 3.28625,0.2325 5.01376,3.37125 5.01376,3.37125 2.916247,5.0025 7.657487,3.5525 9.523737,2.7175 0.29376,-2.11625 1.13875,-3.5525 2.07375,-4.3725 -7.26625,-0.8225 -14.904987,-3.6375 -14.904987,-16.17375 0,-3.5675 1.27749,-6.4925 3.36624,-8.7775 -0.33499,-0.83 -1.45625,-4.155 0.323757,-8.66125 0,0 2.74374,-0.88 8.9975,3.35625 2.60874,-0.7275 5.41249,-1.09125 8.19124,-1.10375 2.78001,0.0125 5.58001,0.37625 8.19,1.10375 6.25126,-4.23625 8.99626,-3.35625 8.99626,-3.35625 1.78125,4.50625 0.65999,7.83125 0.32125,8.66125 2.09375,2.285 3.36499,5.21 3.36499,8.7775 0,12.5725 -7.65375,15.33875 -14.94374,16.15 1.17374,1.01 2.22375,3.0025 2.22375,6.05625 0,4.375 -0.04,7.90375 -0.04,8.9775 0,0.87375 0.59125,1.89 2.25126,1.57 12.98874,-4.33125 22.35625,-16.59 22.35625,-31.035 0,-18.07875 -14.64626,-32.7275 -32.72125,-32.7275" /></g></svg></a>
 		</li><li class="social"><a href="skype:kolumbetko?chat" title="Skype"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="61.8" version="1.1"><g transform="translate(-55.998853,-576.7753)"><path d="M282.9 213.8 509.7 378.7 423.1 645.3 142.7 645.3 56 378.7z" transform="matrix(0.09918086,0,0,0.09918086,50.444839,555.56753)" fill="#00adef"/><path d="m88 607.8c-1.1 3.6-5.2 5.3-9.1 5.3-5.5 0-10.1-2.5-10.1-5.5 0-1.3 0.8-2.5 2.5-2.5 2.6 0 2.9 3.8 7.4 3.8 2.2 0 3.6-1 3.6-2.2 0-1.6-1.3-1.8-3.5-2.3l-3.6-0.9c-3.6-0.9-6.3-2.3-6.3-6.4 0-5 4.9-6.8 9.2-6.8 4.6 0 9.3 1.8 9.3 4.6 0 1.4-1 2.7-2.6 2.7-2.4 0-2.5-2.8-6.3-2.8-2.1 0-3.5 0.6-3.5 1.9 0 1.4 1.4 1.8 3.3 2.2l2.5 0.6c2.9 0.7 6.3 1.8 7.3 4.7 0.4 1.3 0.3 2.7 0 3.8z" fill="#fff"/></g></svg></a>
+		</li><li class="social"><a href="mailto:kolumbetko@gmail.com" title="kolumbetko@gmail.com"><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="45" height="61" version="1.1"><style>.s0{fill:#b8b7ae;}.s1{fill:none;}</style><g transform="translate(-0.03489863,-130.01656)"><path d="m8.9 160.6 0 20.5 13.6 9.9 16.1-11.8z" fill="#e7e4d7"/></g><g transform="translate(-0.03489863,-130.01656)"><path d="m39.7 158.3-3.5 2.4-13.6 9.4-13.6-9.5 0 20.5-8.9-6.4 6.9-21.2 31-0.7z" fill="#e75a4d"/></g><g transform="translate(-0.03489863,-130.01656)"><path d="m39.6 158.3-3.5 2.5 0 20.4 8.9-6.4z" fill="#b2392f"/></g><g transform="translate(-0.03489863,-130.01656)"><path d="m38.2 153.5-1.7-5.3-27.8 0-1.7 5.3 15.6 11.5z" fill="#f7f5ed"/></g><g transform="translate(-0.03489863,-130.01656)"><polygon transform="matrix(7.8052324e-4,0,0,7.8052324e-4,4.7894032,153.97339)" points="22713 20700 22634 20644 5255 32580 5255 32847 " fill="#b8b7ae"/><line y2="179.6" x2="36.2" y1="179.6" x1="36.1" fill="none"/><line y2="179.6" x2="36.1" y1="179.6" x1="36.2" fill="none"/><polygon points="5255 32580 5255 32847 22713 20700 22634 20644 " transform="matrix(7.8052324e-4,0,0,7.8052324e-4,4.7894032,153.97339)" fill="#b8b7ae"/><polygon points="40172 8674 40182 32847 22713 20700 " transform="matrix(7.8052324e-4,0,0,7.8052324e-4,4.7894032,153.97339)" fill="#b7b6ad"/></g></svg></a>
 		</li>
 	</ul>
-</article>
+</header>
+<div class="promo">
+	Teaching:
+	<ul>
+		<li><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;}
+	.st1{fill:none;stroke:#000000;stroke-width:9;stroke-linecap:round;stroke-miterlimit:10;}
+</style>
+<g>
+	<g>
+		<path class="st0" d="M42.55,159.5c-3.34,0-6.05-2.71-6.05-6.05V66.55c0-3.34,2.72-6.05,6.05-6.05h170.89
+			c3.34,0,6.05,2.72,6.05,6.05v86.89c0,3.34-2.71,6.05-6.05,6.05H42.55z"/>
+		<path d="M213.45,65c0.86,0,1.55,0.7,1.55,1.55v86.89c0,0.86-0.7,1.55-1.55,1.55H42.55c-0.86,0-1.55-0.7-1.55-1.55V66.55
+			C41,65.7,41.7,65,42.55,65H213.45 M213.45,56H42.55C36.72,56,32,60.72,32,66.55v86.89c0,5.83,4.72,10.55,10.55,10.55h170.89
+			c5.83,0,10.55-4.72,10.55-10.55V66.55C224,60.72,219.28,56,213.45,56L213.45,56z"/>
+	</g>
+	<g>
+		<path class="st0" d="M26.55,194.5c-3.34,0-6.05-2.71-6.05-6.05v-5.89c0-3.34,2.72-6.05,6.05-6.05h202.89
+			c3.34,0,6.05,2.71,6.05,6.05v5.89c0,3.34-2.71,6.05-6.05,6.05H26.55z"/>
+		<path d="M229.45,181c0.86,0,1.55,0.7,1.55,1.55v5.89c0,0.86-0.7,1.55-1.55,1.55H26.55c-0.86,0-1.55-0.7-1.55-1.55v-5.89
+			c0-0.86,0.7-1.55,1.55-1.55H229.45 M229.45,172H26.55C20.72,172,16,176.72,16,182.55v5.89c0,5.83,4.72,10.55,10.55,10.55h202.89
+			c5.83,0,10.55-4.72,10.55-10.55v-5.89C240,176.72,235.28,172,229.45,172L229.45,172z"/>
+	</g>
+	<g>
+		<line class="st1" x1="53.5" y1="76.5" x2="64.5" y2="76.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="79.5" y1="76.5" x2="99.5" y2="76.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="114.5" y1="76.5" x2="119.5" y2="76.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="67.5" y1="90.5" x2="78.5" y2="90.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="93.5" y1="90.5" x2="127.5" y2="90.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="143.5" y1="90.5" x2="148.5" y2="90.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="163.5" y1="90.5" x2="175.5" y2="90.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="82.5" y1="104.5" x2="93.5" y2="104.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="108.5" y1="104.5" x2="123.5" y2="104.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="139.5" y1="104.5" x2="144.5" y2="104.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="159.5" y1="104.5" x2="178.5" y2="104.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="82.5" y1="118.5" x2="99.5" y2="118.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="112.5" y1="118.5" x2="119.5" y2="118.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="162.5" y1="118.5" x2="169.5" y2="118.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="132.5" y1="118.5" x2="149.5" y2="118.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="67.5" y1="133.5" x2="72.5" y2="133.5"/>
+	</g>
+	<g>
+		<line class="st1" x1="53.5" y1="146.5" x2="58.5" y2="146.5"/>
+	</g>
+</g>
+</svg>Programming</li>
+		<li><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" viewBox="0 0 256 256" xml:space="preserve">
+<g>
+	
+		<polygon fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+		71.5,100.5 127.5,75.5 184.5,101.5 184.5,174.5 127.5,201.5 71.5,174.5 	"/>
+	
+		<polyline fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-miterlimit="10" points="
+		184.5,101.5 127.5,128.5 71.5,100.5 	"/>
+	
+		<line fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-miterlimit="10" x1="127.5" y1="128.5" x2="127.5" y2="201.5"/>
+	
+		<line fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-miterlimit="10" x1="243.09" y1="201" x2="184.5" y2="174.5"/>
+	
+		<line fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-miterlimit="10" x1="12.09" y1="201" x2="71.5" y2="174.5"/>
+	
+		<line fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-miterlimit="10" x1="127.5" y1="13.5" x2="127.5" y2="75.5"/>
+</g>
+</svg>3D-graphics</li>
+		<li><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" viewBox="0 0 256 256" xml:space="preserve">
+<g>
+	
+		<path fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M143.9,202H52.54c-3.77,0-6.82-3.05-6.82-6.82V60.82c0-3.77,3.05-6.82,6.82-6.82h91.36c3.77,0,6.82,3.05,6.82,6.82v134.36
+		C150.72,198.95,147.67,202,143.9,202z"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="220.28" y1="77.41" x2="169.28" y2="156.41"/>
+	
+		<rect x="185.22" y="170.5" transform="matrix(6.123234e-17 -1 1 6.123234e-17 11.2212 375.2212)" fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="16" height="23"/>
+	<path fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M98.22,143.2c-12.18,0-16.75-22.84-16.75-29.69c0-6.85,3.05-17.51,16.75-17.51s16.75,10.66,16.75,17.51
+		C114.97,120.36,110.4,143.2,98.22,143.2z"/>
+	<path fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M58.97,198.03c0-16.06,7.14-41.03,39.25-41.03s39.25,24.98,39.25,41.03"/>
+</g>
+</svg>Drawing</li>
+	</ul>
+</div>
 <article class="music">
-	<a href="../music/" class="button">Musical notes</a>
-	<p class="description"><strong>Synthesizer</strong> by which you can relate keys and strings on musical instruments.</p>
+	<a href="music/" class="button">Musical notes</a>
+	<div class="description"><p><strong>Synthesizer</strong> that can help to understand connection between musical notation and keys and strings on musical instruments.</p></div>
 </article>	
 <article class="xo2">
-	<a href="../xo2/" class="button">Tic-Tac-Toe</a>
-	<p class="description">A <strong>game</strong> for repetition of multiplication table.</p>
+	<a href="xo2/" class="button">Tic-Tac-Toe</a>
+	<div class="description"><p>A <strong>game</strong> for remembering multiplication table.</p></div>
 </article>
 <article class="chain">
 	<a href="chain/menu.html" class="button">Chain Reaction</a>
-	<p class="description">A <strong>game</strong> for several players on one mobile device. <a class="outside" href="https://drive.google.com/uc?export=download&id=0BzNMGHNaUfk4eDVmdEFXWFdrUjg">Download .apk</a> for Android.</p>
+	<div class="description"><p>A <strong>game</strong> for several players on one mobile device. <a class="outside" href="https://drive.google.com/uc?export=download&id=0BzNMGHNaUfk4eDVmdEFXWFdrUjg">Download .apk</a> for Android.</p></div>
 </article>
 <article class="trigon">
-	<a href="../trigonometry/" class="button">Trigonometry</a>
-	<p class="description">Interactive <strong>demonstration</strong> of sinus, cosinus etc.</p>
+	<a href="trigonometry/" class="button">Trigonometry</a>
+	<div class="description"><p>Interactive <strong>demonstration</strong> of sinus, cosinus etc.</p></div>
 </article>
 <article class="cell">
 	<a href="https://www.youtube.com/playlist?list=PLG_EZU9f8_zoEBTZ-qWa59qRzl9UMX6zJ" class="button">Microbiology</a>
-	<p class="description"><strong>Playlist</strong> on YouTube with awesome videos of human cell animation. This is the most complicated topic in high school biology. But here it's very graphic.</p>
+	<div class="description"><p><strong>Playlist</strong> on YouTube with awesome videos of human cell animation. This is the most complicated topic in high school biology. But here it's very graphic.</p></div>
 </article>
 <article class="chem">
-	<a href="../chemistry/names/" class="button">Chemistry</a>
-	<!--<a href="chemistry/complex/" class="button">Комплексы</a>-->
-	<p class="description">Inorganic compounds <strong>generator</strong> for repetition of their nomenclature.</p>
+	<a href="chemistry/names/" class="button">Chemistry</a>
+	<!--<a href="chemistry/complex/" class="button">Комплекси</a>-->
+	<div class="description"><p>Inorganic compounds <strong>generator</strong> for repetition of their nomenclature.</p></div>
 </article>
 <article class="flash">
-	<a href="../flash/" class="button">Flash</a>
-	<p class="description">Archive of my old <strong>games</strong> and programms which I made while I learned to program.</p>
+	<a href="flash/" class="button">Flash</a>
+	<div class="description"><p>Archive of my old <strong>games</strong> and programms that I made while I was learning how to program.</p></div>
 </article>
 <article class="origami">
-	<a href="../origami/" class="button">Origami</a>
-	<p class="description"><strong>Paper</strong> stuff.</p>
+	<a href="origami/" class="button">Origami</a>
+	<div class="description"><p>Paper <strong>stuff</strong>.</p></div>
 </article>
 <article class="render">
-	<a href="../render/" class="button">3D graphics</a>
-	<p class="description"><strong>Pictures</strong> which I made in Blender editor.</p>
+	<a href="render/" class="button">3D graphics</a>
+	<div class="description"><p><strong>Pictures</strong>, which I made in <a href="https://www.blender.org/">Blender</a> editor.</p></div>
 </article>
-<article>
-	<a href="../code/" class="button">Programming in Russian</a>
-	<a href="../links/" class="button" title="Usefull links">Bookmarks</a>
-	<a href="../flow/" class="button" title="Field flow experimet">Flow drawing</a>
+<article class="wip-header">
+	<!-- <a href="code/" class="button">Programming in Ukrainian</a> -->
+	<!-- <a href="flow/" class="button" title="Field flow experiment">Flow drawing</a> -->
+	<a href="wip/" class="button wip-header-link" title="Different experiments that I didn't finished.">Abandoned projects:</a>
 </article>
+<style type="text/css">
+	
+
+
+</style>
+<div class="wip-wrapper">
+<div class="wip-gallery">
+	<!-- <svg class="wip-bg"></svg> -->
+	<img id="wipbg" class="wip-bg" alt="" src="" data-src="../images/screenshotsforwip2.min.jpg"/>
+	<a class="wip-link chem-sim" href="chemistry/molecules/"><span>Chemistry simulation</span></a>
+	<a class="wip-link mmo-gallery" href="mmogallery/"><span>MMO gallery</span></a>
+	<a class="wip-link draw-flow" href="../flow/"><span>Flow drawing</span></a>
+	<a class="wip-link planet-ride" href="../3d/planet/"><span>A planet</span></a>
+	<a class="wip-link hight-map" href="../tiles/"><span>Infinite height map</span></a>
+	<a class="wip-link biom-map" href="../bioms/"><span>Bioms</span></a>
+	<a class="wip-link added-textures" href="../tiles3/"><span>Added textures</span></a>
+	<a class="wip-link one-block" href="../3d/LOD/"><span>One block</span></a>
+	<a class="wip-link endless-land" href="../3d/LOD2/"><span>Infinite landscape</span></a>
+	<a class="wip-link manipulator-3d" href="../3d/ik/"><span>3D manipulator</span></a>
+	<!-- FIXME -->
+	<a class="wip-link rus-programming" href="../code/"><span>Programming in Ukrainian</span></a>
+	<a class="wip-link mobile-racing" href="../code/car/"><span>Mobile racing game</span></a>
+	<!-- FIXME -->
+	<a class="wip-link custom-search" href="../search/"><span>Search</span></a>
+	<a class="wip-link robots-manipulator" href="../code/ik/"><span>Robotic arm</span></a>
 </div>
-<div class="language"><a href="../">ru</a> <a href="">en</a></div>
+</div> <!--wip-wrapper-->
+<script type="text/javascript">
+	function setWIPbg(){
+		var wipbg = document.getElementById('wipbg')
+		wipbg.src = wipbg.dataset.src
+		clearTimeout(timer)
+		removeEventListener('scroll', setWIPbg)
+	}
+	var timer = setTimeout(setWIPbg, 5000)
+	addEventListener('scroll', setWIPbg)
+</script>
+<article>
+	<!-- FIXME -->
+	<a href="../suggests/" class="button" title="Collection of links to Youtube">My video suggestions for you <svg version="1.1" baseProfile="tiny" id="youtubelogo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" viewBox="0 0 192 192" xml:space="preserve">
+<g>
+	<path id="XMLID_182_" fill="#282828" d="M180.32,53.36c-2.02-7.62-7.99-13.62-15.56-15.66C151.04,34,96,34,96,34
+		s-55.04,0-68.76,3.7c-7.57,2.04-13.54,8.04-15.56,15.66C8,67.18,8,96,8,96s0,28.82,3.68,42.64c2.02,7.62,7.99,13.62,15.56,15.66
+		C40.96,158,96,158,96,158s55.04,0,68.76-3.7c7.57-2.04,13.54-8.04,15.56-15.66C184,124.82,184,96,184,96S184,67.18,180.32,53.36z"
+		/>
+	<polygon fill="#FFFFFF" points="78,122.17 124,96 78,69.83 	"/>
+</g>
+</svg>
+</a>
+	<!-- FIXME -->
+	<a href="../tools/reader.html" class="button" title="Text viewer with big font and speech synthesis.">Reader</a>
+	<!-- FIXME -->
+	<a href="../links/" class="button" title="Useful links">Bookmarks</a>
+</article>
+<div class="language"><a href="../uk/">Uk</a> <a href="../ru/">Ru</a> <a href="../en/">En</a></div>
+</div>
 <script src="../lazyload.js"></script>
 <script type="application/ld+json">
 {
   "@context" : "http://schema.org",
   "@type" : "Person",
-  "name" : "Danil Kolumbet",
-  "url" : "http://kolumb.tk/en/",
+  "name" : "Danylo Kolumbet",
+  "url" : "https://kolumb.tk/en/",
   "homeLocation": {
     "@type": "City",
     "name" : "Kyiv"
   },
   "sameAs" : [
-  	"https://vk.com/kolumbet",
-  	"https://plus.google.com/108720125146295565297",
   	"https://github.com/kolumb",
-    "https://facebook.com/kolumbet"
+    "https://facebook.com/kolumbet",
+  	"https://vk.com/kolumbet"
   ]
 }
 </script>

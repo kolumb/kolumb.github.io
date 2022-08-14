@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>My first Three.js app</title>
+		<style>
+			body { margin: 0; padding:0;}
+			canvas { display:block; width: 100%; height: 100%; }
+		</style>
+	</head>
+	<body>
+	<script src="../three.min.js"></script>
+	<script src="OBJLoader.js"></script>
+	<!-- <script src="OrbitControls.js"></script> -->
+	<script>
+'use strict'
+var width = window.innerWidth
+var height = window.innerHeight
+var scene = new THREE.Scene()
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 )
+
+
+var light = new THREE.AmbientLight( 0x404040 )
+scene.add( light )
+
+
+var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5 )
+directionalLight.position.set( 0, 10, 0 )
+directionalLight.castShadow = true
+directionalLight.shadow = new THREE.LightShadow(new THREE.OrthographicCamera(-100, 100, 100, -100, 1, 3000))
+
+// directionalLight.shadow.bias = 0.0001
+directionalLight.shadow.mapSize.width = 1024
+directionalLight.shadow.mapSize.height = 1024
+scene.add( directionalLight )
+
+var helper = new THREE.CameraHelper( directionalLight.shadow.camera )
+scene.add( helper )
+
+var directionalLightBack = new THREE.DirectionalLight(0xff9988, 0.3 )
+directionalLightBack.position.set( -10, -2, 0 )
+scene.add( directionalLightBack )
+
+var directionalLightSide = new THREE.DirectionalLight(0x1BB1A5, 0.2 )
+directionalLightSide.position.set( 10, -3, 0 )
+scene.add( directionalLightSide )
+
+
+var renderer = new THREE.WebGLRenderer()
+renderer.setSize( window.innerWidth, window.innerHeight )
+document.body.appendChild( renderer.domElement )
+renderer.setClearColor( 'rgb(0,150,255)' )
+
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
+// renderer.shadowMap.type = THREE.PCFShadowMap
+//var trackballControls = new THREE.OrbitControls(camera, renderer.domElement)
+
+/*var geometry = new THREE.BoxGeometry( 100, 1, 100 )
+var material = new THREE.MeshPhongMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading })
+var floor = new THREE.Mesh( geometry, material )
+scene.add( floor )
+floor.position.y = -16*/
+var radius = 1600
+
+var player
+
+var manager = new THREE.LoadingManager();
+				manager.onProgress = function ( item, loaded, total ) {
+
+					console.log( item, loaded, total );
+
+				};
+
+				var texture = new THREE.Texture();
+
+				var onProgress = function ( xhr ) {
+					if ( xhr.lengthComputable ) {
+						var percentComplete = xhr.loaded / xhr.total * 100;
+						console.log( Math.round(percentComplete, 2) + '% downloaded' );
+					}
+				};
+
+				var onError = function ( xhr ) {
+				};
+
+
+				var loader = new THREE.ImageLoader( manager );
+				loader.load( 'car.png', function ( image ) {
+
+					texture.image = image;
+					texture.needsUpdate = true;
+
+				} );
+
+				// model
+
+				var loader = new THREE.OBJLoader( manager );
+				loader.load( 'car.obj', function ( object ) {
+					player = object
+					object.traverse( function ( child ) {
+
+						if ( child instanceof THREE.Mesh ) {
+
+							child.material.map = texture;
+
+						}
+
+					} );
+
+					object.position.y = - 95;
+					//scene.add( object );
+					scene.add( player )
+					player.add(camera)
+					player.position.y = 1593
+					player.position.x = -159
+					playerRot.setFromEuler(player.rotation)//.normalize()//.setFromEuler( player.rotation )
+					player.rotation.z = .1
+					player.castShadow = true
+					player.receiveShadow = true
+					directionalLight.target = player
+					render()
+				}, onProgress, onError );
+
+				//
+
+//console.log(player)
+/*var geometryPlayer = new THREE.BoxGeometry( 2, 1, 3 )
+var materialPlayer = new THREE.MeshPhongMaterial({ color: 0xdddddd, shininess: 30, shading: THREE.FlatShading })
+var player = new THREE.Mesh( geometryPlayer, materialPlayer )*/
+var camRotation = 0.01
+var camQ = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), camRotation).normalize()
+var camQ1 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), -camRotation).normalize()
+var camQ2 = new THREE.Quaternion().setFromAxisAngle((new THREE.Vector3(0,.8,.4)).normalize(), camRotation)
+var camQ3 = new THREE.Quaternion().setFromAxisAngle((new THREE.Vector3(0,.8,.4)).normalize(), -camRotation)
+camera.position.y = 15
+camera.position.z = 15
+//camera.rotation.z = -2.1
+camera.rotation.x = -.4
+
+var pos = new THREE.Vector3(0,radius+1,0)	
+
+
+var geometry = new THREE.SphereGeometry( radius, 64, 32 )
+var material = new THREE.MeshPhongMaterial({ color: 0xdddddd, shininess: 30
+, shading: THREE.FlatShading
+ })
+var sphere = new THREE.Mesh( geometry, material )
+					sphere.castShadow = true
+					sphere.receiveShadow = true
+scene.add( sphere )
+
+
+var tilt = new THREE.Quaternion()
+tilt.setFromEuler( new THREE.Euler(0, 0,Math.PI/500000, 'XYZ' ) )
+
+var playerAxys = new THREE.Vector3(0,0,1)
+
+var turn = new THREE.Quaternion()
+turn.setFromAxisAngle(playerAxys, Math.PI/40000).normalize()
+
+
+//.multiply
+
+var playerRot = new THREE.Quaternion()
+
+var perpendicular = new THREE.Quaternion()
+perpendicular.setFromEuler(new THREE.Euler(0,-Math.PI/2,0))
+
+var moveForward = false
+var moveLeft = false
+var moveBackward = false
+var moveRight = false
+
+var turnAngle = 0.000001 	
+var tiltAngle = 0
+
+var move = false
+
+var facing = new THREE.Vector3(); 
+var facingQ = new THREE.Quaternion(); 
+var turnQ = new THREE.Quaternion()
+var tiltQ = new THREE.Quaternion(); 
+var stop = false
+
+function render() {
+	if(stop === false) requestAnimationFrame( render )
+		
+	turnAngle = 0
+	tiltAngle = 0
+	move = false
+	if(moveForward) {
+		tiltAngle = -Math.PI/500
+		move = true
+		if(moveLeft) {
+			turnAngle = 0.01
+			camera.quaternion.multiply(camQ3)
+			camera.position.applyQuaternion(camQ1)
+		}
+		if(moveRight) {
+			turnAngle = -0.01
+			camera.quaternion.multiply(camQ2)
+			camera.position.applyQuaternion(camQ)
+		}
+	} else if(moveBackward) {
+		tiltAngle = Math.PI/500
+		move = true
+		if(moveLeft) {
+			turnAngle = -0.01
+			camera.quaternion.multiply(camQ2)
+			camera.position.applyQuaternion(camQ)
+		}
+		if(moveRight) {
+			turnAngle = 0.01
+			camera.quaternion.multiply(camQ3)
+			camera.position.applyQuaternion(camQ1)
+		}
+	}
+	if(move){
+		
+		turn.setFromEuler(new THREE.Euler(0, turnAngle, 0, 'XYZ' )).normalize()
+		player.quaternion.multiply(turn)//.normalize()
+
+		tiltQ.setFromEuler(new THREE.Euler(tiltAngle, 0, 0, 'XYZ' )).normalize()
+		player.quaternion.multiply(tiltQ)//.normalize()
+		//camera.rotation.y +=turnAngle
+
+		facingQ = player.getWorldQuaternion()
+		var newPos = pos.clone().applyQuaternion(facingQ)
+		player.position.x = newPos.x		
+		player.position.y = newPos.y		
+		player.position.z = newPos.z
+		//facingQ = player.getWorldQuaternion()
+		//var newPos = pos.clone().applyQuaternion(facingQ)
+		
+		/*facingQ = player.getWorldQuaternion()
+		var newPos = pos.clone().applyQuaternion(facingQ)
+		player.position.x = newPos.x		
+		player.position.y = newPos.y		
+		player.position.z = newPos.z		*/
+		// player.getWorldDirection( facing )
+		// facing.applyQuaternion(perpendicular).normalize()
+		// tilt.setFromAxisAngle(facing,-tiltAngle).normalize()
+		// player.position.applyQuaternion( tilt )
+		
+		//player.quaternion.multiply(turn)
+		//player.quaternion.normalize()
+
+		
+		//facingQ.multiply(tiltQ).normalize()
+
+		//tilt.multiply(tiltQ)
+		
+		//sphere.position.clone().sub(player.position).applyQuaternion()
+
+		//player.rotation.setFromVector3 ( , 'XYZ' )
+	}
+
+
+	//THREE.Quaternion.slerp( startQuaternion, endQuaternion, sphere.quaternion, t )
+	//player.lookAt( sphere.position )
+	// directionalLight.quaternion.copy(player.quaternion.clone().inverse())	
+
+	renderer.render( scene, camera )
+}
+//stop = true
+
+var onKeyDown = function ( event ) {
+	switch ( event.keyCode ) {
+		case 38: /*up*/
+		case 87: /*W*/ moveForward = true; break;
+
+		case 37: /*left*/
+		case 65: /*A*/ moveLeft = true;/*console.log(camera.rotation.y);*/ break;
+
+		case 40: /*down*/
+		case 83: /*S*/ moveBackward = true; /*console.log('facing',facing);*/break;
+
+		case 39: /*right*/
+		case 68: /*D*/ moveRight = true; break;
+
+		case 32: /*space*/
+		case 13: /*Enter*/ break;
+	}
+}
+window.addEventListener('keydown', onKeyDown)
+var pause = function(){
+	stop = !stop
+	if(!stop) requestAnimationFrame(render)
+}
+var onKeyUp = function ( event ) {
+	switch ( event.keyCode ) {
+		case 38: /*up*/
+		case 87: /*W*/ moveForward = false; break;
+
+		case 37: /*left*/
+		case 65: /*A*/ moveLeft = false; break;
+
+		case 40: /*down*/
+		case 83: /*S*/ moveBackward = false; break;
+
+		case 39: /*right*/
+		case 68: /*D*/ moveRight = false; break;
+
+		case 32: /*space*/
+		case 75: pause(); break;
+	}
+}
+window.addEventListener('keyup', onKeyUp)
+var onMouse = function(event) {
+	moveLeft= false
+	moveForward = false
+	moveRight = false
+	moveBackward = false
+	var x = event.clientX
+	var y = event.clientY
+	if (y < height/3) {
+		moveForward = true
+		if(x< height/3){
+			moveLeft= true
+		} else if(x>height*2/3) {
+			moveRight = true
+		}
+	} else if(y>height*2/3){
+		moveBackward = true
+		if(x< height/3){
+			moveLeft= true
+		} else if(x>height*2/3) {
+			moveRight = true
+		}
+	}
+}
+var onMouseEnd = function(event) {
+	moveLeft= false
+	moveForward = false
+	moveRight = false
+	moveBackward = false
+}
+
+window.addEventListener('touchstart', onTouch);
+window.addEventListener('touchend', onTouch);
+window.addEventListener('touchmove', onTouch);
+
+window.addEventListener("mousedown", onMouse);
+window.addEventListener("mouseup", onMouseEnd);
+window.addEventListener("mousemove", onMouse);
+
+function onTouch(evt) {
+  evt.preventDefault();
+  if (evt.touches.length > 1 || (evt.type == "touchend" && evt.touches.length > 0))
+    return;
+
+  var newEvt = document.createEvent("MouseEvents");
+  var type = null;
+  var touch = null;
+
+  switch (evt.type) {
+    case "touchstart": 
+      type = "mousedown";
+      touch = evt.changedTouches[0];
+      break;
+    case "touchmove":
+      type = "mousemove";
+      touch = evt.changedTouches[0];
+      break;
+    case "touchend":        
+      type = "mouseup";
+      touch = evt.changedTouches[0];
+      break;
+  }
+
+  newEvt.initMouseEvent(type, true, true, evt.originalTarget.ownerDocument.defaultView, 0,
+    touch.screenX, touch.screenY, touch.clientX, touch.clientY,
+    evt.ctrlKey, evt.altKey, evt.shiftKey, evt.metaKey, 0, null);
+  evt.originalTarget.dispatchEvent(newEvt);
+}
+
+	</script>
+</body>
+</html>

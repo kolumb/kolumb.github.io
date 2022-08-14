@@ -66,6 +66,18 @@ style {
 	font-size: 200%;
 }
 	</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
 </head>
 <body>
 	<textarea id="container" class="relative" placeholder="Вставьте сюда текст для комфортного чтения" spellcheck="false" autofocus="autofocus"></textarea>
@@ -105,7 +117,7 @@ var getVoices = function(){
 	}
 	for(var i = 0; i< voices.length; i++){
 		var newOption = document.createElement("option")
-		newOption.innerText = voices[i].name
+		newOption.textContent = voices[i].name
 		newOption.value = i
 		selection.appendChild(newOption)
 	}
@@ -141,7 +153,7 @@ var speak = function(i){
 	if(!phrases[i]) {
 		console.log("Выговорился")
 		state = states.stoped
-		document.getElementById('say').innerText = 'Озвучить'
+		document.getElementById('say').textContent = 'Озвучить'
 		return
 	}
 	synth.speak(phrases[i])
@@ -157,20 +169,20 @@ function() {
 		case states.stoped:
 			console.log("Молчал, а теперь говорю")
 			state = states.plaing
-			this.innerText = 'Остановить'
+			this.textContent = 'Остановить'
 			getText()
 			speak(0)
 			break;
 		case states.plaing:
 			console.log("Говорил, но меня поставили на паузу")
 			state = states.paused
-			this.innerText = 'Продолжить'
+			this.textContent = 'Продолжить'
 			synth.pause()
 			break;
 		case states.paused:
 			console.log("Продолжаю после паузы")
 			state = states.plaing
-			this.innerText = 'Остановить'
+			this.textContent = 'Остановить'
 			synth.resume()
 			break;
 	}
@@ -182,6 +194,5 @@ document.getElementById('helper').addEventListener('click', function() {
 })
 
 </script>
-
 </body>
 </html>

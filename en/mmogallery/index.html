@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>MMO Gallery</title>
+		<meta name="author" content="Danylo Kolumbet">
+		<meta name="description" content="Web-app for sumultaneous usage of image gallery by many users.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+html, body, #Frame
+	{ width: 100%
+	; height: 100%
+	; padding: 0
+	; margin: 0
+	}
+#Frame
+	{ position: absolute
+	; border: none
+	}
+
+		</style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+    <script>
+      if (document.location.hostname) {
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-52946302-3');
+      }
+    </script>
+	</head>
+	<body>
+	<iframe src="https://mmogallery.herokuapp.com/" id="Frame"></iframe>
+</body>
+</html>

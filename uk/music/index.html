@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="uk">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Синтезатор для вивчення нотного запису, клавіш піаніно і ладів гітари.</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="Навчаючий додаток для виявлення зв'язку між нотним записом, клавішами піаніно і струнами гітари.">
+		<meta name="author" content="Данило Колумбет">
+		<link rel="stylesheet" href="../../style.css">
+		<link rel="stylesheet" href="../../music/synthesizer.css">
+	    <!-- Global site tag (gtag.js) - Google Analytics -->
+	    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
+	    <script>
+	      if (document.location.hostname) {
+
+	        window.dataLayer = window.dataLayer || [];
+	        function gtag(){dataLayer.push(arguments);}
+	        gtag('js', new Date());
+
+	        gtag('config', 'UA-52946302-3');
+	      }
+	    </script>
+	</head>
+	<body>	
+		<div id="keyboardWraper">
+			<div id="Keyboard" class="white center">
+				<div class="shortcuts">
+					<p class="diesshort">ів про 23 567 90 =</p>
+					<p>ячсмитьйцукенгшщзхї</p>
+				</div>
+				<ol id="c0">
+					<li id="1" class="a" id="1">A0
+					</li><li class="a dies" id="2">
+					</li><li class="b" id="3">B0</li>
+				</ol><ol id="c1">
+					<li class="c" id="4">C1
+					</li><li class="c dies" id="5">
+					</li><li class="d" id="6">D1
+					</li><li class="d dies" id="7">
+					</li><li class="e" id="8">E1
+					</li><li class="f" id="9">F1
+					</li><li class="f dies" id="10">
+					</li><li class="g" id="11">G1
+					</li><li class="g dies" id="12">
+					</li><li class="a" id="13">A1
+					</li><li class="a dies" id="14">
+					</li><li class="b" id="15">B1</li>
+				</ol><ol id="c2">
+					<li class="c" id="16">C2
+					</li><li class="c dies" id="17">
+					</li><li class="d" id="18">D2
+					</li><li class="d dies" id="19">
+					</li><li class="e" id="20">E2
+					</li><li class="f" id="21">F2
+					</li><li class="f dies" id="22">
+					</li><li class="g" id="23">G2
+					</li><li class="g dies" id="24">
+					</li><li class="a" id="25">A2
+					</li><li class="a dies" id="26">
+					</li><li class="b" id="27">B2</li>
+				</ol><ol id="c3">
+					<li class="c" id="28">C3
+					</li><li class="c dies" id="29">
+					</li><li class="d" id="30">D3
+					</li><li class="d dies" id="31">
+					</li><li class="e" id="32">E3
+					</li><li class="f" id="33">F3
+					</li><li class="f dies" id="34">
+					</li><li class="g" id="35">G3
+					</li><li class="g dies" id="36">
+					</li><li class="a" id="37">A3
+					</li><li class="a dies" id="38">
+					</li><li class="b" id="39">B3</li>
+				</ol><ol id="c4">
+					<li class="c" id="40">C4
+					</li><li class="c dies" id="41">
+					</li><li class="d" id="42">D4
+					</li><li class="d dies" id="43">
+					</li><li class="e" id="44">E4
+					</li><li class="f" id="45">F4
+					</li><li class="f dies" id="46">
+					</li><li class="g" id="47">G4
+					</li><li class="g dies" id="48">
+					</li><li class="a" id="49">A4
+					</li><li class="a dies" id="50">
+					</li><li class="b" id="51">B4</li>
+				</ol><ol id="c5">
+					<li class="c" id="52">C5
+					</li><li class="c dies" id="53">
+					</li><li class="d" id="54">D5
+					</li><li class="d dies" id="55">
+					</li><li class="e" id="56">E5
+					</li><li class="f" id="57">F5
+					</li><li class="f dies" id="58">
+					</li><li class="g" id="59">G5
+					</li><li class="g dies" id="60">
+					</li><li class="a" id="61">A5
+					</li><li class="a dies" id="62">
+					</li><li class="b" id="63">B5</li>
+				</ol><ol id="c6">
+					<li class="c" id="64">C6
+					</li><li class="c dies" id="65">
+					</li><li class="d" id="66">D6
+					</li><li class="d dies" id="67">
+					</li><li class="e" id="68">E6
+					</li><li class="f" id="69">F6
+					</li><li class="f dies" id="70">
+					</li><li class="g" id="71">G6
+					</li><li class="g dies" id="72">
+					</li><li class="a" id="73">A6
+					</li><li class="a dies" id="74">
+					</li><li class="b" id="75">B6</li>
+				</ol><ol id="c7">
+					<li class="c" id="76">C7
+					</li><li class="c dies" id="77">
+					</li><li class="d" id="78">D7
+					</li><li class="d dies" id="79">
+					</li><li class="e" id="80">E7
+					</li><li class="f" id="81">F7
+					</li><li class="f dies" id="82">
+					</li><li class="g" id="83">G7
+					</li><li class="g dies" id="84">
+					</li><li class="a" id="85">A7
+					</li><li class="a dies" id="86">
+					</li><li class="b" id="87">B7</li>
+				</ol><ol id="c8">
+					<li class="c" id="88">C8</li>
+				</ol>
+			</div>
+		</div>
+	<div id="wraper">
+		<div id="Tools">
+			<label for="keyboardCheck" class="check keyb">
+				<input id="keyboardCheck" type="checkbox" checked="true">
+				<span>Клавіші</span>
+				<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<path d="m17.049095,10.84984l0,37.231939l5.919296,0l0,-12.960594l-2.178499,0l0,-24.271345l-3.740799,0l0.000002,0z" fill="#ffffff"/>
+						<path d="m25.828669,10.84984l0,24.271345l-2.11245,0l0,12.960594l5.919228,0l0,-12.960594l-2.15646,0l0,-24.271345l-1.650385,0l0.000069,0l-0.000002,0z" fill="#ffffff"/>
+						<path d="m32.518097,10.84984l0,24.271345l-2.134418,0l0,12.960594l5.897255,0l0,-37.231939l-3.762836,0z" fill="#ffffff"/>
+						<path d="m37.051418,10.84984l0,37.231939l5.897259,0l0,-12.960594l-2.156464,0l0,-24.271345l-3.740795,0z" fill="#ffffff"/>
+						<path d="m45.831467,10.84984l0,24.271345l-2.11245,0l0,12.960594l5.897251,0l0,-12.960594l-2.134415,0l0,-24.271345l-1.650387,0z" fill="#ffffff"/>
+						<path d="m52.520889,10.84984l0,24.271345l-2.156456,0l0,12.960594l5.919228,0l0,-12.960594l-2.266518,0l0,-24.271345l-1.496323,0l0.000069,0z" fill="#ffffff"/>
+						<path d="m59.05611,10.84984l0,24.271345l-2.024433,0l0,12.960594l5.919231,0l0,-37.231939l-3.894798,0z" fill="#ffffff"/>
+					</g>
+				</svg>
+			</label><label for="optionsCheck" class="check opti">
+				<input id="optionsCheck" type="checkbox">
+				<span>Опції</span>
+				<svg viewBox="0 0 80 80">
+					<g transform="translate(105,12)">
+						<path d="m-67.64-3.58-1.13 5.85-4 1.65-4.93-3.35-3.49 3.47 3.33 4.95-1.65 4-5.85 1.14 0 4.92 5.85 1.14 1.65 3.98-3.33 4.95 3.49 3.47 4.92-3.33 4.01 1.65 1.13 5.85 4.92 0 1.14-5.85 4-1.65 4.93 3.33 3.49-3.47-3.35-4.95 1.65-3.98 5.85-1.14 0-4.92-5.85-1.14-1.65-3.98 3.35-4.96-3.49-3.47-4.95 3.35-3.98-1.65-1.14-5.85-4.92 0zm2.46 11.47c4.81 0 8.69 3.9 8.69 8.71 0 4.81-3.88 8.71-8.69 8.71-4.81 0-8.69-3.9-8.69-8.71 0-4.81 3.88-8.71 8.69-8.71z" inkscape:connector-curvature="0" fill="#ffffff"/>
+					</g>
+				</svg>
+			</label><label for="staveCheck" class="check stav">
+				<input type="checkbox" id="staveCheck" checked="true">
+				<span>Ноти</span>
+				<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<path fill="#ffffff" d="m30.628,19.031l25.391001,-3.2912l0,24.167998c-2.372398,-0.562241 -5.767799,-0.562241 -8.370602,1.615402c-5.213799,4.360798 -0.639038,9.264698 5.329002,6.831898c3.395401,-1.384998 4.528099,-3.606598 4.528099,-6.9608l0,-30.042998l-28.364,3.2912l0,30.094999c-2.3724,-0.562241 -5.767799,-0.559502 -8.3706,1.618202c-5.213799,4.360798 -0.63904,9.264698 5.329,6.831898c3.395399,-1.384998 4.528099,-3.609299 4.528099,-6.9636l0,-27.193001l0,0.000002z"/>
+					</g>
+				</svg>
+			</label><label for="guitarCheck" class="check guit">
+				<input type="checkbox" id="guitarCheck">
+				<span>Гітара</span>
+				<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 80 80">
+					<path fill="#FFF" d="m58.594,7.028c-1.3907,1.988-3.5773,4.8293-6.9991,6.9547l1.0993,1.1811-12.242,11.599s-4.5893-3.9804-7.7401-0.9626c-2.1519,2.061-1.8671,3.2437-3.5139,5.0026-1.7076,1.8238-5.8258,0.25361-10.237,4.6708-4.8265,4.8328-1.0465,10.514,2.2788,13.604,6.8609,6.3753,11.087,4.6464,13.092,2.6384,4.7607-4.767,3.1828-8.2985,4.9405-10.554,1.5684-2.0122,4.3367-1.8125,5.9286-4.8357,1.2832-2.4369-1.6468-6.5692-1.6468-6.5692l11.472-12.285,1.126,1.0718c1.4913-2.3452,4.7928-5.6524,7.0526-6.9258l-4.611-4.59zm-24.68,24.506c2.6427,0,4.7861,2.1462,4.7861,4.7924s-2.1434,4.7903-4.7861,4.7903-4.7861-2.1441-4.7861-4.7903,2.1434-4.7924,4.7861-4.7924zm-9.881,8.5027,6.1942,6.2023-0.85636,0.85542-6.1942-6.2002,0.85636-0.85748z"/>
+					<path fill="#FFF" d="m33.914,32.402c-2.1643,0-3.9195,1.7575-3.9195,3.9246s1.7552,3.9226,3.9195,3.9226,3.9195-1.7554,3.9195-3.9226c0-2.1671-1.7552-3.9246-3.9195-3.9246zm0,0.95642c1.6371,0,2.9643,1.3289,2.9643,2.9682s-1.3272,2.9682-2.9643,2.9682-2.9643-1.3289-2.9643-2.9682,1.3272-2.9682,2.9643-2.9682z"/>
+					<rect transform="matrix(0.70664279,0.70757047,-0.70664279,0.70757047,0,0)" height="1.0745" width="1.497" y="-34.504" x="53.625" fill="#FFF"/>
+					<rect transform="matrix(0.70664279,0.70757047,-0.70664279,0.70757047,0,0)" height="1.0745" width="1.497" y="-32.128" x="53.625" fill="#FFF"/>
+					<rect transform="matrix(0.70664279,0.70757047,-0.70664279,0.70757047,0,0)" height="1.0745" width="1.497" y="-29.794" x="53.625" fill="#FFF"/>
+					<rect transform="matrix(0.70664279,0.70757047,-0.70664279,0.70757047,0,0)" height="1.0745" width="1.497" y="-34.483" x="44.211" fill="#FFF"/>
+					<rect transform="matrix(0.70664279,0.70757047,-0.70664279,0.70757047,0,0)" height="1.0745" width="1.497" y="-32.107" x="44.211" fill="#FFF"/>
+					<rect transform="matrix(0.70664279,0.70757047,-0.70664279,0.70757047,0,0)" height="1.0745" width="1.497" y="-29.773" x="44.211" fill="#FFF"/>
+				</svg>
+			</label><label for="harmonicaCheck" class="check harm">
+				<input type="checkbox" id="harmonicaCheck">
+				<span>Гармошка</span>
+				<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 80 80">
+					<path d="m 57.167335,16.444785 -3.844169,1.38875 -2.023266,-1.071862 -32.007565,11.495612 7,3.78125 2.3125,3.9375 38.90625,-14 z M 28.625,35.96875 18.432151,30.438319 12.46875,32.59375 22.78125,38.0625 z m 30.09375,-16.6875 c 0.695001,0 1.25,0.336309 1.25,0.75 0,0.413691 -0.488281,0.696041 -1.183282,0.696041 L 57.46875,20.03125 c 0,-0.413691 0.554999,-0.75 1.25,-0.75 z M 19.875,33.25 c 0.794287,0 1.265625,0.352857 1.265625,0.75 0,0.397143 -0.471338,0.65625 -1.265625,0.65625 -0.794287,0 -1.3125,-0.259107 -1.3125,-0.65625 0,-0.397143 0.518213,-0.75 1.3125,-0.75 z" style="fill:#ffffff;fill-opacity:1;stroke:none" />
+					<path d="m 67.53125,22.96875 -44.8125,15.84375 -10.25,-5.46875 0,5.34375 10.1875,5.46875 44.8125,-15.75 0.0625,-5.4375 z m -4.34375,2.34375 0,3.90625 -3.46875,1.21875 0,-3.90625 3.46875,-1.21875 z m -5.25,1.84375 0,3.90625 -3.46875,1.21875 L 54.5,28.375 57.9375,27.15625 z m -5.1875,1.8125 0,3.90625 -3.46875,1.21875 0,-3.90625 3.46875,-1.21875 z m -5.21875,1.84375 0,3.90625 -3.46875,1.21875 0.03125,-3.90625 3.4375,-1.21875 z m -5.21875,1.84375 0,3.875 -3.46875,1.25 0.03125,-3.9375 3.4375,-1.1875 z m -5.1875,1.8125 0,3.90625 -3.46875,1.21875 0,-3.90625 3.46875,-1.21875 z m -5.21875,1.84375 0,3.90625 -3.46875,1.21875 0,-3.90625 3.46875,-1.21875 z" style="fill:#ffffff;fill-opacity:1;stroke:none" />
+					<path d="M 25.633743,44.073284 27.41329,44.561377 60.59627,32.508514 62.695448,30.85702 z" style="fill:#ffffff;fill-opacity:1;stroke:none" />
+				</svg>
+			</label><label for="waveCheck" class="check wave">
+				<input type="checkbox" id="waveCheck">
+				<span>Графік</span>
+				<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 80 80">
+					<path stroke-linejoin="miter" d="m12.526,31.439c5.2963-11.435,8.7648-19.759,13.678-19.759,4.9131,0,9.2679,9.8514,13.757,20.041,3.8868,8.8228,8.7618,19.648,13.675,19.648,4.9131,0,9.4209-9.1528,13.839-19.648" stroke="#FFF" stroke-linecap="round" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="2.391" fill="none"/>
+					<path stroke-linejoin="miter" d="m12.454,31.489c1.3241-4.6948,2.1913-8.1121,3.4196-8.1121s2.3171,4.0445,3.4394,8.2279c0.97173,3.6222,2.1905,8.0665,3.4189,8.0665,1.2283,0,2.3553-3.7577,3.4739-8.1244,1.3382-4.7527,2.2054-8.17,3.4337-8.17s2.3171,4.0445,3.4394,8.2279c0.97173,3.6222,2.1905,8.0665,3.4189,8.0665,1.2283,0,2.3553-3.7577,3.5025-8.1244,1.3668-4.7527,2.2339-8.17,3.4623-8.17,1.2283,0,2.3171,4.0445,3.4394,8.2279,0.97174,3.6222,2.1905,8.0665,3.4189,8.0665,1.2283,0,2.3553-3.7577,3.4739-8.1244,1.3382-4.7527,2.2054-8.17,3.4337-8.17s2.3171,4.0445,3.4394,8.2279c0.97174,3.6222,2.1905,8.0665,3.4189,8.0665,1.2283,0,2.3553-3.7577,3.4598-8.0665" stroke="#FFF" stroke-linecap="round" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="1.736" fill="none"/>
+				</svg>
+			</label>
+		</div>
+		<div id="Options">
+			<label for="volumeRange">Гучність:</label>
+			<input id="volumeRange" type="range" value="4" min="0" max="100" step="2">
+			<label for="selectTransposition">Транспонувати на </label>
+			<select id="selectTransposition">
+			  <option value="-11">-11</option>
+			  <option value="-10">-10</option>
+			  <option value="-9">-9</option>
+			  <option value="-8">-8</option>
+			  <option value="-7">-7</option>
+			  <option value="-6">-6</option>
+			  <option value="-5">-5</option>
+			  <option value="-4">-4</option>
+			  <option value="-3">-3</option>
+			  <option value="-2">-2</option>
+			  <option value="-1">-1</option>
+			  <option value="0" selected="selected">0</option>
+			  <option value="1">+1</option>
+			  <option value="2">+2</option>
+			  <option value="3">+3</option>
+			  <option value="3">+4</option>
+			  <option value="5">+5</option>
+			  <option value="6">+6</option>
+			  <option value="7">+7</option>
+			  <option value="8">+8</option>
+			  <option value="9">+9</option>
+			  <option value="10">+10</option>
+			  <option value="11">+11</option>
+			</select>
+<br>
+			<label for="majorThird">Терція:</label>
+			<div class="checky">.
+				<input type="checkbox" id="majorThird" />
+				<label for="majorThird"></label>
+			</div>
+			<label for="perfectFifth">Квінта:</label>
+			<div class="checky">.
+				<input type="checkbox" id="perfectFifth" />
+				<label for="perfectFifth"></label>
+			</div>
+			(Для мінорного акорду зажміть клавішу Shift.)
+<br>
+			<button id="buttonMelody" type="button" title="Secret Garden - Song from a Secret Garden">&#9654; Приклад</button>
+			<label for="tempoRange">Темп:</label>
+			<input id="tempoRange" type="range" value="900" min="0" max="1000" step="1">
+		</div>
+		<div id="Stave">
+			<img src="../../images/treble-clef.svg" alt="Скрипковий ключ" id="trebleclef" width="59" height="115">
+			<img src="../../images/note.svg" class="note" id="note1" width="31" height="62">
+			<img src="../../images/note.svg" class="note" id="note2" width="31" height="62">
+			<img src="../../images/note.svg" class="note" id="note3" width="31" height="62">
+			<img src="../../images/note.svg" class="note" id="note4" width="31" height="62">
+			<img src="../../images/note.svg" class="note" id="note5" width="31" height="62">
+			<img src="../../images/note.svg" class="note" id="note6" width="31" height="62">
+			<img src="../../images/note.svg" class="note" id="note7" width="31" height="62">
+			<img src="../../images/dies.svg" class="noteDies" alt="dies" id="dies1" width="8" height="27">
+			<img src="../../images/dies.svg" class="noteDies" alt="dies" id="dies2" width="8" height="27">
+			<img src="../../images/dies.svg" class="noteDies" alt="dies" id="dies3" width="8" height="27">
+			<img src="../../images/dies.svg" class="noteDies" alt="dies" id="dies4" width="8" height="27">
+			<img src="../../images/dies.svg" class="noteDies" alt="dies" id="dies5" width="8" height="27">
+			<img src="../../images/dies.svg" class="noteDies" alt="dies" id="dies6" width="8" height="27">
+			<img src="../../images/dies.svg" class="noteDies" alt="dies" id="dies7" width="8" height="27">
+			<hr />
+			<hr />
+			<hr />
+			<hr />
+			<hr />
+			<hr class="additional"/>
+			<hr />
+			<hr />
+			<hr />
+			<hr />
+			<hr />
+		</div>
+		<div id="guitarneck" class="center"></div>
+		<div id="Harmonica">
+			<canvas id='harmony'></canvas>
+		</div>
+		<div id="Wave">
+			<canvas id='cnv' class="center"></canvas>
+			<label for="frequencyRange">Частота:</label>
+			<input id="frequencyRange" type="range" value="440" min="0" max="1000" step="1">
+			<br >
+			<input id="frequencyDisplay" value="440" type="text">
+			<button id="Less10" type="button" class="compact">&lt;&lt;&lt;</button>
+			<button id="Less" type="button" class="compact">&lt;</button>
+			<button id="More" type="button" class="compact">&gt;</button>
+			<button id="More10" type="button" class="compact">&gt;&gt;&gt;</button>
+			<button id="buttonStart" type="button">Старт</button>
+			<button id="buttonStop" type="button">Стоп</button>
+		</div>
+	</div>
+	<footer>
+		<p><img src="../../favicon.ico" width=16 height=16>
+	 	<span itemprop="copyrightYear">2016</span>
+	 	<span itemprop="copyrightHolder">Kolumbetko</span>
+		</p>
+		<nav class="main-menu">
+			<ul>
+				<li><a href="../"><span data-hover="Головна">Головна</span></a></li><li>
+				<a href="." title="Для вивчення теорії музики"><span data-hover="Синтезатор">Синтезатор</span></a></li><li>
+				<a href="../xo2/" title="Хрестики-нолики для вивчення таблиці множення"><span data-hover="XO2">XO2</span></a></li><li>
+				<a href="../trigonometry" title="Інтерактивна програма"><span data-hover="Тригонометрія">Тригонометрія</span></a></li><li>
+				<a href="../links" title="Корисні посилання"><span data-hover="Закладки">Закладки</span></a></li>
+			</ul>
+		</nav>
+	</footer>
+	<script src="../../music/midikeys.js"></script>
+	<script src="../../music/raphael-min.js"></script>
+	<script src="../../music/synthesizer.js"></script>
+	<script src="../../music/example-melody.js"></script>
+</body>
+</html>

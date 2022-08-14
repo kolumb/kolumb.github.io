@@ -1,3 +1,17 @@
+const lang = location.pathname.match(/^\/(\w\w)\//)?.[1] || "uk"
+const translations =
+	{ noSoundSupport:
+		{ uk: "Нажаль, ваш браузер не підтримує роботу зі звуком. "
+		, ru: "К сожалению, ваш браузер не поддерживает работу со звуком. "
+		, en: "Unfortunately, your browser doesn't support work with sound. "
+		}
+	, knowMore:
+		{ uk: "Дізнайтесь більше тут"
+		, ru: "Узнайте больше здесь"
+		, en: "More information here"
+		}
+	}
+
 var Keyboard = document.getElementById('Keyboard')
 var Tools = document.getElementById('Tools')
 var Options = document.getElementById('Options')
@@ -22,14 +36,14 @@ var core = {
 		} else {
 			this.context = null;
 			var errorDiv = document.createElement('div'); 
-  			var errorMassage = document.createTextNode('К сожалению, ваш браузер не поддерживает работу со звуком.'); 
+  			var errorMassage = document.createTextNode(translations.noSoundSupport[lang]); 
   			var updateLink = document.createElement('a');
-  			updateLink.href = 'https://browser-update.org/ru/update.html';
-  			var linkText = document.createTextNode('Узнайте больше здесь');
+  			updateLink.href = 'https://browser-update.org/' + lang + '/update.html';
+  			var linkText = document.createTextNode(translations.knowMore[lang]);
   			updateLink.appendChild(linkText);
   			errorDiv.appendChild(errorMassage); 
   			errorDiv.appendChild(updateLink); 
-  			keyboardWraper.insertBefore(errorDiv);
+  			keyboardWraper.insertBefore(errorDiv, Keyboard);
 		}
 		if(this.context) {
 			this.gainNode = this.context.createGain();
@@ -93,7 +107,6 @@ var core = {
 				options.minor = msg.shiftKey ? -1 : 0;
 
 				if (cmd === 9){
-					console.log(note)
 					core.emitPlayNote(note - 32, true);
 					if (options.third) core.emitPlayNote(note - 32 + 4 + options.minor, true);
 					if (options.fifth) core.emitPlayNote(note - 32 + 7, true);
