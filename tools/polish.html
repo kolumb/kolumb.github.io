@@ -38,13 +38,23 @@ textarea {
 #PolishWords {
 	width: 50%;
 	padding-right: 6px;
-	word-break: break-all;
 	text-align: right;
 }
 #CyrillizedWords {
 	width: 50%;
 	padding-left: 6px;
-	word-break: break-all;
+}
+
+@media screen and (max-width:450px) {
+	.output-area {
+		font-size: 130%;
+	}
+}
+
+@media screen and (max-width:350px) {
+	.output-area {
+		font-size: 100%;
+	}
 }
 
 	</style>
