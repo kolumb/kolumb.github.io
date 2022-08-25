@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Cyrillizator of Polish (to Ukrainian)</title>
+
+	<style>
+* {
+	box-sizing: border-box;
+}
+:root {
+	color-scheme: dark;
+}
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background: #333;
+}
+.input-area {
+	display: flex;
+	height: 250px;
+	background: #222;
+}
+.output-area {
+	display: flex;
+	height: calc(100% - 250px);
+	font-size: 150%;
+}
+textarea {
+	width: 50%;
+	height: 100%;
+	resize: none;
+	font-size: 150%;
+}
+#PolishWords {
+	width: 50%;
+	padding-right: 6px;
+	text-align: right;
+}
+#CyrillizedWords {
+	width: 50%;
+	padding-left: 6px;
+}
+
+	</style>
+
+
+</head>
+<body>
+	<div class="input-area">
+		<textarea id="InputElem" spellcheck="false" placeholder="Type Polish text here.">
+Dzieje Polski rozpoczynają się wraz z panowaniem pierwszego historycznego władcy Mieszka I, który w 966 roku przyjął chrzest. Jego syn Bolesław Chrobry w 1025 roku został koronowany na pierwszego króla Polski. Do 1138 roku Polska jako monarchia patrymonialna rządzona była przez władców z dynastii Piastów, którzy nie licząc wydzielanych juniorom dzielnic i przejściowych okresów podziału, zachowywali zwierzchność nad całym jej terytorium.
+
+Godziny dzielą nas od pierwszego koncertu Eda Sheerana w Polsce. Muzyk wystąpi na Stadionie Narodowym w Warszawie aż dwukrotnie. Otwarcie bramek nastąpi dziś już o godz. 16:00. Jeśli czekaliście na rezerwację hotelu na ostatnia chwilę, nie mamy dla was dobrych wiadomości. W związku z koncertem należy spodziewać się też utrudnień na Saskiej Kępie, autobusy i tramwaje mogą być skierowane na trasy objazdowe. Znamy szczegóły.
+
+Według wyliczeń Niemieckiego Instytutu Ekonomicznego godzina pracy naszych zachodnich sąsiadów pozwala na zaspokojenie nie tylko podstawowych potrzeb, ale także m.in. na wyprawę do kina czy kupienie butelki piwa. Na wizytę u fryzjera Niemki muszą pracować 71 min. Postanowiliśmy sprawdzić, jak jest w Polsce.
+
+Badania wody ze zbiornika w rezerwacie Kwiecewo wykluczyły, żeby przyczyną śmierci ryb mogły być jakiekolwiek zanieczyszczenia zewnętrzne — podał warmińsko-mazurski WIOŚ. Ustalenia wskazały na naturalne przyczyny tego zjawiska, czyli tzw. przyduchę letnią.
+
+Ostatnie dni upływają pod znakiem walki chłodniejszego powietrza i frontu atmosferycznego, który przynosi ulewy na zachodzie, południu i w centrum, z gorącym i suchym wyżem rosyjskim. W czwartek ten drugi osiągnie przewagę. Oznacza to, że burz będzie mniej i na dużym obszarze kraju zrobi się bardzo gorąco.
+
+Pewnie wielu z was zastanawiało się kiedyś nad zakupem taniej licencji Windowsa lub Office’a i tego czy korzystanie z nich byłoby w pełni legalne. Odpowiedź na to pytanie jest prosta, choć nie w każdym przypadku. W tym artykule napiszemy wam, kiedy zakup tańszego Windowsa lub Office’a ma sens i nie przysporzy problemów.
+		</textarea>
+		<textarea id="OutputElem" spellcheck="false" placeholder="Type Polish text using Ukrainian cyrillic letters here."></textarea>
+	</div>
+	<div class="output-area">
+		<div id="PolishWords"></div>
+		<div id="CyrillizedWords"></div>
+	</div>
+
+<script>
+function polishInputHandler(e) {
+	PolishWords.innerHTML = InputElem.value.replaceAll(/\s+/g, "<br>")
+// ? sz ją с pr ch sie ie Nia
+	OutputElem.value = InputElem.value
+		.replaceAll("dzie", "джє")
+		.replaceAll("dzy", "дзи")
+		.replaceAll("Dzy", "Дзи")
+		.replaceAll(/([pt])rz/g, "$1ш")
+		.replaceAll("rz", "ж")
+		.replaceAll("Rz", "Ж")
+		.replace(/^ś/, "пш")
+		.replaceAll(/([\W\s])ś/g, "$1пш")
+		.replace(/^Ś/, "Пш")
+		.replaceAll(/([\W\s])Ś/g, "$1Пш")
+		.replaceAll("dza", "дза")
+		.replaceAll("Дza", "Дза")
+		.replaceAll("dzo", "дзо")
+		.replaceAll("Дzo", "Дзо")
+		.replaceAll("Dz", "Дж")
+		.replaceAll("dz", "дж")
+		.replaceAll("dź", "ч")
+		.replaceAll("wie", "в'є")
+		.replaceAll("Wie", "В'є")
+		.replaceAll("wię", "в'єн")
+		.replaceAll("Wię", "В'єн")
+		.replaceAll("kie", "к'є")
+		.replaceAll("Kie", "К'є")
+		.replaceAll("nie", "н'є")
+		.replaceAll("Nie", "Н'є")
+		.replaceAll("mie", "м'є")
+		.replaceAll("Mie", "М'є")
+		.replaceAll("pie", "п'є")
+		.replaceAll("Pie", "П'є")
+		.replaceAll("bio", "бйо")
+		.replaceAll("nia", "ня")
+		.replaceAll("niu", "ню")
+		.replaceAll("sie", "щє")
+		.replaceAll("ście", "щє")
+		.replaceAll("szcz", "щ")
+		.replaceAll("śc", "щ")
+		.replaceAll("sia", "ща")
+		.replaceAll("cie", "чє")
+		.replaceAll("jeś", "єш")
+		.replaceAll("Jeś", "Єш")
+		.replaceAll("cję", "ц'є")
+		.replaceAll("cja", "ц'я")
+		.replaceAll("je", "є")
+		.replaceAll("ju", "ю")
+		.replaceAll("wia", "в'я")
+		.replaceAll("zja", "з'я")
+		.replaceAll("ja", "я")
+		.replaceAll("ją", "йоу")
+		.replaceAll("cz", "ч")
+		.replaceAll("ch", "х")
+		.replaceAll("się", "пщя")
+		.replaceAll("sz", "ш")
+		.replaceAll("sh", "ш")
+		.replaceAll("Sh", "Ш")
+		.replaceAll("ść", "щ")
+		.replaceAll("łu", "лу")
+		.replaceAll("a", "а")
+		.replaceAll("A", "А")
+		.replaceAll("b", "б")
+		.replaceAll("B", "Б")
+		.replaceAll("w", "в")
+		.replaceAll("W", "В")
+		.replaceAll("g", "ґ")
+		.replaceAll("G", "Ґ")
+		.replaceAll("d", "д")
+		.replaceAll("D", "Д")
+		.replaceAll("e", "е")
+		.replaceAll("E", "Е")
+		.replaceAll("ę", "ен")
+		.replaceAll("ż", "ж")
+		.replaceAll("y", "и")
+		.replaceAll("i", "і")
+		.replaceAll("I", "І")
+		.replaceAll("j", "й")
+		.replaceAll("J", "Й")
+		.replaceAll("k", "к")
+		.replaceAll("K", "К")
+		.replaceAll("c", "ц")
+		.replaceAll("C", "К")
+		.replaceAll("l", "л")
+		.replaceAll("L", "Л")
+		.replaceAll("m", "м")
+		.replaceAll("M", "М")
+		.replaceAll("n", "н")
+		.replaceAll("N", "Н")
+		.replaceAll("ń", "нь")
+		.replaceAll("o", "о")
+		.replaceAll("O", "О")
+		.replaceAll("ą", "оу")
+		.replaceAll("p", "п")
+		.replaceAll("P", "П")
+		.replaceAll("ś", "ш")
+		.replaceAll("Ś", "Ш")
+		.replaceAll("r", "р")
+		.replaceAll("R", "Р")
+		.replaceAll("s", "с")
+		.replaceAll("S", "С")
+		.replaceAll("t", "т")
+		.replaceAll("T", "Т")
+		.replaceAll("u", "у")
+		.replaceAll("U", "У")
+		.replaceAll("ó", "у")
+		.replaceAll("ł", "у")
+		.replaceAll("f", "ф")
+		.replaceAll("F", "Ф")
+		.replaceAll("h", "х")
+		.replaceAll("H", "Х")
+		.replaceAll("ć", "ч")
+		.replaceAll("z", "з")
+		.replaceAll("Z", "З")
+	CyrillizedWords.innerHTML = OutputElem.value.replaceAll(/\s+/g, "<br>")
+}
+function ukrainianInputHandler(e) {
+	CyrillizedWords.innerHTML = OutputElem.value.replaceAll(/\s+/g, "<br>")
+// ? sz ją с pr ch sie ie Nia
+	InputElem.value = OutputElem.value
+		.replaceAll("джє", "dzie")
+		.replaceAll("дзи", "dzy")
+		.replaceAll("Дзи", "Dzy")
+		.replaceAll(/([пт])ш/g, "$1rz")
+		.replaceAll("ж", "rz")
+		.replaceAll("Ж", "Rz")
+		.replace(/^пш/, "ś")
+		.replaceAll(/([\W\s])пш/g, "$1ś")
+		.replace(/^Пш/, "Ś")
+		.replaceAll(/([\W\s])Пш/g, "$1Ś")
+		.replaceAll("дза", "dza")
+		.replaceAll("Дза", "Дza")
+		.replaceAll("дзо", "dzo")
+		.replaceAll("Дзо", "Дzo")
+		.replaceAll("Дж", "Dz")
+		.replaceAll("дж", "dz")
+		.replaceAll("ч", "dź")
+		.replaceAll("в'є", "wie")
+		.replaceAll("В'є", "Wie")
+		.replaceAll("в'єн", "wię")
+		.replaceAll("В'єн", "Wię")
+		.replaceAll("к'є", "kie")
+		.replaceAll("К'є", "Kie")
+		.replaceAll("н'є", "nie")
+		.replaceAll("Н'є", "Nie")
+		.replaceAll("м'є", "mie")
+		.replaceAll("М'є", "Mie")
+		.replaceAll("п'є", "pie")
+		.replaceAll("П'є", "Pie")
+		.replaceAll("бйо", "bio")
+		.replaceAll("ня", "nia")
+		.replaceAll("ню", "niu")
+		.replaceAll("щє", "sie")
+		.replaceAll("щє", "ście")
+		.replaceAll("ща", "sia")
+		.replaceAll("щ", "śc")
+		.replaceAll("чє", "cie")
+		.replaceAll("єш", "jeś")
+		.replaceAll("Єш", "Jeś")
+		.replaceAll("ц'є", "cję")
+		.replaceAll("ц'я", "cja")
+		.replaceAll("є", "je")
+		.replaceAll("ю", "ju")
+		.replaceAll("в'я", "wia")
+		.replaceAll("з'я", "zja")
+		.replaceAll("йоу", "ją")
+		.replaceAll("ч", "cz")
+		.replaceAll("х", "ch")
+		.replaceAll("пщя", "się")
+		.replaceAll("я", "ja")
+		.replaceAll("ш", "sz")
+		.replaceAll("ш", "sh")
+		.replaceAll("Ш", "Sh")
+		.replaceAll("щ", "ść")
+		.replaceAll("лу", "łu")
+		.replaceAll("а", "a")
+		.replaceAll("А", "A")
+		.replaceAll("б", "b")
+		.replaceAll("Б", "B")
+		.replaceAll("в", "w")
+		.replaceAll("В", "W")
+		.replaceAll("ґ", "g")
+		.replaceAll("Ґ", "G")
+		.replaceAll("д", "d")
+		.replaceAll("Д", "D")
+		.replaceAll("ен", "ę")
+		.replaceAll("е", "e")
+		.replaceAll("Е", "E")
+		.replaceAll("ж", "ż")
+		.replaceAll("и", "y")
+		.replaceAll("і", "i")
+		.replaceAll("І", "I")
+		.replaceAll("й", "j")
+		.replaceAll("Й", "J")
+		.replaceAll("к", "k")
+		.replaceAll("К", "K")
+		.replaceAll("ц", "c")
+		.replaceAll("К", "C")
+		.replaceAll("л", "l")
+		.replaceAll("Л", "L")
+		.replaceAll("м", "m")
+		.replaceAll("М", "M")
+		.replaceAll("нь", "ń")
+		.replaceAll("н", "n")
+		.replaceAll("Н", "N")
+		.replaceAll("оу", "ą")
+		.replaceAll("о", "o")
+		.replaceAll("О", "O")
+		.replaceAll("п", "p")
+		.replaceAll("П", "P")
+		.replaceAll("ш", "ś")
+		.replaceAll("Ш", "Ś")
+		.replaceAll("р", "r")
+		.replaceAll("Р", "R")
+		.replaceAll("с", "s")
+		.replaceAll("С", "S")
+		.replaceAll("т", "t")
+		.replaceAll("Т", "T")
+		.replaceAll("у", "u")
+		.replaceAll("У", "U")
+		.replaceAll("у", "ó")
+		.replaceAll("у", "ł")
+		.replaceAll("ф", "f")
+		.replaceAll("Ф", "F")
+		.replaceAll("х", "h")
+		.replaceAll("Х", "H")
+		.replaceAll("ч", "ć")
+		.replaceAll("з", "z")
+		.replaceAll("З", "Z")
+	PolishWords.innerHTML = InputElem.value.replaceAll(/\s+/g, "<br>")
+}
+polishInputHandler()
+
+InputElem.addEventListener("input", polishInputHandler)
+OutputElem.addEventListener("input", ukrainianInputHandler)
+InputElem.addEventListener("scroll", e => {
+	OutputElem.scrollTop = InputElem.scrollTop
+})
+InputElem.addEventListener("focus", e => InputElem.select())
+OutputElem.addEventListener("focus", e => OutputElem.select())
+
+</script>
+
+</body>
+</html>
