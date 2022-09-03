@@ -93,6 +93,7 @@ function polishInputHandler(e) {
 		.replaceAll("dzy", "дзи")
 		.replaceAll("Dzy", "Дзи")
 		.replaceAll(/([pt])rz/g, "$1ш")
+		.replaceAll(/rz\b/g, "ш")
 		.replaceAll("rz", "ж")
 		.replaceAll("Rz", "Ж")
 		.replace(/^ś/, "пш")
