@@ -21,12 +21,13 @@
 				height: 99%;
 			}
 		</style>
-		<script src="swfobject.js"></script>
+		<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+		<script src="../../flash/swfobject.js"></script>
 		<script>
 
 var fn = function() {
 	if(!location.search) {return}
-	var myObject = swfobject.embedSWF(location.search.substring(1)
+	var myObject = swfobject.embedSWF("../../flash/"+location.search.substring(1)
 		, Container
 		, 400
 		, 200
