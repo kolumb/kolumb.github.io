@@ -14,7 +14,7 @@ body, pre, code {
 #container {
 	box-sizing: border-box;
 	width:100%;
-	padding: 2em 1em;
+	padding: 3em 1em 2em;
 	margin: 0;
 	font-family: "Book Antiqua", Cambria, Georgia, serif;
 	text-indent: 1.5em;
@@ -65,23 +65,23 @@ style {
 	display: block;
 	font-size: 200%;
 }
+
+@media screen and (max-width:700px) {
+	#container {
+		padding: 5em 1em 2em;
+	}
+}
+
 	</style>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
-    <script>
-      if (document.location.hostname) {
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-52946302-3');
-      }
-    </script>
 </head>
 <body>
 	<textarea id="container" class="relative" placeholder="Вставьте сюда текст для комфортного чтения" spellcheck="false" autofocus="autofocus"></textarea>
-	<div id="panel"><button id="say">Озвучить</button> голосом <select></select></div>
+	<div id="panel">
+		<button id="say">Озвучить</button> голосом <select></select>
+		<label>Громкость: <input type="range" min="0" max="1" step="0.02" value="1" id="volumeInput"></label>
+		<label>Скорость: <input type="range" min="0.1" max="9.8" step="0.1" value="1" id="rateInput"></label>
+		<label>Высота: <input type="range" min="0" max="2" step="0.02" value="1" id="pitchInput"></label>
+	</div>
 
 	<div class="relative">
 		<div id="helper"> Наверх &uarr; </div>
@@ -103,23 +103,35 @@ style {
 var synth = window.speechSynthesis
 var voices
 var selection = document.querySelector('select')
-var reader = 2
-var states = {stoped: 0, plaing: 1, paused: 2}
+var reader = 0
+let volume = 1
+let pitch = 1
+let rate = 1
+var states = {stoped: 0, playing: 1, paused: 2}
 var state = states.stoped
 var text = ''
 var sentences = []
 var phrases = []
+let currentPhrase = 0
+let stoppedDuringPause = false
 var getVoices = function(){
 	voices = synth.getVoices()
 	if(voices.length === 0) {
-		console.count('Failed to load voices.')
+		console.count('Failed to load voices. Will try in a moment.')
 		setTimeout(getVoices, 10)
+		return
 	}
-	for(var i = 0; i< voices.length; i++){
+	for(var i = 0; i < voices.length; i++){
 		var newOption = document.createElement("option")
 		newOption.textContent = voices[i].name
 		newOption.value = i
 		selection.appendChild(newOption)
+	}
+	reader = voices.findIndex((voice)=>voice.name.indexOf("Russian")>=0 || voice.name.indexOf("усский")>=0)
+	if (reader < 0) {
+		reader = 0
+	} else {
+		selection.selectedIndex = reader
 	}
 }
 window.addEventListener('load', getVoices)
@@ -130,60 +142,118 @@ selection.addEventListener('click', function(e){
 })
 
 
+volumeInput.addEventListener("change", e=>{
+	volume = volumeInput.value
+	phrases.forEach(setVolume)
+})
+rateInput.addEventListener("change", e=>{
+	rate = rateInput.value
+	phrases.forEach(setRate)
+})
+pitchInput.addEventListener("change", e=>{
+	pitch = pitchInput.value
+	phrases.forEach(setPitch)
+})
 var setVoices = function(phrase){
 	phrase.voice = voices[reader]
-   	return phrase
+  return phrase
+}
+var setVolume = function(phrase){
+	phrase.volume = volume
+  return phrase
+}
+var setRate = function(phrase){
+	phrase.rate = rate
+  return phrase
+}
+var setPitch = function(phrase){
+	phrase.pitch = pitch
+  return phrase
 }
 var getText = function(){
+	sentences.length = 0
+	currentPhrase = 0
 	text = container.value
-	sentences = text.split('.')
-	if(sentences[sentences.lenght-1] === undefined) sentences.pop()
+	let lastIndex = 0
+	for (let i = 0; i < text.length; i++) {
+		const char = text[i]
+		if (char === "." || char === "!" || char === "?") {
+			sentences.push(text.substring(lastIndex, i + 1).trim())
+			lastIndex = i + 1
+		}
+	}
 	phrases = sentences.map(x => new SpeechSynthesisUtterance(x))
 		.map(setVoices)
+		.map(setVolume)
+		.map(setRate)
+		.map(setPitch)
 }
 container.addEventListener('paste', function (e) {
     e.target.style.height = "1px"    
     setTimeout(function(){
     	e.target.style.height = (e.target.scrollHeight + 8*32)+"px"
-    	getText()
     }, 10)
 })
 	
 var speak = function(i){
-	if(!phrases[i]) {
+	if(i === phrases.length) {
 		console.log("Выговорился")
 		state = states.stoped
 		document.getElementById('say').textContent = 'Озвучить'
 		return
+	} else if (i > phrases.length) {
+		console.error("Wrong phrase index", i, "out of", phrases.length, "items.")
+		return
 	}
 	synth.speak(phrases[i])
 	console.info("Начал говорить", phrases[i].text)
+	currentPhrase = i
 	phrases[i].onend = function(){
 		console.log("Завершил говорить",this.text)
-		if(state === states.plaing) speak(i+1)		
+		if(state === states.playing) speak(i+1)
+		if(state === states.paused) {
+			console.warn("Stopped during pause")
+			stoppedDuringPause = true
+			synth.cancel()
+		}
 	}	
 }
 document.getElementById('say').addEventListener('click',
 function() {
 	switch(state) {
 		case states.stoped:
-			console.log("Молчал, а теперь говорю")
-			state = states.plaing
+			console.log("=> Молчал, а теперь говорю")
+			state = states.playing
 			this.textContent = 'Остановить'
 			getText()
 			speak(0)
 			break;
-		case states.plaing:
-			console.log("Говорил, но меня поставили на паузу")
+		case states.playing:
+			console.log(" \\Говорил, но меня поставили на паузу")
 			state = states.paused
 			this.textContent = 'Продолжить'
 			synth.pause()
 			break;
 		case states.paused:
-			console.log("Продолжаю после паузы")
-			state = states.plaing
-			this.textContent = 'Остановить'
-			synth.resume()
+			if (stoppedDuringPause) {
+				stoppedDuringPause = false
+				if (currentPhrase < phrases.length - 1) {
+					console.log(" |Начинаю следующую фразу")
+					state = states.playing
+					currentPhrase++
+					speak(currentPhrase)
+					this.textContent = 'Остановить'
+				} else {
+					state = states.stoped
+					console.log("<= Дошёл до конца.")
+					this.textContent = 'Озвучить'
+				}
+			} else {
+				console.log(" /Продолжаю после паузы")
+				state = states.playing
+				this.textContent = 'Остановить'
+				synth.resume()
+			}
 			break;
 	}
 
