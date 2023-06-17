@@ -1,101 +1,54 @@
 <!doctype html>
-<html lang="ru">
+<html lang="uk">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title>Мои флешки.</title>
-		<meta name="author" content="Данил Колумбет">
+		<title>Мої флешки.</title>
+		<meta name="author" content="Данило Колумбет">
 		<meta name="description" content="Флешки.">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style type="text/css">
 			html {
 				height: 100%;
+				overflow-y: hidden;
 			}
 			body {
-				height: 99%;
+				height: 100%;
 				margin: 0;
 				padding: 0;
 			}
-			#Container {
+			#Container, ruffle-player {
 				width: 100%;
-				height: 99%;
+				height: 100%;
 			}
 		</style>
 		<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-		<script src="../../flash/swfobject.js"></script>
-		<script>
-
-var fn = function() {
-	if(!location.search) {return}
-	var myObject = swfobject.embedSWF("../../flash/"+location.search.substring(1)
-		, Container
-		, 400
-		, 200
-		, 10)
-}
-swfobject.addDomLoadEvent(fn)
-
-	console.log(file)
-	Param.value = file
-	EmbedObject.data = file
-
-	</script>
-<!-- 		<script>
-			swfobject.registerObject("FlashContainer", "9.0.0");
-		</script> -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
-    <script>
-      if (document.location.hostname) {
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-52946302-3');
-      }
-    </script>
 	</head>
-	<body><div id="Container">
-			<!--<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="FlashContainer">
-				<param name="movie" id="Param" value="untitled.swf"> -->
-				<!--[if !IE]>-->
-				<!--<object type="application/x-shockwave-flash" id="EmbedObject" data="untitled.swf" width="100%" height="100%"> -->
-				<!--<![endif]-->
-					<style>
-
-body {
-	background-color: #E8E6E3;
-	text-align: center;
-}
-h1 {
-	margin: 1em;
-}
-p {
-	position: relative;
-	display: block;
-	width:50%;
-	padding: 1em 1.2em;
-	margin: .3em auto;
-	color: #149;
-	text-decoration: none;
-	background-color: #efeff2;
-}
-
-					</style>
-					<h1>Поздравляю!</h1>
-					<h2>У вас современный браузер и не поддерживает устаревшую технологию Flash.</h2>
-					<p>Но вы всё же можете либо использовать браузер Edge, либо установить плагин с сайта Adobe:
-					<br>
-					<br>
-					<a href="http://www.adobe.com/go/getflashplayer">
-						<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player">
-					</a>
-					</p>
-				<!--[if !IE]>-->
-				<!-- </object> -->
-				<!--<![endif]-->
-			<!-- </object> -->
-		</div>
+	<body>
+		<div id="Container"></div>
+		<script>
+			window.RufflePlayer = window.RufflePlayer || {};
+			window.addEventListener("load", (event) => {
+				if(!location.search) {return}
+				const ruffle = window.RufflePlayer.newest();
+				const player = ruffle.createPlayer();
+				const container = document.getElementById("Container");
+				container.appendChild(player);
+				fetch("../../flash/"+location.search.substring(1))
+					.then(resp => resp.arrayBuffer())
+					.then(data => {
+						player.load({data: new Uint8Array(data)})
+						.then(function(buffer){
+							let interval = setInterval(() => {
+								const ruffleObject = document.querySelector("ruffle-player")
+								if (ruffleObject && ruffleObject.isPlaying) {
+									ruffleObject.dispatchEvent(new PointerEvent('pointerdown'));
+									clearInterval(interval)
+								}
+							}, 300)
+						});
+					})
+			});
+		</script>
 	</body>
 </html>
