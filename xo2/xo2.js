@@ -50,7 +50,7 @@ const translations =
 		, ru: "Теперь отметьте на поле все числа   "
 		, en: "Now mark on field all cells with number   "
 		}
-	, selectAll:
+	, multipliedBy:
 		{ uk: " помножене на "
 		, ru: " умножить на "
 		, en: " multiplied by "
