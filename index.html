@@ -17,15 +17,13 @@
 	<meta property="fb:admins" content="100000001634880" />
 	<meta name='yandex-verification' content='5c773b2221f08d80' />
 	<meta name='freelancehunt' content='4da7aa325606972'>
-	<link rel="shortcut icon" href="https://kolumb.tk/favicon.ico" />
+	<link rel="shortcut icon" href="/favicon.ico" />
 	<!-- <link rel="icon" sizes="192x192" href="icon.png"> -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52946302-3"></script>
     <script>
       if (document.location.hostname) {
       	const preferredLang = (navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage || "uk")).slice(0,2)
       	if (["ru", "en"].indexOf(preferredLang) >= 0) {
-      		location.href = "https://kolumb.tk/" + preferredLang
+      		location.href = window.location.protocol + "//" + window.location.host + "/" + preferredLang
       	} else {
 			window.history.pushState("", "", "/uk/");
       	}
