@@ -6,6 +6,7 @@ class Screen {
         canvas.width = width;
         lesser = width < height ? width : height;
         bigger = width > height ? width : height;
+        ctx.font = "20px monospace"
     }
 
     static resizeHandler() {

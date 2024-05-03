@@ -25,6 +25,7 @@ const EVENT = Enum([
     "pointerup",
     "keydown",
     "keyup",
+    "click",
 ]);
 
 function mod(n, limit) {
@@ -47,6 +48,7 @@ function randomColor() {
 }
 
 function clamp(n, limit) {
+    // (isNaN(n) || isNaN(limit)) && assert(false, "Expected a number");
     let lim = Math.abs(limit);
     if (Math.abs(n) > lim) {
         return n < 0 ? -lim : lim;
@@ -60,6 +62,17 @@ const distPointToLine = (p, l1, l2) =>
 
 const determinant = (p, l1, l2) =>
     (l2.x - l1.x) * (p.y - l1.y) - (l2.y - l1.y) * (p.x - l1.x);
+
+
+function normalizeAngle(a) {
+    // isNaN(a) && assert(false, "Expected a number");
+    a %= Math.PI * 2
+    return a > Math.PI
+        ? a - 2 * Math.PI
+        : a < -Math.PI
+            ? a + 2 * Math.PI
+            : a
+}
 
 function toggleFullScreen() {
     if (!document.fullscreenElement) {

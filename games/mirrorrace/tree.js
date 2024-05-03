@@ -1,5 +1,5 @@
 class Tree {
-    scale = Math.random() * 1 + 1;
+    scale = Math.random() * 3 + 1;
     angle = Math.random() * Math.PI * 2;
     constructor(pos = new Vector()) {
         assert(pos instanceof Vector, "Expected Vector object as position");

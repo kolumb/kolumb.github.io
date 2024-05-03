@@ -8,6 +8,19 @@
         />
         <meta name="theme-color" content="#c6c6c2" />
         <title>MirrorRace</title>
+        <meta name="twitter:image:src" content="https://kolumb.tk/games/mirrorrace/poster.png" />
+        <meta name="twitter:site" content="kolumb.tk" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Competitive racing game" />
+        <meta name="twitter:description" content="Simple car racing game with good phisics in desert setting but without collisions" />
+
+        <meta property="og:image" content="https://kolumb.tk/games/mirrorrace/poster.png">
+        <meta property="og:image:alt" content="Typical casual game without limits and levels." />
+        <meta property="og:site_name" content="kolumb.tk" />
+        <meta property="og:type" content="object">
+        <meta property="og:title" content="Competitive racing game">
+        <meta property="og:url" content="https://kolumb.tk/games/mirrorrace/">
+        <meta property="og:description" content="Simple car racing game with good phisics in desert setting but without collisions">
         <style>
             body {
                 margin: 0;
@@ -16,6 +29,36 @@
             #Canvas {
                 display: block;
                 background: lightgrey;
+                touch-action: none;
+            }
+            .controls {
+                display: flex;
+                position: absolute;
+                left: 10px;
+                bottom: 10px;
+            }
+            label {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                padding-left: 5px;
+                margin-right: 10px;
+            }
+            label:hover {
+                background: #4443;
+            }
+            label strong {
+                padding-left: 5px;
+            }
+            button {
+                cursor: pointer;
+            }
+            button strong {
+                padding: 0 5px;
+            }
+            #low-graphics {
+                height: 20px;
+                width: 20px;
             }
             @media screen and (max-width: 950px) {
             }
@@ -23,6 +66,13 @@
     </head>
     <body>
         <canvas id="Canvas"></canvas>
+        <div class="controls">
+            <label>Low <strong>G</strong>raphics <input id="low-graphics" type="checkbox"></label>
+            <button id="follow-looser"><strong>[</strong> Follow looser</button>
+            <button id="follow-leader">Follow leader <strong>]</strong></button>
+            <button id="toggle-helicopter">Helicopter mode <strong>h</strong></button>
+            <button id="restart-game">Restart Game</button>
+        </div>
         <script src="vector.js"></script>
         <script src="utils.js"></script>
         <script src="input.js"></script>
@@ -31,6 +81,7 @@
         <script src="sprite.js"></script>
         <script src="car.js"></script>
         <script src="tree.js"></script>
+        <script src="vehicle.js"></script>
         <script src="init.js"></script>
     </body>
 </html>
