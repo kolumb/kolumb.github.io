@@ -83,6 +83,7 @@ label { margin: .5em -.2em .5em 1em; display: inline-block; }
 #Stave{ padding: 3em 0 2em; position: relative; cursor: crosshair;}
 #Harmonica{ cursor: crosshair; }
 #trebleclef{ top: 2.5em; position: absolute; }
+#bassclef{ top: 9.75em; position: absolute; }
 .note { top: 3.5em; left: 4.5em; padding: 0; position: absolute;
 	/*transition: left 0.2s ease-out 0s, top 0.2s ease-in 0s;*/ }
 .noteDies { top: 0; padding: 0; position: absolute; visibility: hidden;
